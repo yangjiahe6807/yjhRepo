@@ -1,0 +1,1278 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1500,
+  "model": {
+    "culture": "zh-CN",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "Oracle/172 16 8 78/oracledb",
+        "connectionDetails": {
+          "protocol": "oracle",
+          "address": {
+            "server": "172.16.8.78/oracledb"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {
+          "hierarchicalNavigation": true
+        },
+        "credential": {
+          "AuthenticationKind": "UsernamePassword",
+          "kind": "Oracle",
+          "path": "172.16.8.78/oracledb",
+          "Username": "gspm"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "日历",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Date",
+            "dataType": "dateTime",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Date]",
+            "formatString": "General Date",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "年",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "year('日历'[Date])",
+            "formatString": "0",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "月",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "MONTH('日历'[Date])",
+            "formatString": "0",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "日历-faafe91d-dba3-4531-8546-63c538294298",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "CALENDAR(\"2017-1-1\",\"2021-12-31\")"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "d9b81e20607a483f812872e9ab688acf"
+          }
+        ]
+      },
+      {
+        "name": "总毛利表",
+        "excludeFromModelRefresh": true,
+        "columns": [
+          {
+            "name": "序号",
+            "dataType": "int64",
+            "sourceColumn": "序号",
+            "formatString": "0",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "编码",
+            "dataType": "string",
+            "sourceColumn": "编码",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "项目1",
+            "dataType": "string",
+            "sourceColumn": "项目1",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "项目编码",
+            "dataType": "string",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "年度",
+            "dataType": "double",
+            "sourceColumn": "年度",
+            "formatString": "0",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"FormatString\"]"
+              }
+            ]
+          },
+          {
+            "name": "月份",
+            "dataType": "double",
+            "sourceColumn": "月份",
+            "formatString": "0",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"FormatString\"]"
+              }
+            ]
+          },
+          {
+            "name": "项目名称",
+            "dataType": "string",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "合计",
+            "dataType": "double",
+            "sourceColumn": "合计",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "土建自施",
+            "dataType": "double",
+            "sourceColumn": "土建自施",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "土建指定",
+            "dataType": "double",
+            "sourceColumn": "土建指定",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "土建合计",
+            "dataType": "double",
+            "sourceColumn": "土建合计",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "机电自施",
+            "dataType": "double",
+            "sourceColumn": "机电自施",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "机电指定",
+            "dataType": "double",
+            "sourceColumn": "机电指定",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "机电合计",
+            "dataType": "double",
+            "sourceColumn": "机电合计",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "日期",
+            "dataType": "dateTime",
+            "isDataTypeInferred": true,
+            "expression": "DATE('总毛利表'[年度],'总毛利表'[月份],1)",
+            "formatString": "Long Date",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"DataType\"]"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "总毛利表-01090f1c-2108-4aeb-a102-5dc9783f4d70",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Table.NestedJoin(编码表, {\"项目\"}, 项目毛利计算表1, {\"项目\"}, \"项目毛利计算表1\", JoinKind.LeftOuter),",
+                "    #\"Expanded {0}\" = Table.ExpandTableColumn(Source, \"项目毛利计算表1\", {\"项目编码\", \"年度\", \"月份\", \"项目名称\", \"合计\", \"土建自施\", \"土建指定\", \"土建合计\", \"机电自施\", \"机电指定\", \"机电合计\"}, {\"项目编码\", \"年度\", \"月份\", \"项目名称\", \"合计\", \"土建自施\", \"土建指定\", \"土建合计\", \"机电自施\", \"机电指定\", \"机电合计\"}),",
+                "    #\"Replaced Value\" = Table.ReplaceValue(#\"Expanded {0}\",\" \",\"#(00A0)#(00A0)\",Replacer.ReplaceText,{\"项目1\"}),",
+                "    删除的列 = Table.RemoveColumns(#\"Replaced Value\",{\"项目\"})",
+                "in",
+                "    删除的列"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ]
+      },
+      {
+        "name": "成本确认表",
+        "columns": [
+          {
+            "name": "排序用",
+            "dataType": "string",
+            "sourceColumn": "排序用",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "内容",
+            "dataType": "string",
+            "sourceColumn": "内容",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "项目编码",
+            "dataType": "string",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "项目名称",
+            "dataType": "string",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "年",
+            "dataType": "double",
+            "sourceColumn": "年",
+            "formatString": "0",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"FormatString\"]"
+              }
+            ]
+          },
+          {
+            "name": "月",
+            "dataType": "double",
+            "sourceColumn": "月",
+            "formatString": "0",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"FormatString\"]"
+              }
+            ]
+          },
+          {
+            "name": "专业",
+            "dataType": "string",
+            "sourceColumn": "专业",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "类别",
+            "dataType": "string",
+            "sourceColumn": "类别",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "费用科目",
+            "dataType": "string",
+            "sourceColumn": "费用科目",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "值",
+            "dataType": "double",
+            "sourceColumn": "值",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "日期",
+            "dataType": "dateTime",
+            "isDataTypeInferred": true,
+            "expression": "DATE('成本确认表'[年],'成本确认表'[月],1)",
+            "formatString": "Long Date",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"DataType\"]"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "成本确认表-aa7384a5-f714-439d-86cc-5cb73ec276f0",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+                "    PROJECTCOST1 = GSPM{[Name=\"PROJECTCOST\"]}[Data],",
+                "    #\"合并的查询（取完成的表）\" = Table.NestedJoin(PROJECTCOST1, {\"FID\"}, 完成的报表, {\"FID\"}, \"完成的报表\", JoinKind.LeftOuter),",
+                "    删除的其他列 = Table.SelectColumns(#\"合并的查询（取完成的表）\",{\"FXIANGMUBIANMA\", \"PROJNAME\", \"IYEAR\", \"IMONTH\", \"ZY\", \"LB\", \"FBGCZC\", \"RGF\", \"CLF\", \"JXF\", \"QTZJFY\", \"JJFY\"}),",
+                "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FXIANGMUBIANMA\", \"项目编码\"}, {\"PROJNAME\", \"项目名称\"}, {\"IYEAR\", \"年\"}, {\"IMONTH\", \"月\"}, {\"ZY\", \"专业\"}, {\"LB\", \"类别\"}, {\"FBGCZC\", \"分包工程支出\"}, {\"RGF\", \"人工费\"}, {\"CLF\", \"材料费\"}, {\"JXF\", \"机械费\"}, {\"QTZJFY\", \"其他直接费用\"}, {\"JJFY\", \"间接费用\"}}),",
+                "    已添加自定义 = Table.AddColumn(重命名的列, \"排序用\", each [项目编码]&[专业]&[类别],Text.Type),",
+                "    排序的行 = Table.Buffer(Table.Sort(已添加自定义,{{\"排序用\", Order.Descending}, {\"年\", Order.Descending}, {\"月\", Order.Descending}})),",
+                "    增加上期列 = fx__Table_表多列上错一行(排序的行,{\"分包工程支出\",\"人工费\",\"材料费\",\"机械费\",\"其他直接费用\",\"间接费用\"}),",
+                "    计算本期分包款 = Table.AddColumn(增加上期列, \"分包工程支出.本期应确认成本\", each List.Sum({[分包工程支出],-[分包工程支出.上期自开工累计发生成本]})),",
+                "    计算本期人工费 = Table.AddColumn(计算本期分包款, \"人工费.本期应确认成本\", each List.Sum({[人工费],-[人工费.上期自开工累计发生成本]})),",
+                "    计算本期材料费 = Table.AddColumn(计算本期人工费, \"材料费.本期应确认成本\", each List.Sum({[材料费],-[材料费.上期自开工累计发生成本]})),",
+                "    计算本期机械费 = Table.AddColumn(计算本期材料费, \"机械费.本期应确认成本\", each List.Sum({[机械费],-[机械费.上期自开工累计发生成本]})),",
+                "    计算本期其他直接费用 = Table.AddColumn(计算本期机械费, \"其他直接费用.本期应确认成本\", each List.Sum({[其他直接费用],-[其他直接费用.上期自开工累计发生成本]})),",
+                "    计算本期间接费用 = Table.AddColumn(计算本期其他直接费用, \"间接费用.本期应确认成本\", each List.Sum({[间接费用],-[间接费用.上期自开工累计发生成本]})),",
+                "    更改的类型 = Table.TransformColumnTypes(计算本期间接费用,{{\"分包工程支出.本期应确认成本\", type number}, {\"人工费.本期应确认成本\", type number}, {\"材料费.本期应确认成本\", type number}, {\"机械费.本期应确认成本\", type number}, {\"其他直接费用.本期应确认成本\", type number}, {\"间接费用.本期应确认成本\", type number}}),",
+                "    逆透视的其他列 = Table.UnpivotOtherColumns(更改的类型, {\"项目编码\", \"项目名称\", \"年\", \"月\", \"专业\", \"类别\", \"排序用\"}, \"属性\", \"值\"),",
+                "    按分隔符拆分列 = Table.SplitColumn(逆透视的其他列, \"属性\", Splitter.SplitTextByDelimiter(\".\", QuoteStyle.Csv), {\"属性.1\", \"内容\"}),",
+                "    替换的值 = Table.ReplaceValue(按分隔符拆分列,null,\"自开工累计发生成本\",Replacer.ReplaceValue,{\"内容\"}),",
+                "    重命名的列1 = Table.RenameColumns(替换的值,{{\"属性.1\", \"费用科目\"}})",
+                "in",
+                "    重命名的列1"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "自开工累计发生成本",
+            "expression": "CALCULATE(SUM('成本确认表'[值]),'成本确认表'[内容]=\"自开工累计发生成本\")+0",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "上期自开工累计发生成本",
+            "expression": "CALCULATE(SUM('成本确认表'[值]),'成本确认表'[内容]=\"上期自开工累计发生成本\")+0",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "本期应确认成本",
+            "expression": "CALCULATE(SUM('成本确认表'[值]),'成本确认表'[内容]=\"本期应确认成本\")+0",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ]
+      },
+      {
+        "name": "项目编码",
+        "columns": [
+          {
+            "name": "项目编码",
+            "dataType": "string",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "项目名称",
+            "dataType": "string",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "项目编码-7d521bae-fb39-4f19-9c32-a1a1992377f9",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    MD = 源{[Schema=\"MD\"]}[Data],",
+                "    MD_XIANGMUXINXI1 = MD{[Name=\"MD_XIANGMUXINXI\"]}[Data],",
+                "    删除的其他列 = Table.SelectColumns(MD_XIANGMUXINXI1,{\"FXMBIANMA\", \"FXMQUANCHENG\"}),",
+                "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FXMBIANMA\", \"项目编码\"}, {\"FXMQUANCHENG\", \"项目名称\"}})",
+                "in",
+                "    重命名的列"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ]
+      },
+      {
+        "name": "成本表科目",
+        "excludeFromModelRefresh": true,
+        "columns": [
+          {
+            "name": "科目名",
+            "dataType": "string",
+            "sourceColumn": "科目名",
+            "sortByColumn": "序号",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"SortByColumn\"]"
+              }
+            ]
+          },
+          {
+            "name": "序号",
+            "dataType": "int64",
+            "sourceColumn": "序号",
+            "formatString": "0",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "成本表科目-69301908-bc43-4ad3-98a5-8257ce8f3ccf",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45WetrR9rSn9en2pc9XdD+bsv5p+y4lHSVDpVidaKUnu3YBxV9s2QkUMQKLPJs74dm0mRARY4jInF3PFm2AiJiARZ62bnuye9rz2Vue9YH0Pp+yAihlCpZ6OR1F0EwpNhYA\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [科目名 = _t, 序号 = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"序号\", Int64.Type}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ]
+      },
+      {
+        "name": "专业",
+        "excludeFromModelRefresh": true,
+        "columns": [
+          {
+            "name": "专业",
+            "dataType": "string",
+            "sourceColumn": "专业",
+            "sortByColumn": "序号",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"SortByColumn\"]"
+              }
+            ]
+          },
+          {
+            "name": "序号",
+            "dataType": "int64",
+            "sourceColumn": "序号",
+            "formatString": "0",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "专业-e7381a87-7f0d-45f7-a4af-85d9c1b32dc9",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45Wejpn/tPdu5R0lAyVYnWilZ7N2fV8ylYg10gpNhYA\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [专业 = _t, 序号 = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"序号\", Int64.Type}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ]
+      },
+      {
+        "name": "分包类型",
+        "excludeFromModelRefresh": true,
+        "columns": [
+          {
+            "name": "序号",
+            "dataType": "int64",
+            "sourceColumn": "序号",
+            "formatString": "0",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "类别",
+            "dataType": "string",
+            "sourceColumn": "类别",
+            "sortByColumn": "序号",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"SortByColumn\"]"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "分包类型-84e258f6-e75d-4fb3-ae10-0340c9602036",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45WetG+6tm0vUo6SoZKsTrRSs962p+um/W0o+1pTytQ0EgpNhYA\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [类别 = _t, 序号 = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"序号\", Int64.Type}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ]
+      },
+      {
+        "name": "收益履约",
+        "columns": [
+          {
+            "name": "年",
+            "dataType": "double",
+            "sourceColumn": "年",
+            "formatString": "0",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"FormatString\"]"
+              }
+            ]
+          },
+          {
+            "name": "月",
+            "dataType": "double",
+            "sourceColumn": "月",
+            "formatString": "0",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"FormatString\"]"
+              }
+            ]
+          },
+          {
+            "name": "业务单号",
+            "dataType": "string",
+            "sourceColumn": "业务单号",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "项目名称",
+            "dataType": "string",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "项目编码",
+            "dataType": "string",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "土建",
+            "dataType": "double",
+            "sourceColumn": "土建",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "机电",
+            "dataType": "double",
+            "sourceColumn": "机电",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "合计",
+            "dataType": "double",
+            "sourceColumn": "合计",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "项目",
+            "dataType": "string",
+            "sourceColumn": "项目",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "收益履约-a2d9fbb8-9c8e-4982-a850-998de8d8b08b",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+                "    PROJECTPROFIT1 = GSPM{[Name=\"PROJECTPROFIT\"]}[Data],",
+                "    合并的查询 = Table.NestedJoin(PROJECTPROFIT1, {\"FID\"}, 完成的报表, {\"FID\"}, \"完成的报表\", JoinKind.LeftOuter),",
+                "    删除的列 = Table.RemoveColumns(合并的查询,{\"完成的报表\"}),",
+                "    已添加索引 = Table.AddIndexColumn(删除的列, \"索引\", 0, 1, Int64.Type),",
+                "    重命名的列 = Table.RenameColumns(已添加索引,收益和履约字段名),",
+                "    删除的其他列 = Table.SelectColumns(重命名的列,{\"年\", \"月\", \"业务单号\", \"项目名称\", \"项目编码\", \"核定收益率-土建\", \"核定收益率-机电\", \"核定收益率-合计\", \"核定收益额-土建\", \"核定收益额-机电\", \"核定收益额-合计\", \"自开工累计完成合同额（自施）-土建\", \"自开工累计完成合同额（自施）-机电\", \"自开工累计完成合同额（自施）-合计\", \"自开工累计应上交收益和履约-土建\", \"自开工累计应上交收益和履约-机电\", \"自开工累计应上交收益和履约-合计\", \"自开工累计应上交收益-土建\", \"自开工累计应上交收益-机电\", \"自开工累计应上交收益-合计\", \"其中：截至上期已上交收益-土建\", \"其中：截至上期已上交收益-机电\", \"其中：截至上期已上交收益-合计\", \"本期应上交收益-土建\", \"本期应上交收益-机电\", \"本期应上交收益-合计\", \"自开工累计应上交履约-土建\", \"自开工累计应上交履约-机电\", \"自开工累计应上交履约-合计\", \"其中：截至上期已上交履约-土建\", \"其中：截至上期已上交履约-机电\", \"其中：截至上期已上交履约-合计\", \"调整履约-土建\", \"调整履约-机电\", \"调整履约-合计\", \"本期应上交履约-土建\", \"本期应上交履约-机电\", \"本期应上交履约-合计\"}),",
+                "    逆透视的其他列 = Table.UnpivotOtherColumns(删除的其他列, {\"年\", \"月\", \"业务单号\", \"项目名称\", \"项目编码\"}, \"属性\", \"值\"),",
+                "    按分隔符拆分列 = Table.SplitColumn(逆透视的其他列, \"属性\", Splitter.SplitTextByEachDelimiter({\"-\"}, QuoteStyle.Csv, false), {\"项目\", \"属性.2\"}),",
+                "    已透视列 = Table.Pivot(按分隔符拆分列, List.Distinct(按分隔符拆分列[属性.2]), \"属性.2\", \"值\", List.Sum)",
+                "in",
+                "    已透视列"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Exception"
+          }
+        ]
+      },
+      {
+        "name": "收益履约科目",
+        "columns": [
+          {
+            "name": "项目",
+            "dataType": "string",
+            "sourceColumn": "项目",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "顺序",
+            "dataType": "int64",
+            "sourceColumn": "顺序",
+            "formatString": "0",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "科目",
+            "dataType": "string",
+            "sourceColumn": "科目",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "收益履约科目-ca35fcb5-b849-46cc-a2ca-9647bc83a6a9",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"jVLLCoJQEP2VcO2i9+NbxH8JIjSRkKgWZvQgW0jZkxKxv3GutvIXmluhoaZemM2cOWfOYS7HMUTbEW0B9ti1JNfekPHNm0kMy7Sw0jGeTbDgpHv2FhmVSpL2BSkN+jfX2geOSkTDFy6I08H7Oba7iVXCV2ic6vqCAU4X7rp3PfjmKpmmgZUzlO8vTNkp5O8n97/VoWI7w18BnU8EGMmhYD03cDT9PujSAlP9IN5QoKekl4x10zyYMhEVUERQ5Od6HjgiDpDpI3AGKFBLsZFBiDtBHAWqMSe0+3Zy7JHJNfp7Zbrst8fzLw==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [科目 = _t, 顺序 = _t, 项目 = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"顺序\", Int64.Type}}),",
+                "    排序的行 = Table.Sort(更改的类型,{{\"顺序\", Order.Ascending}}),",
+                "    替换的值 = Table.ReplaceValue(排序的行,\" \",\"#(00A0)#(00A0)\",Replacer.ReplaceText,{\"项目\"})",
+                "in",
+                "    替换的值"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "7be679ee-b66c-4754-9bb1-00089b739859",
+        "fromTable": "总毛利表",
+        "fromColumn": "项目编码",
+        "toTable": "项目编码",
+        "toColumn": "项目编码"
+      },
+      {
+        "name": "2e16a23b-0274-4399-b16e-bfe42d2818b1",
+        "fromTable": "成本确认表",
+        "fromColumn": "项目编码",
+        "toTable": "项目编码",
+        "toColumn": "项目编码"
+      },
+      {
+        "name": "434119da-94d5-4c72-b29e-fc1e703da330",
+        "fromTable": "总毛利表",
+        "fromColumn": "日期",
+        "toTable": "日历",
+        "toColumn": "Date"
+      },
+      {
+        "name": "1a384c27-c5bf-41b6-a3b4-ae6942ffe128",
+        "fromTable": "成本确认表",
+        "fromColumn": "费用科目",
+        "toTable": "成本表科目",
+        "toColumn": "科目名"
+      },
+      {
+        "name": "33928cd1-0218-4be6-b538-03309d388763",
+        "fromTable": "成本确认表",
+        "fromColumn": "专业",
+        "toTable": "专业",
+        "toColumn": "专业"
+      },
+      {
+        "name": "11708297-b01d-44e6-8ea8-23b76aed85be",
+        "fromTable": "成本确认表",
+        "fromColumn": "类别",
+        "toTable": "分包类型",
+        "toColumn": "类别"
+      },
+      {
+        "name": "c795fac0-28a6-49c6-a7c8-f0579467a404",
+        "fromTable": "收益履约",
+        "fromColumn": "项目编码",
+        "toTable": "项目编码",
+        "toColumn": "项目编码"
+      },
+      {
+        "name": "70e97613-ffac-4951-8885-2fc2c57c59c6",
+        "fromTable": "收益履约",
+        "fromColumn": "项目",
+        "toTable": "收益履约科目",
+        "toColumn": "科目"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "编码表",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"jVXtThpBFH0VQmLSJqaBZRXoqxDexaYoKyqg1X4ALULEWqOrUSJUsH0ZZmb5xSt075nZZXdnwPrDZO8958zeM2cvpVI6k95MZ+gfazqsech3JrPJKPlY3iylsyHQ2ROXE3FVn1ePk48EtAhI6Hm/4rk9X4KfPrHdgaFC8Bzg7yIM5nxnPw9CUirFdp9m49vFtGXok4StJCyg8ceHL+xsjzW+8vYworSqRypbSiW3RHr3H/3xzSqGHqlsKxV7iaTXn3z28fxMUzH0SCVPKlbMMafJOzeGCsELgEsPU6mYSwHNWCZuUXGleTFvllxDGZnIKLL0jJ+PmdtiHxps5EbJehnkrCLb4SWHTizJhjLISFku5sddmzm/DBXgEbOctAg2nPh2i3aNDpH5eh8rg2QrUhgsGXPWqM2/VVjtfFUZ5C1FDvMkX58fddWxWg00BMjWxxD1qrH4ZuOtJCIztj6hJJqGpA6oBUWNzqlokSdAiwpqnCrCSZaxGRAX8oW5h2w08P622fNl4nFDQhEO8kJePds/8qrXbLrj48TwjjwIvqRXAFBDWraVN/EPUfv2rJwCE2nloavPQmjyOoY1jsVpN4z2ui50kB+6GT10prxZCE5BzshGD6Lneu6FaFV0+roupPKBVLBS/HXXHMzGLXP+zT0oFZZKQbi4c81v+7NxjXe6Zr11CKgWlSpJUso6XWmfLreui18fRLJouA/3h6jfhx/rui50yCesQ/9E9nvoJ5ruMoiLoQgWDYA9qADxiBiKYFFAs1YIkHNFR04WwaJcYg0GLxMb0FAEi1KIPaic1OZKFsGiLGIBSoB/lbPni3DhGopgUeyw/7zqo7p96fboIaHwCgBqFD0sxQAzEFcHYvJJuF+8YZ/VeoZrjWAWU0fCFtN9KUgpwarUwfTj+B+CEhYI2hQXLNRwCvIQFH7zZ2W9XP4H\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [序号 = _t, 编码 = _t, 项目 = _t, 项目1 = _t]),",
+          "    #\"Trimmed Text\" = Table.TransformColumns(Source,{{\"项目\", Text.Trim, type text}}),",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Trimmed Text\",{{\"序号\", Int64.Type}}),",
+          "    #\"Cleaned Text\" = Table.TransformColumns(#\"Changed Type\",{{\"项目\", Text.Clean, type text}})",
+          "in",
+          "    #\"Cleaned Text\""
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ]
+      },
+      {
+        "name": "项目毛利计算表1",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    Source = #\"Oracle/172 16 8 78/oracledb\",",
+          "    GSPM = Source{[Schema=\"GSPM\"]}[Data],",
+          "    项目毛利计算表2 = GSPM{[Name=\"项目毛利计算表1\"]}[Data],",
+          "    #\"Filtered Rows\" = Table.SelectRows(项目毛利计算表2, each ([单据状态] = \"已完成\")),",
+          "    #\"Removed Columns\" = Table.RemoveColumns(#\"Filtered Rows\",{\"FID\", \"单据状态\", \"WGJD_ZS1\", \"WGJD_ZS2\"}),",
+          "    已添加索引 = Table.AddIndexColumn(#\"Removed Columns\", \"索引\", 0, 1, Int64.Type),",
+          "    #\"Unpivoted Other Columns\" = Table.UnpivotOtherColumns(已添加索引, {\"项目编码\", \"年度\", \"月份\", \"项目名称\"}, \"属性\", \"值\"),",
+          "    #\"Split Column by Delimiter\" = Table.SplitColumn(#\"Unpivoted Other Columns\", \"属性\", Splitter.SplitTextByEachDelimiter({\"_\"}, QuoteStyle.Csv, false), {\"属性.1\", \"项目\"}),",
+          "    #\"Pivoted Column\" = Table.Pivot(#\"Split Column by Delimiter\", List.Distinct(#\"Split Column by Delimiter\"[属性.1]), \"属性.1\", \"值\", List.Sum)",
+          "in",
+          "    #\"Pivoted Column\""
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ]
+      },
+      {
+        "name": "fx__Table_表多列下错一行",
+        "description": [
+          "将表选中的列下错一行，追加到原表，列名为原列名跟后缀“.1”。",
+          "参数说明",
+          "表：需处理的表；",
+          "选择字段列表：要下错一行的列名列表。"
+        ],
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = (表 as table,选择字段列表 as any) as table => let",
+          "        原表的列 = Table.FromColumns(Table.ToColumns(表) &  Table.ToColumns(Table.RemoveLastN(Table.InsertRows(Table.SelectColumns(表,选择字段列表),0,{Record.FromList(List.Repeat({null},List.Count(选择字段列表)),选择字段列表)}))),Table.ColumnNames(表) & List.Transform(选择字段列表,each _ & \".1\"))",
+          "    in",
+          "        原表的列",
+          "in",
+          "    源"
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ]
+      },
+      {
+        "name": "fx__Table_表多列上错一行",
+        "description": [
+          "将表选中的列下错一行，追加到原表，列名为原列名跟后缀“.1”。",
+          "参数说明",
+          "表：需处理的表；",
+          "选择字段列表：要下错一行的列名列表。"
+        ],
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = (表 as table,选择字段列表 as any) as table => let",
+          "        原表的列 = Table.FromColumns(Table.ToColumns(表) &  Table.ToColumns(Table.RemoveFirstN(Table.InsertRows(Table.SelectColumns(表,选择字段列表),Table.RowCount(表),{Record.FromList(List.Repeat({0},List.Count(选择字段列表)),选择字段列表)}))),Table.ColumnNames(表) & List.Transform(选择字段列表,each _ & \".上期自开工累计发生成本\"))",
+          "    in",
+          "        原表的列",
+          "in",
+          "    源"
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ]
+      },
+      {
+        "name": "收益和履约字段名",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"lZRfT4JQGIe/C9e2Zf+7pKkJG9qcbjnnXTd9i1prEtNiTb1QW9KymiuyMkWib8Ph4JVfoQNWc+8BhCvGOc/v/T0chVKJSXEJJsZYUs9Wno6PmHKsxHDFJJsji2gynN8L2Uw+7VAd0V0oFhPOram1kKSgWgNdjd31g1yWz7BCkuxNlQluq0iu4ceBu5c65NjMvlDYIxeB/Sew0cTdU4pIs9lF5K8gX+DJZtxR6WpIbVn1EW5L+LKygjq36Et3IZ5L+EBWR8f1TxdKJ3nOc44s2qqyULYGoOndDV3mBYEyzzmwbJ1AdqWPjBM07uHhK9lFatUSZUIiuUoyM0MkgNX8nhkXtEfEPFCM2g7tNzzyet3UJFO/nz80uq6itx7WH2j1KGHgHakXSm8uDdOuITJAMUwLNNtyXsHzkam9zIyWJfbtygcJWERm/B7sFzoJLMM3Qtdt9+vw7KDLDs8fBTYBM2H9TsDx+v3hQmSAUJgWaLa79Ej9/EIngWX4RugaX3UecHBmNYZ+UjQCv6n0DKomTv+wvn3+LCwOmPprUP4B\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [字段名称 = _t, 字段中文名 = _t]),",
+          "    转置表 = Table.ToColumns(Table.Transpose(源))",
+          "in",
+          "    转置表"
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ]
+      },
+      {
+        "name": "完成的报表",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_MAOLITIANBAOSHENHEBIAO1 = GSPM{[Name=\"GSPM_MAOLITIANBAOSHENHEBIAO\"]}[Data],",
+          "    筛选的行 = Table.SelectRows(GSPM_MAOLITIANBAOSHENHEBIAO1, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FID\"})",
+          "in",
+          "    删除的其他列"
+        ],
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "__TEdtr",
+        "value": "1"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
