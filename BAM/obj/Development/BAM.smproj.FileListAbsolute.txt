@@ -1,0 +1,9 @@
+C:\Users\R\source\repos\BAM\bin\Model.asdatabase
+C:\Users\R\source\repos\BAM\bin\Model.deploymenttargets
+C:\Users\R\source\repos\BAM\bin\Model.deploymentoptions
+C:\Users\R\source\repos\BAM\obj\Development\BAM.smproj.AssemblyReference.cache
+C:\Users\R\source\repos\BAM\obj\Development\BAM.smproj.SuggestedBindingRedirects.cache
+C:\Users\R\source\repos\BAM\obj\Development\BAM.smproj.CoreCompileInputs.cache
+C:\Users\R\source\repos\BAM\obj\Development\Model.asdatabase
+C:\Users\R\source\repos\BAM\obj\Development\Model.deploymentoptions
+C:\Users\R\source\repos\BAM\obj\Development\Model.deploymenttargets
