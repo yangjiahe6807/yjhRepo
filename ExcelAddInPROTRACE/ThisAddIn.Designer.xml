@@ -2,4 +2,4 @@
   <hostitem:hostObject hostitem:name="Application" hostitem:identifier="Application" hostitem:type="Microsoft.Office.Interop.Excel.Application" hostitem:cookie="Application" hostitem:modifier="Internal" />
   <hostitem:hostControl hostitem:name="CustomTaskPanes" hostitem:identifier="CustomTaskPanes" hostitem:type="Microsoft.Office.Tools.CustomTaskPaneCollection" hostitem:primaryCookie="CustomTaskPanes" hostitem:modifier="Internal" />
   <hostitem:hostControl hostitem:name="VstoSmartTags" hostitem:identifier="VstoSmartTags" hostitem:type="Microsoft.Office.Tools.SmartTagCollection" hostitem:primaryCookie="VstoSmartTags" hostitem:modifier="Internal" />
-</hostitem:hostItem>
+</hostitem:hostItem>    
