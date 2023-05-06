@@ -1,0 +1,994 @@
+{
+  "name": "人力",
+  "compatibilityLevel": 1600,
+  "model": {
+    "name": "模型",
+    "culture": "zh-CN",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "Oracle/172 16 8 78/oracledb",
+        "connectionDetails": {
+          "protocol": "oracle",
+          "address": {
+            "server": "172.16.8.78/oracledb"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {
+          "hierarchicalNavigation": true
+        },
+        "credential": {
+          "AuthenticationKind": "UsernamePassword",
+          "Username": "gspm"
+        }
+      },
+      {
+        "type": "structured",
+        "name": "Oracle/172 16 8 87/cscecdb",
+        "connectionDetails": {
+          "protocol": "oracle",
+          "address": {
+            "server": "172.16.8.87/cscecdb"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {
+          "hierarchicalNavigation": true
+        },
+        "credential": {
+          "AuthenticationKind": "UsernamePassword",
+          "Username": "fzhr"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "离职年龄段",
+        "columns": [
+          {
+            "name": "数值",
+            "dataType": "string",
+            "sourceColumn": "数值"
+          },
+          {
+            "name": "段数",
+            "dataType": "string",
+            "sourceColumn": "段数"
+          },
+          {
+            "name": "下限",
+            "dataType": "string",
+            "sourceColumn": "下限"
+          },
+          {
+            "name": "上限",
+            "dataType": "string",
+            "sourceColumn": "上限"
+          },
+          {
+            "name": "段名称",
+            "dataType": "string",
+            "sourceColumn": "段名称"
+          },
+          {
+            "name": "段名称2",
+            "dataType": "string",
+            "sourceColumn": "段名称2"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = CreateS(设置区间值),",
+                "    已添加自定义 = Table.AddColumn(源, \"段名称2\", each if[数值]<=35 then \"35-\" else if [数值]>35 and [数值]<=45 then \"36-45\" else if [数值]>45 and [数值]<= 60 then \"46-60\" else \"61+\"),",
+                "    筛选的行 = Table.SelectRows(已添加自定义, each [数值] <> null)",
+                "in",
+                "    筛选的行"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "员工信息表",
+        "columns": [
+          {
+            "name": "FGUID",
+            "dataType": "string",
+            "sourceColumn": "FGUID"
+          },
+          {
+            "name": "FSTATE",
+            "dataType": "string",
+            "sourceColumn": "FSTATE"
+          },
+          {
+            "name": "FBILLSTATE",
+            "dataType": "string",
+            "sourceColumn": "FBILLSTATE"
+          },
+          {
+            "name": "编码",
+            "dataType": "string",
+            "sourceColumn": "编码"
+          },
+          {
+            "name": "姓名",
+            "dataType": "string",
+            "sourceColumn": "姓名"
+          },
+          {
+            "name": "性别",
+            "dataType": "string",
+            "sourceColumn": "性别"
+          },
+          {
+            "name": "民族",
+            "dataType": "string",
+            "sourceColumn": "民族"
+          },
+          {
+            "name": "籍贯",
+            "dataType": "string",
+            "sourceColumn": "籍贯"
+          },
+          {
+            "name": "出生日期",
+            "dataType": "dateTime",
+            "sourceColumn": "出生日期"
+          },
+          {
+            "name": "离职日期",
+            "dataType": "dateTime",
+            "sourceColumn": "离职日期"
+          },
+          {
+            "name": "单位类别",
+            "dataType": "string",
+            "sourceColumn": "单位类别"
+          },
+          {
+            "name": "档案出生日期",
+            "dataType": "dateTime",
+            "sourceColumn": "档案出生日期"
+          },
+          {
+            "name": "参加工作日期",
+            "dataType": "dateTime",
+            "sourceColumn": "参加工作日期"
+          },
+          {
+            "name": "职务编码",
+            "dataType": "string",
+            "sourceColumn": "职务编码"
+          },
+          {
+            "name": "岗位编码",
+            "dataType": "string",
+            "sourceColumn": "岗位编码"
+          },
+          {
+            "name": "部门编码",
+            "dataType": "string",
+            "sourceColumn": "部门编码"
+          },
+          {
+            "name": "本单位入职日期",
+            "dataType": "dateTime",
+            "sourceColumn": "本单位入职日期"
+          },
+          {
+            "name": "员工状态",
+            "dataType": "string",
+            "sourceColumn": "员工状态"
+          },
+          {
+            "name": "政治面貌",
+            "dataType": "string",
+            "sourceColumn": "政治面貌"
+          },
+          {
+            "name": "职称",
+            "dataType": "string",
+            "sourceColumn": "职称"
+          },
+          {
+            "name": "学历",
+            "dataType": "string",
+            "sourceColumn": "学历"
+          },
+          {
+            "name": "FIDENTITY",
+            "dataType": "string",
+            "sourceColumn": "FIDENTITY"
+          },
+          {
+            "name": "入职类别",
+            "dataType": "string",
+            "sourceColumn": "入职类别"
+          },
+          {
+            "name": "聘用形式",
+            "dataType": "string",
+            "sourceColumn": "聘用形式"
+          },
+          {
+            "name": "员工类别",
+            "dataType": "string",
+            "sourceColumn": "员工类别"
+          },
+          {
+            "name": "起薪日期",
+            "dataType": "dateTime",
+            "sourceColumn": "起薪日期"
+          },
+          {
+            "name": "档案存放地",
+            "dataType": "string",
+            "sourceColumn": "档案存放地"
+          },
+          {
+            "name": "员工属地",
+            "dataType": "string",
+            "sourceColumn": "员工属地"
+          },
+          {
+            "name": "京内外",
+            "dataType": "string",
+            "sourceColumn": "京内外"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = cscecdb,",
+                "    FZHR = 源{[Schema=\"FZHR\"]}[Data],",
+                "    HR_EMPLOYEEINFO1 = FZHR{[Name=\"HR_EMPLOYEEINFO\"]}[Data],",
+                "    重命名的列 = Table.RenameColumns(HR_EMPLOYEEINFO1,{{\"FCODE\", \"编码\"}, {\"FNAME\", \"姓名\"}, {\"FSEX\", \"性别\"}, {\"FNATIONALITY\", \"民族\"}, {\"FNATIVEPLACE\", \"籍贯\"}, {\"FBIRTHDATE\", \"出生日期\"}, {\"FDIMISSDATE\", \"离职日期\"}, {\"FFILEBIRTHDATE\", \"档案出生日期\"}, {\"FJOINWORKDATE\", \"参加工作日期\"}, {\"FPOSITIONCODE\", \"职务编码\"}, {\"FSTATIONCODE\", \"岗位编码\"}, {\"FDEPTCODE\", \"部门编码\"}, {\"FINTOCOMPANYDATE\", \"本单位入职日期\"}, {\"FEMPLOYEESTATE\", \"员工状态\"}, {\"FPOLITICSSTATUS\", \"政治面貌\"}, {\"FOFFICE\", \"职称\"}, {\"FEDUCATION\", \"学历\"}, {\"FFOLDTYPE\", \"入职类别\"}, {\"FEMPLOYFORM\", \"聘用形式\"}, {\"FEMPLOYEETYPE\", \"员工类别\"}, {\"FSTARTINGSALARYDATE\", \"起薪日期\"}, {\"FFILEDEPOSITSTATE\", \"档案存放地\"}, {\"FEXTENSIONVAR2\", \"员工属地\"}, {\"FDEPTKIND\", \"单位类别\"}}),",
+                "    更改的类型 = Table.TransformColumnTypes(重命名的列,{{\"本单位入职日期\", type date}, {\"出生日期\", type date}}),",
+                "    删除的其他列 = Table.SelectColumns(更改的类型,{\"FGUID\", \"FSTATE\", \"FBILLSTATE\", \"编码\", \"姓名\", \"性别\", \"民族\", \"籍贯\", \"出生日期\", \"离职日期\", \"单位类别\", \"档案出生日期\", \"参加工作日期\", \"职务编码\", \"岗位编码\", \"部门编码\", \"本单位入职日期\", \"员工状态\", \"政治面貌\", \"职称\", \"学历\", \"FIDENTITY\", \"入职类别\", \"聘用形式\", \"员工类别\", \"起薪日期\", \"档案存放地\", \"员工属地\"}),",
+                "    合并的查询 = Table.NestedJoin(删除的其他列,{\"部门编码\"},单位,{\"单位编码\"},\"单位\",JoinKind.LeftOuter),",
+                "    #\"展开的“单位”\" = Table.ExpandTableColumn(合并的查询, \"单位\", {\"京内外\"}, {\"京内外\"})",
+                "in",
+                "    #\"展开的“单位”\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "单位",
+        "columns": [
+          {
+            "name": "单位编码",
+            "dataType": "string",
+            "sourceColumn": "单位编码"
+          },
+          {
+            "name": "单位名称",
+            "dataType": "string",
+            "sourceColumn": "单位名称"
+          },
+          {
+            "name": "京内外",
+            "dataType": "string",
+            "sourceColumn": "京内外"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": "单位"
+            }
+          }
+        ]
+      },
+      {
+        "name": "岗位",
+        "columns": [
+          {
+            "name": "FGUID",
+            "dataType": "string",
+            "sourceColumn": "FGUID"
+          },
+          {
+            "name": "岗位名称",
+            "dataType": "string",
+            "sourceColumn": "岗位名称"
+          },
+          {
+            "name": "所属系统",
+            "dataType": "string",
+            "sourceColumn": "所属系统"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = cscecdb,",
+                "    FZHR = 源{[Schema=\"FZHR\"]}[Data],",
+                "    HR_STATION = FZHR{[Name=\"HR_STATION\"]}[Data],",
+                "    删除的其他列 = Table.SelectColumns(HR_STATION,{\"FGUID\", \"FNAME\", \"FOWNEDSPECIAL\"}),",
+                "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FNAME\", \"岗位名称\"}, {\"FOWNEDSPECIAL\", \"所属系统\"}})",
+                "in",
+                "    重命名的列"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "职务",
+        "columns": [
+          {
+            "name": "FGUID",
+            "dataType": "string",
+            "sourceColumn": "FGUID"
+          },
+          {
+            "name": "FSTATE",
+            "dataType": "string",
+            "sourceColumn": "FSTATE"
+          },
+          {
+            "name": "FCODE",
+            "dataType": "string",
+            "sourceColumn": "FCODE"
+          },
+          {
+            "name": "职务名称",
+            "dataType": "string",
+            "sourceColumn": "职务名称"
+          },
+          {
+            "name": "FKIND",
+            "dataType": "string",
+            "sourceColumn": "FKIND"
+          },
+          {
+            "name": "FLEVEL",
+            "dataType": "string",
+            "sourceColumn": "FLEVEL"
+          },
+          {
+            "name": "FPUBLICOFFICE",
+            "dataType": "string",
+            "sourceColumn": "FPUBLICOFFICE"
+          },
+          {
+            "name": "FDISNABLED",
+            "dataType": "string",
+            "sourceColumn": "FDISNABLED"
+          },
+          {
+            "name": "FREMARK",
+            "dataType": "string",
+            "sourceColumn": "FREMARK"
+          },
+          {
+            "name": "FORDER",
+            "dataType": "double",
+            "sourceColumn": "FORDER"
+          },
+          {
+            "name": "FDATE",
+            "dataType": "dateTime",
+            "sourceColumn": "FDATE"
+          },
+          {
+            "name": "FDEPT",
+            "dataType": "string",
+            "sourceColumn": "FDEPT"
+          },
+          {
+            "name": "FPOSITION",
+            "dataType": "string",
+            "sourceColumn": "FPOSITION"
+          },
+          {
+            "name": "FOPERATOR",
+            "dataType": "string",
+            "sourceColumn": "FOPERATOR"
+          },
+          {
+            "name": "FCREATORID",
+            "dataType": "string",
+            "sourceColumn": "FCREATORID"
+          },
+          {
+            "name": "FCREATORNAME",
+            "dataType": "string",
+            "sourceColumn": "FCREATORNAME"
+          },
+          {
+            "name": "FCREATDEPTID",
+            "dataType": "string",
+            "sourceColumn": "FCREATDEPTID"
+          },
+          {
+            "name": "FCREATDEPTNAME",
+            "dataType": "string",
+            "sourceColumn": "FCREATDEPTNAME"
+          },
+          {
+            "name": "FCREATTIME",
+            "dataType": "dateTime",
+            "sourceColumn": "FCREATTIME"
+          },
+          {
+            "name": "FREVISEID",
+            "dataType": "string",
+            "sourceColumn": "FREVISEID"
+          },
+          {
+            "name": "FREVISENAME",
+            "dataType": "string",
+            "sourceColumn": "FREVISENAME"
+          },
+          {
+            "name": "FREVISEDEPTID",
+            "dataType": "string",
+            "sourceColumn": "FREVISEDEPTID"
+          },
+          {
+            "name": "FREVISEDEPTNAME",
+            "dataType": "string",
+            "sourceColumn": "FREVISEDEPTNAME"
+          },
+          {
+            "name": "FREVISETIME",
+            "dataType": "dateTime",
+            "sourceColumn": "FREVISETIME"
+          },
+          {
+            "name": "FEXTENSIONVAR1",
+            "dataType": "string",
+            "sourceColumn": "FEXTENSIONVAR1"
+          },
+          {
+            "name": "FEXTENSIONVAR2",
+            "dataType": "string",
+            "sourceColumn": "FEXTENSIONVAR2"
+          },
+          {
+            "name": "FEXTENSIONVAR3",
+            "dataType": "string",
+            "sourceColumn": "FEXTENSIONVAR3"
+          },
+          {
+            "name": "LSFL",
+            "dataType": "string",
+            "sourceColumn": "LSFL"
+          },
+          {
+            "name": "VERSION",
+            "dataType": "double",
+            "sourceColumn": "VERSION"
+          },
+          {
+            "name": "FZWXS",
+            "dataType": "double",
+            "sourceColumn": "FZWXS"
+          },
+          {
+            "name": "FFBZ1",
+            "dataType": "double",
+            "sourceColumn": "FFBZ1"
+          },
+          {
+            "name": "FFBZ2",
+            "dataType": "double",
+            "sourceColumn": "FFBZ2"
+          },
+          {
+            "name": "FFBZ3",
+            "dataType": "double",
+            "sourceColumn": "FFBZ3"
+          },
+          {
+            "name": "FFBZ4",
+            "dataType": "double",
+            "sourceColumn": "FFBZ4"
+          },
+          {
+            "name": "ZWDJ",
+            "dataType": "string",
+            "sourceColumn": "ZWDJ"
+          },
+          {
+            "name": "XJQSZ",
+            "dataType": "string",
+            "sourceColumn": "XJQSZ"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = cscecdb,",
+                "    FZHR = 源{[Schema=\"FZHR\"]}[Data],",
+                "    HR_POSITION1 = FZHR{[Name=\"HR_POSITION\"]}[Data],",
+                "    重命名的列 = Table.RenameColumns(HR_POSITION1,{{\"FNAME\", \"职务名称\"}})",
+                "in",
+                "    重命名的列"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "度量值表",
+        "columns": [
+          {
+            "name": "列 1",
+            "dataType": "string",
+            "sourceColumn": "列 1"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i44FAA==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [#\"列 1\" = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"列 1\", type text}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "执证情况",
+        "columns": [
+          {
+            "name": "员工编码",
+            "dataType": "string",
+            "sourceColumn": "员工编码"
+          },
+          {
+            "name": "姓名",
+            "dataType": "string",
+            "sourceColumn": "姓名"
+          },
+          {
+            "name": "证书编号",
+            "dataType": "string",
+            "sourceColumn": "证书编号"
+          },
+          {
+            "name": "证书名称",
+            "dataType": "string",
+            "sourceColumn": "证书名称"
+          },
+          {
+            "name": "发证机关",
+            "dataType": "string",
+            "sourceColumn": "发证机关"
+          },
+          {
+            "name": "等级",
+            "dataType": "string",
+            "sourceColumn": "等级"
+          },
+          {
+            "name": "发证日期",
+            "dataType": "dateTime",
+            "sourceColumn": "发证日期"
+          },
+          {
+            "name": "专业",
+            "dataType": "string",
+            "sourceColumn": "专业"
+          },
+          {
+            "name": "注册专业证书名称",
+            "dataType": "string",
+            "sourceColumn": "注册专业证书名称"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = cscecdb,",
+                "    FZHR = 源{[Schema=\"FZHR\"]}[Data],",
+                "    V_BOOKNAME2 = FZHR{[Name=\"HR_QUALIFICATION\"]}[Data],",
+                "    重命名的列 = Table.RenameColumns(V_BOOKNAME2,{{\"FCODE\", \"员工编码\"}, {\"FNAME\", \"姓名\"}, {\"FBOOKCODE\", \"证书编号\"}, {\"FBOOKNAME\", \"证书名称\"}, {\"FISSUER\", \"发证机关\"}, {\"FQUALIFICATION\", \"等级\"}, {\"FFZDATE\", \"发证日期\"}, {\"FSPECIAL\", \"专业\"}, {\"FZYNAME\", \"注册专业证书名称\"}, {\"ZSLB\", \"证书类别\"}}),",
+                "    删除的其他列 = Table.SelectColumns(重命名的列,{\"员工编码\", \"姓名\", \"证书编号\", \"证书名称\", \"发证机关\", \"等级\", \"发证日期\", \"专业\", \"注册专业证书名称\"})",
+                "in",
+                "    删除的其他列"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "员工离职表",
+        "columns": [
+          {
+            "name": "员工编码",
+            "dataType": "string",
+            "sourceColumn": "员工编码"
+          },
+          {
+            "name": "姓名",
+            "dataType": "string",
+            "sourceColumn": "姓名"
+          },
+          {
+            "name": "性别",
+            "dataType": "string",
+            "sourceColumn": "性别"
+          },
+          {
+            "name": "离职时单位",
+            "dataType": "string",
+            "sourceColumn": "离职时单位"
+          },
+          {
+            "name": "离职时职务",
+            "dataType": "string",
+            "sourceColumn": "离职时职务"
+          },
+          {
+            "name": "离职时岗位",
+            "dataType": "string",
+            "sourceColumn": "离职时岗位"
+          },
+          {
+            "name": "离职类型",
+            "dataType": "string",
+            "sourceColumn": "离职类型"
+          },
+          {
+            "name": "离职时间",
+            "dataType": "dateTime",
+            "sourceColumn": "离职时间"
+          },
+          {
+            "name": "去向",
+            "dataType": "string",
+            "sourceColumn": "去向"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = cscecdb,",
+                "    FZHR = 源{[Schema=\"FZHR\"]}[Data],",
+                "    HR_SEPARATION1 = FZHR{[Name=\"HR_SEPARATION\"]}[Data],",
+                "    重命名的列 = Table.RenameColumns(HR_SEPARATION1,{{\"FCODE\", \"员工编码\"}, {\"FNAME\", \"姓名\"}, {\"FSEX\", \"性别\"}, {\"FDEPTNAME\", \"离职时单位\"}, {\"FPOSITIONNAME\", \"离职时职务\"}, {\"FSTATIONNAME\", \"离职时岗位\"}, {\"FSEPARATIONKIND\", \"离职类型\"}, {\"FGOWHERE\", \"去向\"}, {\"FSEPARATIONDATE\", \"离职时间\"}}),",
+                "    删除的其他列 = Table.SelectColumns(重命名的列,{\"员工编码\", \"姓名\", \"性别\", \"离职时单位\", \"离职时职务\", \"离职时岗位\", \"离职类型\", \"离职时间\", \"去向\"}),",
+                "    替换的值 = Table.ReplaceValue(删除的其他列,\"转行回老家\",\"回老家\",Replacer.ReplaceText,{\"去向\"})",
+                "in",
+                "    替换的值"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "TopN",
+        "columns": [
+          {
+            "name": "N",
+            "dataType": "int64",
+            "sourceColumn": "N"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45WMlWK1YlWMjSAUBCeEYRnBOEZA3mxAA==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [N = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"N\", Int64.Type}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "司龄段",
+        "columns": [
+          {
+            "name": "数值",
+            "dataType": "int64",
+            "sourceColumn": "数值"
+          },
+          {
+            "name": "段数",
+            "dataType": "int64",
+            "sourceColumn": "段数"
+          },
+          {
+            "name": "下限",
+            "dataType": "string",
+            "sourceColumn": "下限"
+          },
+          {
+            "name": "上限",
+            "dataType": "string",
+            "sourceColumn": "上限"
+          },
+          {
+            "name": "段名称",
+            "dataType": "string",
+            "sourceColumn": "段名称"
+          },
+          {
+            "name": "段名称2",
+            "dataType": "string",
+            "sourceColumn": "段名称2"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = CreateS(5),",
+                "    已添加自定义 = Table.AddColumn(源, \"段名称2\", each if[数值]<=35 then \"35-\" else if [数值]>35 and [数值]<=45 then \"36-45\" else if [数值]>45 and [数值]<= 60 then \"46-60\" else \"61+\"),",
+                "    筛选的行 = Table.SelectRows(已添加自定义, each [数值] <> null),",
+                "    更改的类型 = Table.TransformColumnTypes(筛选的行,{{\"段数\", Int64.Type}, {\"数值\", Int64.Type}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "年龄段",
+        "columns": [
+          {
+            "name": "数值",
+            "dataType": "string",
+            "sourceColumn": "数值"
+          },
+          {
+            "name": "段数",
+            "dataType": "string",
+            "sourceColumn": "段数"
+          },
+          {
+            "name": "下限",
+            "dataType": "string",
+            "sourceColumn": "下限"
+          },
+          {
+            "name": "上限",
+            "dataType": "string",
+            "sourceColumn": "上限"
+          },
+          {
+            "name": "段名称",
+            "dataType": "string",
+            "sourceColumn": "段名称"
+          },
+          {
+            "name": "段名称2",
+            "dataType": "string",
+            "sourceColumn": "段名称2"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = CreateS(设置区间值),",
+                "    已添加自定义 = Table.AddColumn(源, \"段名称2\", each if[数值]<=35 then \"35-\" else if [数值]>35 and [数值]<=45 then \"36-45\" else if [数值]>45 and [数值]<= 60 then \"46-60\" else \"61+\"),",
+                "    筛选的行 = Table.SelectRows(已添加自定义, each [数值] <> null)",
+                "in",
+                "    筛选的行"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "业务口人员司龄段",
+        "columns": [
+          {
+            "name": "数值",
+            "dataType": "int64",
+            "sourceColumn": "数值"
+          },
+          {
+            "name": "段数",
+            "dataType": "int64",
+            "sourceColumn": "段数"
+          },
+          {
+            "name": "下限",
+            "dataType": "int64",
+            "sourceColumn": "下限"
+          },
+          {
+            "name": "上限",
+            "dataType": "int64",
+            "sourceColumn": "上限"
+          },
+          {
+            "name": "段名称",
+            "dataType": "string",
+            "sourceColumn": "段名称"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = CreateS(3),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"数值\", Int64.Type}, {\"段数\", Int64.Type}, {\"下限\", Int64.Type}, {\"上限\", Int64.Type}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "项目信息",
+        "columns": [
+          {
+            "name": "项目编码",
+            "dataType": "string",
+            "sourceColumn": "项目编码"
+          },
+          {
+            "name": "项目名称",
+            "dataType": "string",
+            "sourceColumn": "项目名称"
+          },
+          {
+            "name": "省",
+            "dataType": "string",
+            "sourceColumn": "省"
+          },
+          {
+            "name": "市",
+            "dataType": "string",
+            "sourceColumn": "市"
+          },
+          {
+            "name": "县",
+            "dataType": "string",
+            "sourceColumn": "县"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    MD = 源{[Schema=\"MD\"]}[Data],",
+                "    MD_XIANGMUXINXI1 = MD{[Name=\"MD_XIANGMUXINXI\"]}[Data],",
+                "    删除的其他列 = Table.SelectColumns(MD_XIANGMUXINXI1,{\"FXMBIANMA\", \"FXMQUANCHENG\", \"FSHENG\", \"FCHENGSHI\", \"FXIAN\"}),",
+                "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FXMBIANMA\", \"项目编码\"}, {\"FSHENG\", \"省\"}, {\"FCHENGSHI\", \"市\"}, {\"FXIAN\", \"县\"}, {\"FXMQUANCHENG\", \"项目名称\"}}),",
+                "    筛选的行 = Table.SelectRows(重命名的列, each ([项目名称] <> null))",
+                "in",
+                "    筛选的行"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "expressions": [
+      {
+        "name": "设置区间值",
+        "kind": "m",
+        "expression": "5 meta [IsParameterQuery=true, Type=\"Number\", IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "CreateS",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = (d as number) => let",
+          "        源 = List.Numbers(1,150),",
+          "        转换为表 = Table.FromList(源, Splitter.SplitByNothing(), null, null, ExtraValues.Error),",
+          "        重命名的列 = Table.RenameColumns(转换为表,{{\"Column1\", \"数值\"}}),",
+          "        已添加自定义 = Table.AddColumn(重命名的列, \"段数\", each Number.IntegerDivide([数值]-1,d)),",
+          "        已添加自定义1 = Table.AddColumn(已添加自定义, \"下限\", each [段数]*d+1),",
+          "        已添加自定义2 = Table.AddColumn(已添加自定义1, \"上限\", each ([段数]+1)*d),",
+          "        已添加自定义3 = Table.AddColumn(已添加自定义2, \"段名称\", each Text.From([下限]) &\"-\"&Text.From([上限]))",
+          "    in",
+          "        已添加自定义3",
+          "in",
+          "    源"
+        ]
+      },
+      {
+        "name": "cscecdb",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = Oracle.Database(\"172.16.8.87/cscecdb\", [HierarchicalNavigation=true])",
+          "in",
+          "    源"
+        ]
+      },
+      {
+        "name": "单位",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = cscecdb,",
+          "    FZHR = 源{[Schema=\"FZHR\"]}[Data],",
+          "    HR_DEPT = FZHR{[Name=\"HR_DEPT\"]}[Data],",
+          "    删除的其他列 = Table.SelectColumns(HR_DEPT,{\"FCODE\", \"FNAME\", \"FPROJECTREGIONAL\"}),",
+          "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FCODE\", \"单位编码\"}, {\"FNAME\", \"单位名称\"}, {\"FPROJECTREGIONAL\", \"京内外\"}})",
+          "in",
+          "    重命名的列"
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "700"
+      }
+    ]
+  }
+}
