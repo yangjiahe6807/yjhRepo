@@ -24,7 +24,7 @@
           "AuthenticationKind": "UsernamePassword",
           "kind": "Oracle",
           "path": "172.16.8.78/oracledb",
-          "Username": "GSPM",
+          "Username": "gspm",
           "PrivacySetting": "Public"
         }
       },
@@ -260,11 +260,19 @@
       },
       {
         "name": "D_日历",
+        "dataCategory": "Time",
         "columns": [
           {
             "name": "日期",
             "dataType": "dateTime",
-            "sourceColumn": "日期"
+            "isKey": true,
+            "sourceColumn": "日期",
+            "annotations": [
+              {
+                "name": "TabularEditor_MarkAsDateKey",
+                "value": "1"
+              }
+            ]
           },
           {
             "name": "日期序号",
@@ -355,6 +363,14 @@
             "name": "工作日",
             "dataType": "string",
             "sourceColumn": "工作日"
+          },
+          {
+            "type": "calculated",
+            "name": "日名称",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "FORMAT('D_日历'[日期],\"yyyy年MM月DD日\")",
+            "lineageTag": "ff7511af-18ff-41db-9929-c7566f64b4cb"
           }
         ],
         "partitions": [
@@ -400,6 +416,32 @@
                 "    work_day"
               ]
             }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "日期层次",
+            "lineageTag": "14f8efb6-043e-4583-9d7e-ea8e004e4cdc",
+            "levels": [
+              {
+                "name": "年份名称",
+                "ordinal": 0,
+                "column": "年份名称",
+                "lineageTag": "944c5366-6eb3-4ab4-af6f-8d0fe8fb0614"
+              },
+              {
+                "name": "年月名称",
+                "ordinal": 1,
+                "column": "年月名称",
+                "lineageTag": "e79daaf5-c944-4555-a402-1c6578da7d79"
+              },
+              {
+                "name": "日名称",
+                "ordinal": 2,
+                "column": "日名称",
+                "lineageTag": "ceae9f3e-c3a0-44f8-a5dd-ed0fb3d1da0b"
+              }
+            ]
           }
         ]
       },
@@ -455,6 +497,34 @@
             "name": "责任体",
             "dataType": "string",
             "sourceColumn": "责任体"
+          },
+          {
+            "name": "实际竣工日期",
+            "dataType": "dateTime",
+            "sourceColumn": "实际竣工日期",
+            "formatString": "General Date",
+            "lineageTag": "e26454fa-f30b-4cbe-a5f3-cd4f05c1fb62",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "实际开工日期",
+            "dataType": "dateTime",
+            "sourceColumn": "实际开工日期",
+            "formatString": "General Date",
+            "lineageTag": "3acc761e-4d1d-4e02-8c2e-f04430435472",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
           }
         ],
         "partitions": [
@@ -783,6 +853,19 @@
                 "value": "Automatic"
               }
             ]
+          },
+          {
+            "name": "国内外",
+            "dataType": "string",
+            "sourceColumn": "国内外",
+            "lineageTag": "4639b14d-c0e2-4327-8354-72cdefac2616",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
           }
         ],
         "partitions": [
@@ -791,7 +874,12 @@
             "dataView": "full",
             "source": {
               "type": "m",
-              "expression": "D_分包合同"
+              "expression": [
+                "let",
+                "    源 = D_分包合同",
+                "in",
+                "    源"
+              ]
             }
           }
         ]
@@ -1060,6 +1148,11 @@
             "name": "KEYID",
             "dataType": "string",
             "sourceColumn": "KEYID"
+          },
+          {
+            "name": "国内外",
+            "dataType": "string",
+            "sourceColumn": "国内外"
           }
         ],
         "partitions": [
@@ -1068,7 +1161,12 @@
             "dataView": "full",
             "source": {
               "type": "m",
-              "expression": "D_采购物资合同"
+              "expression": [
+                "let",
+                "    源 = D_采购物资合同",
+                "in",
+                "    源"
+              ]
             }
           }
         ]
@@ -1242,6 +1340,11 @@
             "name": "KEYID",
             "dataType": "string",
             "sourceColumn": "KEYID"
+          },
+          {
+            "name": "国内外",
+            "dataType": "string",
+            "sourceColumn": "国内外"
           }
         ],
         "partitions": [
@@ -1250,7 +1353,12 @@
             "dataView": "full",
             "source": {
               "type": "m",
-              "expression": "D_租赁物资合同"
+              "expression": [
+                "let",
+                "    源 = D_租赁物资合同",
+                "in",
+                "    源"
+              ]
             }
           }
         ]
@@ -1330,16 +1438,17 @@
       },
       {
         "name": "F_采购物资付款表",
-        "isHidden": true,
         "columns": [
           {
             "name": "项目编码",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "项目编码"
           },
           {
             "name": "日期",
             "dataType": "dateTime",
+            "isHidden": true,
             "sourceColumn": "日期"
           },
           {
@@ -1350,31 +1459,37 @@
           {
             "name": "合同编号",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "合同编号"
           },
           {
             "name": "施工专业",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "施工专业"
           },
           {
             "name": "分包类型",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "分包类型"
           },
           {
             "name": "本期付款",
-            "dataType": "double",
+            "dataType": "decimal",
+            "isHidden": true,
             "sourceColumn": "本期付款"
           },
           {
             "name": "单据状态",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "单据状态"
           },
           {
             "name": "KEYID",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "KEYID"
           },
           {
@@ -1382,6 +1497,7 @@
             "name": "C_分包类型",
             "dataType": "string",
             "isDataTypeInferred": true,
+            "isHidden": true,
             "expression": "RELATED('D_采购物资合同'[专业])",
             "lineageTag": "5feac364-f126-485e-b383-ad2c764ec20f",
             "summarizeBy": "none",
@@ -1401,6 +1517,7 @@
             "name": "C_施工专业",
             "dataType": "string",
             "isDataTypeInferred": true,
+            "isHidden": true,
             "expression": "RELATED('D_采购物资合同'[专业])",
             "lineageTag": "9e77c7e9-cbe2-463d-b715-8be19d09c8af",
             "summarizeBy": "none",
@@ -1414,6 +1531,12 @@
                 "value": "[\"IsHidden\"]"
               }
             ]
+          },
+          {
+            "name": "支付渠道",
+            "dataType": "string",
+            "sourceColumn": "支付渠道",
+            "lineageTag": "46bbd1d7-1d6c-496c-8c34-1f4641d0d4c5"
           }
         ],
         "partitions": [
@@ -3319,6 +3442,66 @@
             "description": "刷新时间 = MAX('刷新时间'[刷新时间])",
             "expression": "\"数据更新时间：\" & MAX('刷新时间'[刷新时间])",
             "lineageTag": "7f63415d-eff6-4f59-92d1-4dbf54f49913"
+          },
+          {
+            "name": "M_承包合同回款",
+            "expression": "SUM('F_业主合同回款'[金额])/SELECTEDVALUE('货币单位'[系数],1)",
+            "formatString": "0.00",
+            "displayFolder": "01.承包合同\\回款",
+            "lineageTag": "251b2f53-bb1f-44de-bcd8-b18132767dde",
+            "annotations": [
+              {
+                "name": "PBI_ChangedProperties",
+                "value": "[\"FormatString\"]"
+              }
+            ]
+          },
+          {
+            "name": "M_下游合同额_价税合计",
+            "expression": "[M_分包合同_价税合计]+[M_物资合同_价税合计]+[M_租赁合同_价税合计]",
+            "formatString": "#,0.00",
+            "displayFolder": "00项目级度量",
+            "lineageTag": "447c77b4-2126-4556-8a5c-e06676e78209",
+            "changedProperties": [
+              {
+                "property": "FormatString"
+              }
+            ]
+          },
+          {
+            "name": "M_下游合同付款",
+            "expression": "[M_分包付款_实付]+[M_物资付款_实付]+[M_租赁付款_实付]",
+            "formatString": "#,0.00",
+            "displayFolder": "00项目级度量",
+            "lineageTag": "b3bea443-7168-44e5-adef-5a5897da13ff"
+          },
+          {
+            "name": "M_下游合同完成量_价税合计",
+            "expression": "[M_分包报量_价税合计]+[M_物资进场_价税合计]+[M_租赁进场_价税合计]",
+            "formatString": "#,0.00",
+            "displayFolder": "00项目级度量",
+            "lineageTag": "4bc1a042-dac5-4371-a84e-aaf820bb89ff"
+          },
+          {
+            "name": "M_下游合同结算_价税合计",
+            "expression": "[M_分包结算_价税合计]+[M_物资结算_价税合计]+[M_租赁结算_价税合计]",
+            "formatString": "0.00",
+            "displayFolder": "00项目级度量",
+            "lineageTag": "3f067db1-15e7-4cf4-9c9e-6f0082e9f6ed"
+          },
+          {
+            "name": "M_下游合同应付_价税合计",
+            "expression": "[M_分包应付_价税合计]+[M_物资应付_价税合计]+[M_租赁应付_价税合计]",
+            "formatString": "0.00",
+            "displayFolder": "00项目级度量",
+            "lineageTag": "b6050294-81c4-4ce4-ba2d-fc610c9c2633"
+          },
+          {
+            "name": "M_欠分包款物资款",
+            "expression": "[M_欠分包款]+[M_物资欠款]+[M_租赁欠款]",
+            "formatString": "0.00",
+            "displayFolder": "00项目级度量",
+            "lineageTag": "4e2677c7-fb87-49f5-bf80-7085f0da9edf"
           }
         ]
       },
@@ -3457,7 +3640,6 @@
       },
       {
         "name": "F_分包付款",
-        "isHidden": true,
         "columns": [
           {
             "name": "支付方式",
@@ -3467,57 +3649,74 @@
           {
             "name": "KEYID",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "KEYID"
           },
           {
             "name": "项目编码",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "项目编码"
           },
           {
             "name": "项目名称",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "项目名称"
           },
           {
             "name": "施工专业",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "施工专业"
           },
           {
             "name": "分包类型",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "分包类型"
           },
           {
             "name": "日期",
             "dataType": "dateTime",
+            "isHidden": true,
             "sourceColumn": "日期"
           },
           {
             "name": "合同编号",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "合同编号"
           },
           {
             "name": "本期实际付款",
-            "dataType": "double",
+            "dataType": "decimal",
+            "isHidden": true,
             "sourceColumn": "本期实际付款"
           },
           {
             "name": "劳务费",
-            "dataType": "double",
+            "dataType": "decimal",
+            "isHidden": true,
             "sourceColumn": "劳务费"
           },
           {
             "name": "其它",
-            "dataType": "double",
+            "dataType": "decimal",
+            "isHidden": true,
             "sourceColumn": "其它"
           },
           {
             "name": "单据状态",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "单据状态"
+          },
+          {
+            "name": "支付渠道",
+            "dataType": "string",
+            "sourceColumn": "支付渠道",
+            "lineageTag": "bc3e864d-ef1c-4efc-8aa2-a8fba8e8d922"
           }
         ],
         "partitions": [
@@ -3623,6 +3822,11 @@
             "name": "财务科目ID",
             "dataType": "string",
             "sourceColumn": "财务科目ID"
+          },
+          {
+            "name": "合同类型",
+            "dataType": "string",
+            "sourceColumn": "合同类型"
           }
         ],
         "partitions": [
@@ -3633,15 +3837,16 @@
               "type": "m",
               "expression": [
                 "let",
-                "    源 = #\"X5\",",
+                "    源 = X5,",
                 "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
-                "    GSPM_BIAOZHUNHETONG = GSPM{[Name=\"GSPM_BIAOZHUNHETONG\"]}[Data],",
-                "    重命名的列 = Table.RenameColumns(GSPM_BIAOZHUNHETONG,#\"fx_List_生成字段更名列表\"(\"GSPM\",\"GSPM_BIAOZHUNHETONG\")),",
+                "    GSPM_BIAOZHUNHETONG = GSPM{[Name=\"GSPM_BIAOZHUNHETONG2020\"]}[Data],",
+                "    重命名的列 = Table.RenameColumns(GSPM_BIAOZHUNHETONG,fx_List_生成字段更名列表(\"GSPM\",\"GSPM_BIAOZHUNHETONG\")),",
                 "    删除的其他列 = Table.SelectColumns(重命名的列,{\"标准合同编号\", \"标准合同名称\", \"合同分类\", \"商务科目ID\", \"财务科目ID\"}),",
                 "    删除的副本 = Table.Distinct(删除的其他列, {\"标准合同编号\"}),",
-                "    筛选的行 = Table.SelectRows(删除的副本, each [标准合同编号] <> null and [标准合同编号] <> \"\")",
+                "    筛选的行 = Table.SelectRows(删除的副本, each [标准合同编号] <> null and [标准合同编号] <> \"\"),",
+                "    已添加自定义 = Table.AddColumn(筛选的行, \"合同类型\", each if List.Contains(集采劳务合同[编号],[标准合同编号]) then \"集采劳务合同\" else \"其它\",Text.Type)",
                 "in",
-                "    筛选的行"
+                "    已添加自定义"
               ]
             }
           }
@@ -3754,6 +3959,495 @@
                 "    源"
               ]
             }
+          }
+        ]
+      },
+      {
+        "name": "D_回款类型",
+        "lineageTag": "e167807c-3bd2-4858-a155-b65be860fb11",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "回款类型",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "F_业主合同回款[回款类型]",
+            "lineageTag": "10423667-e29b-4bd8-96e7-73ae728dfa5d",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "D_回款类型-d07da4e8-7bdd-4e5c-86ce-115c6dd4455f",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "DISTINCT('F_业主合同回款'[回款类型])"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "c783520450b040039f7379f0ad9529a4"
+          }
+        ]
+      },
+      {
+        "name": "D_项目开工日期",
+        "lineageTag": "a715157e-0169-4aa6-a388-6676afd9f556",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "日期",
+            "dataType": "dateTime",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[日期]",
+            "formatString": "General Date",
+            "lineageTag": "b4eb7615-aa6a-46b9-899f-391c00ff9d76",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "日期序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[日期序号]",
+            "formatString": "0",
+            "lineageTag": "cadc3ec9-d382-4ecc-b4e5-1ed52896943e",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年序号]",
+            "formatString": "0",
+            "lineageTag": "51bde302-4db7-4c4e-b2be-1d5dcf5d4050",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年份名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年份名称]",
+            "lineageTag": "e9b97e25-b96f-483a-b812-030f4407c3e5",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "季度序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[季度序号]",
+            "formatString": "0",
+            "lineageTag": "221083b3-96e2-4e4c-91f8-23746c445123",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "季度名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[季度名称]",
+            "lineageTag": "e6ebcaf0-0a88-4618-b6e7-c7b811678aeb",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "月份序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[月份序号]",
+            "formatString": "0",
+            "lineageTag": "5682f71b-4efb-4378-a29b-5680d37bcd6e",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "月份名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[月份名称]",
+            "lineageTag": "e5338f80-8e43-442e-959d-7a7639e82a59",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "周序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[周序号]",
+            "formatString": "0",
+            "lineageTag": "06f4601a-ca33-418e-8610-0abd1891c7fb",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "周名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[周名称]",
+            "lineageTag": "9619f0d1-8230-4e2f-a4d6-b7b745fbad9c",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年季序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年季序号]",
+            "formatString": "0",
+            "lineageTag": "6c7452b0-e266-4450-a004-4d7bff467c1d",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年季名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年季名称]",
+            "lineageTag": "46384d94-5ba8-4bf4-b40e-11efec3a179c",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年月序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年月序号]",
+            "formatString": "0",
+            "lineageTag": "78f148df-b57c-49af-9f1e-e98a13b72184",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年月名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年月名称]",
+            "lineageTag": "47de755b-3c55-42db-b0c4-cfd1d0880acf",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年周序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年周序号]",
+            "formatString": "0",
+            "lineageTag": "a9255205-1aba-4419-8586-98176b38ae99",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "年周名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[年周名称]",
+            "lineageTag": "1435b283-e20d-419f-9c3e-a97cdbdbdaa1",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "日序号",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[日序号]",
+            "formatString": "0",
+            "lineageTag": "b8df3c04-dee3-4767-b69c-57c453924420",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "周天名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[周天名称]",
+            "lineageTag": "6970a0f7-40c4-4ce6-b513-9db0ee21eb1e",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "工作日",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[工作日]",
+            "lineageTag": "deb61a55-12b4-4169-9920-d1c1f5df0f33",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "日名称",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_日历[日名称]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "D_项目开工日期-ece99377-8b12-48b0-9f9c-a5e32d4e0a84",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "'D_日历'"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "55ff94244bd34e1388493467d7414f4e"
+          }
+        ]
+      },
+      {
+        "name": "D_合同业务类别",
+        "lineageTag": "95bab213-65eb-4d41-973b-46f354d02fc1",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "业务类别",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "D_分包合同[业务类别]",
+            "lineageTag": "6f40123a-680e-433d-95e8-c635e3adecc3",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "业务类别 (组)",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "SWITCH(",
+              "  TRUE,",
+              "  ISBLANK('D_合同业务类别'[业务类别]),",
+              "  \"(空白)\",",
+              "  'D_合同业务类别'[业务类别] IN {\"集采分包框架评审\",",
+              "    \"集采租赁\",",
+              "    \"统一转账\"},",
+              "  \"集采框架合同\",",
+              "  'D_合同业务类别'[业务类别] IN {\"集采分包补充合同评审\",",
+              "    \"统一转账补充\",",
+              "    \"项目组织分包合同补充评审\",",
+              "    \"项目组织分包合同评审\",",
+              "    \"指定分包合同评审\",",
+              "    \"指定物资采购\",",
+              "    \"指定物资采购补充\",",
+              "    \"专项\",",
+              "    \"专项补充\",",
+              "    \"租赁\"},",
+              "  \"专项及补充协议\",",
+              "  'D_合同业务类别'[业务类别]",
+              ")"
+            ],
+            "lineageTag": "098b11f6-e4f8-4c2c-aa34-5e1ef4a4e188",
+            "summarizeBy": "none",
+            "extendedProperties": [
+              {
+                "type": "json",
+                "name": "GroupingMetadata",
+                "value": {
+                  "version": 0,
+                  "groupedColumns": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "D_合同业务类别"
+                          }
+                        },
+                        "Property": "业务类别"
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotations": [
+              {
+                "name": "GroupingDesignState",
+                "value": "{\"Version\":0,\"Sources\":[{\"Name\":\"d\",\"Entity\":\"D_合同业务类别\"}],\"GroupedColumns\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"业务类别\"}}],\"GroupItems\":[{\"DisplayName\":\"(空白)\",\"BlankDefaultPlaceholder\":true},{\"DisplayName\":\"集采框架合同\",\"Expression\":{\"In\":{\"Expressions\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"业务类别\"}}],\"Values\":[[{\"Literal\":{\"Value\":\"'集采分包框架评审'\"}}],[{\"Literal\":{\"Value\":\"'集采租赁'\"}}],[{\"Literal\":{\"Value\":\"'统一转账'\"}}]]}}},{\"DisplayName\":\"专项及补充协议\",\"Expression\":{\"In\":{\"Expressions\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"d\"}},\"Property\":\"业务类别\"}}],\"Values\":[[{\"Literal\":{\"Value\":\"'集采分包补充合同评审'\"}}],[{\"Literal\":{\"Value\":\"'统一转账补充'\"}}],[{\"Literal\":{\"Value\":\"'项目组织分包合同补充评审'\"}}],[{\"Literal\":{\"Value\":\"'项目组织分包合同评审'\"}}],[{\"Literal\":{\"Value\":\"'指定分包合同评审'\"}}],[{\"Literal\":{\"Value\":\"'指定物资采购'\"}}],[{\"Literal\":{\"Value\":\"'指定物资采购补充'\"}}],[{\"Literal\":{\"Value\":\"'专项'\"}}],[{\"Literal\":{\"Value\":\"'专项补充'\"}}],[{\"Literal\":{\"Value\":\"'租赁'\"}}]]}}}]}"
+              },
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "D_合同业务类别-bdf1a6e1-2bbd-4c36-81d2-e9efd780842b",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": [
+                "",
+                "UNION(",
+                "    DISTINCT('D_分包合同'[业务类别]),",
+                "    DISTINCT('D_采购物资合同'[业务小类]),",
+                "    DISTINCT('D_租赁物资合同'[业务小类])",
+                " )"
+              ]
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "7eaa1c1643a64cccb80140528d48df0b"
           }
         ]
       }
@@ -4299,6 +4993,69 @@
         "toColumn": "项目编码",
         "crossFilteringBehavior": "bothDirections",
         "securityFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "baf9b717-bc56-4ede-a9fe-e7ca68a1be5a",
+        "fromTable": "F_业主合同回款",
+        "fromColumn": "分包类型",
+        "toTable": "D_分包类型",
+        "toColumn": "分包类型"
+      },
+      {
+        "name": "f5cfe88b-28d8-4ec8-858f-6e031e0d8ee1",
+        "fromTable": "F_业主合同回款",
+        "fromColumn": "合同编号",
+        "toTable": "D_承包合同",
+        "toColumn": "合同编号"
+      },
+      {
+        "name": "c3fa1fe8-5c1c-4a75-86de-65e62993868a",
+        "fromTable": "F_业主合同回款",
+        "fromColumn": "回款类型",
+        "toTable": "D_回款类型",
+        "toColumn": "回款类型"
+      },
+      {
+        "name": "a0a1890f-6084-4f66-857e-5a296b738952",
+        "fromTable": "F_业主合同回款",
+        "fromColumn": "施工专业",
+        "toTable": "D_施工专业",
+        "toColumn": "施工专业"
+      },
+      {
+        "name": "9d9d3c49-6a8c-4939-a4f7-a46084110836",
+        "fromTable": "F_业主合同回款",
+        "fromColumn": "实际回款日期",
+        "toTable": "D_日历",
+        "toColumn": "日期"
+      },
+      {
+        "name": "6a886872-011f-4074-ac35-e659f12c861c",
+        "fromTable": "D_项目信息",
+        "fromColumn": "实际开工日期",
+        "toTable": "D_项目开工日期",
+        "toColumn": "日期"
+      },
+      {
+        "name": "51be9e63-c7a6-4c7b-b163-a2bc328eb02b",
+        "fromTable": "D_采购物资合同",
+        "fromColumn": "业务小类",
+        "toTable": "D_合同业务类别",
+        "toColumn": "业务类别"
+      },
+      {
+        "name": "9eff44d1-e87a-4f4f-aee4-c126657cb6a4",
+        "fromTable": "D_分包合同",
+        "fromColumn": "业务类别",
+        "toTable": "D_合同业务类别",
+        "toColumn": "业务类别"
+      },
+      {
+        "name": "f3be0e82-acaf-483f-835c-36e4b92d21d7",
+        "fromTable": "D_租赁物资合同",
+        "fromColumn": "业务小类",
+        "toTable": "D_合同业务类别",
+        "toColumn": "业务类别"
       }
     ],
     "roles": [
@@ -4642,9 +5399,10 @@
           "    源 = MD_XIANGMUXINXI,",
           "    计算责任体 = Table.AddColumn(源, \"责任体\", each if [京内外分布] = \"国际\" then \"海外\" else if [厂房事业部] <> null then [厂房事业部] else if [直管机构] <> \"公司\" then [直管机构] else if [城市公司] <> null then [城市公司] else \"公司直营\", type text),",
           "    重命名的列1 = Table.RenameColumns(计算责任体,{{\"fYWBK\", \"业务板块\"}}),",
-          "    删除的其他列 = Table.SelectColumns(重命名的列1,{\"项目编码\", \"项目名称\", \"专业分类\", \"签约单位\", \"经营类型\", \"业务板块\", \"投标管理部门\", \"股份财务一体化项目编码\", \"股份一体化利润中心编码\", \"责任体\"})",
+          "    删除的其他列 = Table.SelectColumns(重命名的列1,{\"项目编码\", \"项目名称\", \"专业分类\", \"签约单位\", \"实际开工日期\", \"实际竣工日期\", \"经营类型\", \"业务板块\", \"投标管理部门\", \"股份财务一体化项目编码\", \"股份一体化利润中心编码\", \"责任体\"}),",
+          "    提取的日期 = Table.TransformColumns(删除的其他列,{{\"实际开工日期\", DateTime.Date, type date}, {\"实际竣工日期\", DateTime.Date, type date}})",
           "in",
-          "    删除的其他列"
+          "    提取的日期"
         ]
       },
       {
@@ -4755,7 +5513,7 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_HETONGPINGSHEN = GSPM{[Name=\"GSPM_HETONGPINGSHEN\"]}[Data],",
-          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FHETONGXIEYIHAO\", \"补充协议号\"}, {\"FHETONGMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FZHAOBIAOFANGSHI\", \"招标方式\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FDAIQIANHETONGMINGCHENG\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMUMINGCHENG\", \"商务科目\"}, {\"FDAIQIANHETONGBIANMA\", \"标准合同编码\"}}),",
+          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FHETONGXIEYIHAO\", \"补充协议号\"}, {\"FHETONGMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FZHAOBIAOFANGSHI\", \"招标方式\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FDAIQIANHETONGMINGCHENG\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMUMINGCHENG\", \"商务科目\"}, {\"FDAIQIANHETONGBIANMA\", \"标准合同编码\"}, {\"FGUONEIWAI\", \"国内外\"}}),",
           "    筛选的行 = Table.SelectRows(重命名的列, each ([单据状态] = \"已完成\"))",
           "in",
           "    筛选的行"
@@ -4769,7 +5527,7 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_HETONGPINGSHEN = GSPM{[Name=\"GSPM_FENBAOBUCHONGPINGSHEN\"]}[Data],",
-          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FBUCHONGXIEYIHAO\", \"补充协议号\"}, {\"FBUCHONGXIEYIMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGRIQI\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FSFJZDXM\", \"是否针对项目\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMU\", \"商务科目\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}}),",
+          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FBUCHONGXIEYIHAO\", \"补充协议号\"}, {\"FBUCHONGXIEYIMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGRIQI\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FSFJZDXM\", \"是否针对项目\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMU\", \"商务科目\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}, {\"FGUONEIWAI\", \"国内外\"}}),",
           "    筛选的行 = Table.SelectRows(重命名的列, each [单据状态]=\"已完成\")",
           "in",
           "    筛选的行"
@@ -4781,7 +5539,7 @@
         "expression": [
           "let",
           "    源 = #\"GSPM_HETONGPINGSHEN（分包原始合同）\",",
-          "    删除的其他列 = Table.SelectColumns(源,{\"合同编号\", \"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"商务科目\", \"财务科目ID\", \"是否临建合同\", \"施工专业\", \"分包类型\", \"分包编码\", \"分包名称\", \"是否暂估\", \"签订日期\", \"不含税合同价\", \"含税合同价\", \"税金\", \"单据状态\", \"业务类别\"}),",
+          "    删除的其他列 = Table.SelectColumns(源,{\"合同编号\", \"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"商务科目\", \"财务科目ID\", \"是否临建合同\", \"施工专业\", \"分包类型\", \"分包编码\", \"分包名称\", \"是否暂估\", \"签订日期\", \"不含税合同价\", \"含税合同价\", \"税金\", \"单据状态\", \"业务类别\", \"国内外\"}),",
           "    // KEYID作为后续业务串联线索",
           "    已添加自定义 = Table.AddColumn(删除的其他列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type)",
           "in",
@@ -4794,7 +5552,7 @@
         "expression": [
           "let",
           "    源 = #\"GSPM_FENBAOBUCHONGPINGSHEN（分包补充协议）\",",
-          "    删除的其他列 = Table.SelectColumns(源,{\"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"合同编号\", \"分包编码\", \"分包名称\", \"是否临建合同\", \"是否暂估\", \"合同内容\", \"含税合同价\", \"税金\", \"不含税合同价\", \"签订日期\", \"单据状态\", \"业务类别\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"施工专业\", \"分包类型\"}),",
+          "    删除的其他列 = Table.SelectColumns(源,{\"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"合同编号\", \"分包编码\", \"分包名称\", \"是否临建合同\", \"是否暂估\", \"合同内容\", \"含税合同价\", \"税金\", \"不含税合同价\", \"签订日期\", \"单据状态\", \"业务类别\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"国内外\", \"施工专业\", \"分包类型\"}),",
           "    已添加自定义 = Table.AddColumn(删除的其他列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type)",
           "in",
           "    已添加自定义"
@@ -5124,9 +5882,10 @@
           "    已添加自定义 = Table.AddColumn(#\"展开的“分包付款明细”\", \"日期\", each #date([年],[月],1),Date.Type),",
           "    删除的列1 = Table.RemoveColumns(已添加自定义,{\"年\", \"月\"}),",
           "    已添加自定义1 = Table.AddColumn(删除的列1, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text),",
-          "    重排序的列 = Table.ReorderColumns(已添加自定义1,{\"KEYID\", \"项目编码\", \"项目名称\", \"日期\", \"合同编号\", \"本期实际付款\", \"劳务费\", \"其它\", \"单据状态\"})",
+          "    重排序的列 = Table.ReorderColumns(已添加自定义1,{\"KEYID\", \"项目编码\", \"项目名称\", \"日期\", \"合同编号\", \"本期实际付款\", \"劳务费\", \"其它\", \"单据状态\"}),",
+          "    #\"已添加自定义(支付渠道)\" = Table.AddColumn(重排序的列, \"支付渠道\", each \"单项\",Text.Type)",
           "in",
-          "    重排序的列"
+          "    #\"已添加自定义(支付渠道)\""
         ]
       },
       {
@@ -5138,9 +5897,10 @@
           "    #\"展开的“集采分包付款明细”\" = Table.ExpandTableColumn(源, \"集采分包付款明细\", {\"劳务费\", \"其它\", \"本期实际付款\"}, {\"劳务费\", \"其它\", \"本期实际付款\"}),",
           "    已添加自定义 = Table.AddColumn(#\"展开的“集采分包付款明细”\", \"日期\", each #date([年],[月],1),type date),",
           "    删除的列 = Table.RemoveColumns(已添加自定义,{\"FID\", \"年\", \"月\"}),",
-          "    已添加自定义1 = Table.AddColumn(删除的列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text)",
+          "    已添加自定义1 = Table.AddColumn(删除的列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text),",
+          "    #\"已添加自定义(支付渠道)\" = Table.AddColumn(已添加自定义1, \"支付渠道\", each \"集中\",Text.Type)",
           "in",
-          "    已添加自定义1"
+          "    #\"已添加自定义(支付渠道)\""
         ]
       },
       {
@@ -5204,7 +5964,7 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_WUZIHETONGXINXI = GSPM{[Name=\"GSPM_WUZIHETONGPS\"]}[Data],",
-          "    重命名的列 = Table.RenameColumns(GSPM_WUZIHETONGXINXI,{{\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FHETONGBIANHAO\", \"合同编号\"}, {\"FGONGFANGMINGCHENG\", \"供方名称\"}, {\"FHANSHUIHETONGJIAKUAN\", \"价税合计\"}, {\"FBUHANSHUIHETONGJIAKUAN\", \"合同额\"}, {\"FSHUIJIN\", \"税额\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FSHIGONGZHUANYE\", \"专业\"}, {\"FHETONGPINGSHENTYPE\", \"合同类型\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FTIANBAOBM\", \"填报部门\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FDYYZMROKJXYBH\", \"对应框架合同编号\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}, {\"FGONGFANGBIANMA\", \"供方编码\"}, {\"FHETONGXIEYIHAO\", \"补充协议号\"}, {\"FHETONGMINGCHENG\", \"合同名称\"}, {\"FZENGZHISHUISHUILV\", \"增值税率\"}, {\"FYEWUXIAOLEI\", \"业务小类\"}, {\"FYEWUDALEI\", \"业务大类\"}}),",
+          "    重命名的列 = Table.RenameColumns(GSPM_WUZIHETONGXINXI,{{\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FHETONGBIANHAO\", \"合同编号\"}, {\"FGONGFANGMINGCHENG\", \"供方名称\"}, {\"FHANSHUIHETONGJIAKUAN\", \"价税合计\"}, {\"FBUHANSHUIHETONGJIAKUAN\", \"合同额\"}, {\"FSHUIJIN\", \"税额\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FSHIGONGZHUANYE\", \"专业\"}, {\"FHETONGPINGSHENTYPE\", \"合同类型\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FTIANBAOBM\", \"填报部门\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FDYYZMROKJXYBH\", \"对应框架合同编号\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}, {\"FGONGFANGBIANMA\", \"供方编码\"}, {\"FHETONGXIEYIHAO\", \"补充协议号\"}, {\"FHETONGMINGCHENG\", \"合同名称\"}, {\"FZENGZHISHUISHUILV\", \"增值税率\"}, {\"FYEWUXIAOLEI\", \"业务小类\"}, {\"FYEWUDALEI\", \"业务大类\"}, {\"FGUONEIWAI\", \"国内外\"}}),",
           "    筛选的行 = Table.SelectRows(重命名的列, each ([FPINGSHENZHUANGTAI] = \"已完成\") )",
           "in",
           "    筛选的行"
@@ -5218,7 +5978,7 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_WUZIHETONGBUCHONG = GSPM{[Name=\"GSPM_WUZIHETONGBUCHONG\"]}[Data],",
-          "    重命名的列 = Table.RenameColumns(GSPM_WUZIHETONGBUCHONG,{{\"FBUCHONGXIEYIHAO\", \"补充协议号\"}, {\"FBUCHONGXIEYIMINGCHENG\", \"合同名称\"}, {\"FHANSHUIHETONGZONGJIA\", \"价税合计\"}, {\"FBUCHONGPINGSHENRIQI\", \"签订日期\"}, {\"FXMBM\", \"项目编码\"}, {\"FXMMC\", \"项目名称\"}, {\"FGONGFANGBIANMA\", \"供方编码\"}, {\"FGONGFANGMINGCHENG\", \"供方名称\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIGONGZHUANYE\", \"专业\"}, {\"FBUHANSHUIHETONGJIAKUAN\", \"合同额\"}, {\"FQIZHONGSHUIJIN\", \"税额\"}, {\"FHETONGPINGSHENTYPE\", \"合同类型\"}, {\"FHETONGBIANHAO\", \"合同编号\"}, {\"FZENGZHISHUISHUILV\", \"增值税率\"}, {\"FYEWUXIAOLEI\", \"业务小类\"}, {\"FSFJZDXM\", \"是否针对项目\"}, {\"FYEWUDALEI\", \"业务大类\"}}),",
+          "    重命名的列 = Table.RenameColumns(GSPM_WUZIHETONGBUCHONG,{{\"FBUCHONGXIEYIHAO\", \"补充协议号\"}, {\"FBUCHONGXIEYIMINGCHENG\", \"合同名称\"}, {\"FHANSHUIHETONGZONGJIA\", \"价税合计\"}, {\"FBUCHONGPINGSHENRIQI\", \"签订日期\"}, {\"FXMBM\", \"项目编码\"}, {\"FXMMC\", \"项目名称\"}, {\"FGONGFANGBIANMA\", \"供方编码\"}, {\"FGONGFANGMINGCHENG\", \"供方名称\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIGONGZHUANYE\", \"专业\"}, {\"FBUHANSHUIHETONGJIAKUAN\", \"合同额\"}, {\"FQIZHONGSHUIJIN\", \"税额\"}, {\"FHETONGPINGSHENTYPE\", \"合同类型\"}, {\"FHETONGBIANHAO\", \"合同编号\"}, {\"FZENGZHISHUISHUILV\", \"增值税率\"}, {\"FYEWUXIAOLEI\", \"业务小类\"}, {\"FSFJZDXM\", \"是否针对项目\"}, {\"FYEWUDALEI\", \"业务大类\"}, {\"FGUONEIWAI\", \"国内外\"}}),",
           "    筛选的行 = Table.SelectRows(重命名的列, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
           "    #\"替换的值(取原项目编码字段)\" = Table.ReplaceValue(筛选的行,null,(_) as text=> [FXIANGMUBIANMA],Replacer.ReplaceValue,{\"项目编码\"}),",
           "    #\"替换的值(取原项目名称字段)\" = Table.ReplaceValue(#\"替换的值(取原项目编码字段)\",null,(_) as text=>[FXIANGMUMINGCHENG],Replacer.ReplaceValue,{\"项目名称\"})",
@@ -5232,7 +5992,7 @@
         "expression": [
           "let",
           "    源 = #\"GSPM_WUZIHETONGPS（物资原始合同）\",",
-          "    删除的其他列 = Table.SelectColumns(源,{\"项目编码\", \"项目名称\", \"补充协议号\", \"合同编号\", \"合同名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"专业\", \"分包类型\", \"供方编码\", \"供方名称\", \"增值税率\", \"签订日期\", \"价税合计\", \"合同额\", \"税额\", \"合同类型\", \"业务大类\", \"业务小类\"}),",
+          "    删除的其他列 = Table.SelectColumns(源,{\"项目编码\", \"项目名称\", \"补充协议号\", \"合同编号\", \"合同名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"专业\", \"分包类型\", \"供方编码\", \"供方名称\", \"增值税率\", \"签订日期\", \"价税合计\", \"合同额\", \"税额\", \"合同类型\", \"业务大类\", \"业务小类\", \"国内外\"}),",
           "    提取的日期 = Table.TransformColumns(删除的其他列,{{\"签订日期\", DateTime.Date, type date}}),",
           "    已添加自定义 = Table.AddColumn(提取的日期, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text)",
           "in",
@@ -5245,7 +6005,7 @@
         "expression": [
           "let",
           "    源 = #\"GSPM_WUZIHETONGBUCHONG（物资补充协议）\",",
-          "    删除的其他列 = Table.SelectColumns(源,{\"合同编号\", \"补充协议号\", \"合同名称\", \"签订日期\", \"价税合计\", \"合同额\", \"税额\", \"专业\", \"供方编码\", \"供方名称\", \"合同类型\", \"业务大类\", \"业务小类\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"项目编码\", \"项目名称\", \"增值税率\", \"分包类型\"}),",
+          "    删除的其他列 = Table.SelectColumns(源,{\"合同编号\", \"补充协议号\", \"合同名称\", \"签订日期\", \"价税合计\", \"合同额\", \"税额\", \"专业\", \"供方编码\", \"供方名称\", \"合同类型\", \"业务大类\", \"业务小类\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"国内外\", \"项目编码\", \"项目名称\", \"增值税率\", \"分包类型\"}),",
           "    已添加自定义1 = Table.AddColumn(删除的其他列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text),",
           "    提取的日期 = Table.TransformColumns(已添加自定义1,{{\"签订日期\", DateTime.Date, type date}})",
           "in",
@@ -5269,7 +6029,7 @@
           "let",
           "    源 = 物资合同表,",
           "    筛选的行 = Table.SelectRows(源, each ([业务大类] = \"消耗\")),",
-          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"项目编码\", \"项目名称\", \"补充协议号\", \"合同编号\", \"合同名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"专业\", \"分包类型\", \"供方编码\", \"供方名称\", \"增值税率\", \"签订日期\", \"价税合计\", \"合同额\", \"税额\", \"合同类型\", \"业务大类\", \"业务小类\", \"KEYID\"})",
+          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"项目编码\", \"项目名称\", \"补充协议号\", \"合同编号\", \"合同名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"专业\", \"分包类型\", \"供方编码\", \"供方名称\", \"增值税率\", \"签订日期\", \"价税合计\", \"合同额\", \"税额\", \"合同类型\", \"业务大类\", \"业务小类\", \"国内外\", \"KEYID\"})",
           "in",
           "    删除的其他列"
         ]
@@ -5526,9 +6286,10 @@
           "    筛选的行1 = Table.SelectRows(重命名的列, each ([单据状态] <> \"已终止\")),",
           "    已添加自定义 = Table.AddColumn(筛选的行1, \"日期\", each #date([年],[月],1),type date),",
           "    已添加自定义1 = Table.AddColumn(已添加自定义, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text),",
-          "    删除的列 = Table.RemoveColumns(已添加自定义1,{\"年\", \"月\"})",
+          "    删除的列 = Table.RemoveColumns(已添加自定义1,{\"年\", \"月\"}),",
+          "    #\"已添加自定义(支付渠道)\" = Table.AddColumn(删除的列, \"支付渠道\", each \"单项\",Text.Type)",
           "in",
-          "    删除的列"
+          "    #\"已添加自定义(支付渠道)\""
         ]
       },
       {
@@ -5540,9 +6301,10 @@
           "    删除的其他列 = Table.SelectColumns(源,{\"项目编码\", \"年\", \"月\", \"支付方式\", \"合同编号\", \"施工专业\", \"分包类型\", \"本期付款\", \"单据状态\"}),",
           "    合并的列 = Table.CombineColumns(Table.TransformColumnTypes(删除的其他列, {{\"年\", type text}, {\"月\", type text}}, \"zh-CN\"),{\"年\", \"月\"},Combiner.CombineTextByDelimiter(\"-\", QuoteStyle.None),\"日期\"),",
           "    已分析的日期 = Table.TransformColumns(合并的列,{{\"日期\", each Date.From(DateTimeZone.From(_)), type date}}),",
-          "    #\"自定义的列（KEYID）\" = Table.AddColumn( 已分析的日期, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type)",
+          "    #\"自定义的列（KEYID）\" = Table.AddColumn( 已分析的日期, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type),",
+          "    已添加自定义 = Table.AddColumn(#\"自定义的列（KEYID）\", \"支付渠道\", each \"集中\",Text.Type)",
           "in",
-          "    #\"自定义的列（KEYID）\""
+          "    已添加自定义"
         ]
       },
       {
@@ -6235,6 +6997,17 @@
           "    按分隔符拆分列 = Table.SplitColumn(逆透视的列, \"属性\", Splitter.SplitTextByDelimiter(\"-\", QuoteStyle.Csv), {\"施工专业\", \"分包类型\"})",
           "in",
           "    按分隔符拆分列"
+        ]
+      },
+      {
+        "name": "集采劳务合同",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45Wcopy89I1MDVXitWBcQwtoRzHKF0DA0NkjhEyxxjMifJyDg7WNTA3gEpBucYoXCMzVK45CtfSAoVrDOTGAgA=\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [编号 = _t]),",
+          "    更改的类型 = Table.TransformColumnTypes(源,{{\"编号\", type text}})",
+          "in",
+          "    更改的类型"
         ]
       }
     ],
