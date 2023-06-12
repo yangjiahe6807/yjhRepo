@@ -1,0 +1,808 @@
+{
+  "name": "MySteel",
+  "compatibilityLevel": 1600,
+  "model": {
+    "name": "模型",
+    "culture": "zh-CN",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "Oracle/172 16 8 78/oracledb",
+        "connectionDetails": {
+          "protocol": "oracle",
+          "address": {
+            "server": "172.16.8.78/oracledb"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {
+          "hierarchicalNavigation": true
+        },
+        "credential": {
+          "AuthenticationKind": "UsernamePassword",
+          "kind": "Oracle",
+          "path": "172.16.8.78/oracledb",
+          "Username": "gspm"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "MYSTEEL",
+        "columns": [
+          {
+            "name": "QUYU",
+            "dataType": "string",
+            "sourceColumn": "QUYU"
+          },
+          {
+            "name": "CHENGSHI",
+            "dataType": "string",
+            "sourceColumn": "CHENGSHI"
+          },
+          {
+            "name": "PINMING",
+            "dataType": "string",
+            "sourceColumn": "PINMING"
+          },
+          {
+            "name": "GUIGE",
+            "dataType": "string",
+            "sourceColumn": "GUIGE"
+          },
+          {
+            "name": "CAIZHI",
+            "dataType": "string",
+            "sourceColumn": "CAIZHI"
+          },
+          {
+            "name": "GANGCHANG/CHANDI",
+            "dataType": "string",
+            "sourceColumn": "GANGCHANG/CHANDI"
+          },
+          {
+            "name": "JIAGE",
+            "dataType": "double",
+            "sourceColumn": "JIAGE"
+          },
+          {
+            "name": "ZHANGDIE",
+            "dataType": "string",
+            "sourceColumn": "ZHANGDIE"
+          },
+          {
+            "name": "JUNJIA",
+            "dataType": "double",
+            "sourceColumn": "JUNJIA"
+          },
+          {
+            "name": "7_JUNJIA",
+            "dataType": "double",
+            "sourceColumn": "7_JUNJIA"
+          },
+          {
+            "name": "10_JUNJIA",
+            "dataType": "double",
+            "sourceColumn": "10_JUNJIA"
+          },
+          {
+            "name": "30_JUNJIA",
+            "dataType": "double",
+            "sourceColumn": "30_JUNJIA"
+          },
+          {
+            "name": "BEIZHU",
+            "dataType": "string",
+            "sourceColumn": "BEIZHU"
+          },
+          {
+            "name": "HUOYUAN",
+            "dataType": "string",
+            "sourceColumn": "HUOYUAN"
+          },
+          {
+            "name": "HUOQUDATE",
+            "dataType": "dateTime",
+            "sourceColumn": "HUOQUDATE"
+          },
+          {
+            "name": "SHUJULAIYUAN",
+            "dataType": "string",
+            "sourceColumn": "SHUJULAIYUAN"
+          },
+          {
+            "name": "LEIMING",
+            "dataType": "string",
+            "sourceColumn": "LEIMING"
+          },
+          {
+            "name": "FABURIQI",
+            "dataType": "dateTime",
+            "sourceColumn": "FABURIQI"
+          },
+          {
+            "name": "GONGCHENGKOUJING",
+            "dataType": "string",
+            "sourceColumn": "GONGCHENGKOUJING"
+          },
+          {
+            "name": "JIAOHUOZHUANGTAI",
+            "dataType": "string",
+            "sourceColumn": "JIAOHUOZHUANGTAI"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "2020",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+                "    筛选的行 = Table.SelectRows(MYSTEEL1, each [FABURIQI] >= \"2020-01-01\" and [FABURIQI] < \"2021-01-01\"),",
+                "    更改的类型 = Table.TransformColumnTypes(筛选的行,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}})",
+                "in",
+                "    更改的类型"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                  "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                  "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+                  "    筛选的行 = Table.SelectRows(MYSTEEL1, each [HUOQUDATE] >= #datetime(2020, 1, 1, 0, 0, 0) and [HUOQUDATE] < #datetime(2021, 1, 1, 0, 0, 0)),",
+                  "    更改的类型 = Table.TransformColumnTypes(筛选的行,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}})",
+                  "in",
+                  "    更改的类型</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "2021",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+                "    筛选的行 = Table.SelectRows(MYSTEEL1, each [FABURIQI] >= \"2021-01-01\" and [FABURIQI] < \"2022-01-01\"),",
+                "    更改的类型 = Table.TransformColumnTypes(筛选的行,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}})",
+                "in",
+                "    更改的类型"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                  "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                  "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+                  "    更改的类型 = Table.TransformColumnTypes(MYSTEEL1,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}}),",
+                  "    筛选的行 = Table.SelectRows(更改的类型, each [FABURIQI] >= #date(2020, 1, 1) and [FABURIQI] < #date(2021, 1, 1))",
+                  "in",
+                  "    筛选的行</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "2022",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+                "    筛选的行 = Table.SelectRows(MYSTEEL1, each [FABURIQI] >= \"2022-01-01\" and [FABURIQI] < \"2023-01-01\"),",
+                "    更改的类型 = Table.TransformColumnTypes(筛选的行,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}})",
+                "in",
+                "    更改的类型"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                  "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                  "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+                  "    更改的类型 = Table.TransformColumnTypes(MYSTEEL1,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}}),",
+                  "    筛选的行 = Table.SelectRows(更改的类型, each [FABURIQI] >= #date(2020, 1, 1) and [FABURIQI] < #date(2021, 1, 1))",
+                  "in",
+                  "    筛选的行</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "2023",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+                "    筛选的行 = Table.SelectRows(MYSTEEL1, each [FABURIQI] >= \"2023-01-01\" and [FABURIQI] < \"2024-01-01\"),",
+                "    更改的类型 = Table.TransformColumnTypes(筛选的行,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "价格",
+            "expression": " SWITCH(SELECTEDVALUE('价格类型'[价格类型]),\"最高价\", MAX(MYSTEEL[JIAGE]),\"最低价\",MIN(MYSTEEL[JIAGE]),AVERAGE(MYSTEEL[JIAGE]))",
+            "formatString": "#,##0"
+          },
+          {
+            "name": "标题",
+            "expression": " SELECTEDVALUE('MYSTEEL'[QUYU])&\"-\"&SELECTEDVALUE('MYSTEEL'[CHENGSHI])&\"-\"&SELECTEDVALUE('MYSTEEL'[GANGCHANG/CHANDI])&\"-\"&SELECTEDVALUE(MYSTEEL[PINMING])&\"-\"&SELECTEDVALUE(MYSTEEL[GUIGE])&\"-\"&SELECTEDVALUE(MYSTEEL[CAIZHI])"
+          },
+          {
+            "name": "移动平均值",
+            "expression": " AVERAGEX(DATESINPERIOD('日历'[Date],SELECTEDVALUE('日历'[Date]),-[参数 值],DAY),[价格])",
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "标题文字",
+            "expression": "SELECTEDVALUE(MYSTEEL[SHUJULAIYUAN])"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "材料",
+            "levels": [
+              {
+                "name": "类名",
+                "ordinal": 0,
+                "column": "LEIMING"
+              },
+              {
+                "name": "品名",
+                "ordinal": 1,
+                "column": "PINMING"
+              },
+              {
+                "name": "规格",
+                "ordinal": 2,
+                "column": "GUIGE"
+              },
+              {
+                "name": "材质",
+                "ordinal": 3,
+                "column": "CAIZHI"
+              },
+              {
+                "name": "工程口径",
+                "ordinal": 4,
+                "column": "GONGCHENGKOUJING"
+              }
+            ]
+          },
+          {
+            "name": "钢厂/产地",
+            "levels": [
+              {
+                "name": "区域",
+                "ordinal": 0,
+                "column": "QUYU"
+              },
+              {
+                "name": "城市",
+                "ordinal": 1,
+                "column": "CHENGSHI"
+              },
+              {
+                "name": "钢厂/产地",
+                "ordinal": 2,
+                "column": "GANGCHANG/CHANDI"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "AREA_CITY",
+        "columns": [
+          {
+            "name": "AREA",
+            "dataType": "string",
+            "sourceColumn": "AREA"
+          },
+          {
+            "name": "CITY",
+            "dataType": "string",
+            "sourceColumn": "CITY"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                "    AREA_CITY1 = JGSJK{[Name=\"AREA_CITY\"]}[Data]",
+                "in",
+                "    AREA_CITY1"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "价格类型",
+        "columns": [
+          {
+            "name": "价格类型",
+            "dataType": "string",
+            "sourceColumn": "价格类型"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45Wejan4eXqGU92b1eK1QHznuztg/Ge7tz8dG47mBcLAA==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [价格类型 = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"价格类型\", type text}})",
+                "in",
+                "    更改的类型"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "HUNNINGTU",
+        "columns": [
+          {
+            "name": "QUYU",
+            "dataType": "string",
+            "sourceColumn": "QUYU"
+          },
+          {
+            "name": "CHENGSHI",
+            "dataType": "string",
+            "sourceColumn": "CHENGSHI"
+          },
+          {
+            "name": "PINMING",
+            "dataType": "string",
+            "sourceColumn": "PINMING"
+          },
+          {
+            "name": "QIANGDUDENGJI",
+            "dataType": "string",
+            "sourceColumn": "QIANGDUDENGJI"
+          },
+          {
+            "name": "CHANGJIA/PINPAI",
+            "dataType": "string",
+            "sourceColumn": "CHANGJIA/PINPAI"
+          },
+          {
+            "name": "JIAGE",
+            "dataType": "double",
+            "sourceColumn": "JIAGE"
+          },
+          {
+            "name": "ZHANGDIE",
+            "dataType": "string",
+            "sourceColumn": "ZHANGDIE"
+          },
+          {
+            "name": "BEIZHU",
+            "dataType": "string",
+            "sourceColumn": "BEIZHU"
+          },
+          {
+            "name": "DATE",
+            "dataType": "dateTime",
+            "sourceColumn": "DATE"
+          },
+          {
+            "name": "SHUJULAIYUAN",
+            "dataType": "string",
+            "sourceColumn": "SHUJULAIYUAN"
+          },
+          {
+            "name": "LEIMING",
+            "dataType": "string",
+            "sourceColumn": "LEIMING"
+          },
+          {
+            "name": "FABURIQI",
+            "dataType": "dateTime",
+            "sourceColumn": "FABURIQI"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "截止2022",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                "    HUNNINGTU1 = JGSJK{[Name=\"HUNNINGTU\"]}[Data],",
+                "    更改的类型 = Table.TransformColumnTypes(HUNNINGTU1,{{\"FABURIQI\", type date}, {\"JIAGE\", type number}}),",
+                "    筛选的行 = Table.SelectRows(更改的类型, each [FABURIQI] < #date(2023, 1, 1))",
+                "in",
+                "    筛选的行"
+              ]
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>let",
+                  "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                  "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                  "    HUNNINGTU1 = JGSJK{[Name=\"HUNNINGTU\"]}[Data],",
+                  "    更改的类型 = Table.TransformColumnTypes(HUNNINGTU1,{{\"FABURIQI\", type date}, {\"JIAGE\", type number}}),",
+                  "    筛选的行 = Table.SelectRows(更改的类型, each [FABURIQI] < #date(2023, 1, 1))",
+                  "in",
+                  "    筛选的行</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "2023",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+                "    HUNNINGTU1 = JGSJK{[Name=\"HUNNINGTU\"]}[Data],",
+                "    更改的类型 = Table.TransformColumnTypes(HUNNINGTU1,{{\"FABURIQI\", type date}, {\"JIAGE\", type number}}),",
+                "    筛选的行 = Table.SelectRows(更改的类型, each [FABURIQI] >= #date(2023, 1, 1) and [FABURIQI] <= #date(2023, 12, 31))",
+                "in",
+                "    筛选的行"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "参数",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "参数",
+            "dataType": "int64",
+            "isNameInferred": false,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Value]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": " GENERATESERIES(1, 30, 1)"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "参数 值",
+            "expression": " SELECTEDVALUE('参数'[参数])"
+          }
+        ]
+      },
+      {
+        "name": "日历",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Date",
+            "dataType": "dateTime",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Date]"
+          },
+          {
+            "type": "calculated",
+            "name": "周数",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": " WEEKNUM('日历'[Date])"
+          },
+          {
+            "type": "calculated",
+            "name": "周",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": " FORMAT('日历'[周数],\"00\") & FORMAT(CALCULATE(MIN('日历'[Date]),ALLEXCEPT('日历','日历'[年],'日历'[周数])),\"（MM.DD-\")&FORMAT(CALCULATE(MAX('日历'[Date]),ALLEXCEPT('日历','日历'[年],'日历'[周数])),\"MM.DD）\")"
+          },
+          {
+            "type": "calculated",
+            "name": "年",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "YEAR('日历'[Date])"
+          },
+          {
+            "type": "calculated",
+            "name": "月",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": " MONTH('日历'[Date])"
+          },
+          {
+            "type": "calculated",
+            "name": "日",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": " DAY('日历'[Date])"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": " CALENDAR(\"2020-3-10\",TODAY())"
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "年 层次结构",
+            "levels": [
+              {
+                "name": "年",
+                "ordinal": 0,
+                "column": "年"
+              },
+              {
+                "name": "月",
+                "ordinal": 1,
+                "column": "月"
+              },
+              {
+                "name": "日",
+                "ordinal": 2,
+                "column": "日"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "f38ac44b-6be7-4625-bb0e-8cb1b83a978d",
+        "fromTable": "MYSTEEL",
+        "fromColumn": "FABURIQI",
+        "toTable": "日历",
+        "toColumn": "Date"
+      }
+    ],
+    "cultures": [
+      {
+        "name": "zh-CN",
+        "translations": {
+          "model": {
+            "name": "模型",
+            "tables": [
+              {
+                "name": "MYSTEEL",
+                "translatedCaption": "我的钢铁",
+                "translatedDescription": "MYSTEEL",
+                "columns": [
+                  {
+                    "name": "QUYU",
+                    "translatedCaption": "区域",
+                    "translatedDescription": "QUYU"
+                  },
+                  {
+                    "name": "CHENGSHI",
+                    "translatedCaption": "城市",
+                    "translatedDescription": "CHENGSHI"
+                  },
+                  {
+                    "name": "PINMING",
+                    "translatedCaption": "品名",
+                    "translatedDescription": "PIBMING"
+                  },
+                  {
+                    "name": "GUIGE",
+                    "translatedCaption": "规格",
+                    "translatedDescription": "GUIGE"
+                  },
+                  {
+                    "name": "CAIZHI",
+                    "translatedCaption": "材质",
+                    "translatedDescription": "CAIZHI"
+                  },
+                  {
+                    "name": "GANGCHANG/CHANDI",
+                    "translatedCaption": "厂家/产地",
+                    "translatedDescription": "GANGCHANG/CHANDI"
+                  },
+                  {
+                    "name": "JIAGE",
+                    "translatedCaption": "价格",
+                    "translatedDescription": "JIAGE"
+                  },
+                  {
+                    "name": "ZHANGDIE",
+                    "translatedCaption": "涨跌",
+                    "translatedDescription": "ZHANGDIE"
+                  },
+                  {
+                    "name": "JUNJIA",
+                    "translatedCaption": "均价",
+                    "translatedDescription": "JUNJIA"
+                  },
+                  {
+                    "name": "7_JUNJIA",
+                    "translatedCaption": "7_均价",
+                    "translatedDescription": "7_JUNJIA"
+                  },
+                  {
+                    "name": "10_JUNJIA",
+                    "translatedCaption": "10_均价",
+                    "translatedDescription": "10_JUNJIA"
+                  },
+                  {
+                    "name": "30_JUNJIA",
+                    "translatedCaption": "30_均价",
+                    "translatedDescription": "30_JUNJIA"
+                  },
+                  {
+                    "name": "BEIZHU",
+                    "translatedCaption": "备注",
+                    "translatedDescription": "BEIZHU"
+                  },
+                  {
+                    "name": "HUOYUAN",
+                    "translatedCaption": "货源",
+                    "translatedDescription": "HUOYUAN"
+                  },
+                  {
+                    "name": "HUOQUDATE",
+                    "translatedCaption": "获取日期",
+                    "translatedDescription": "HUOQUDATE"
+                  },
+                  {
+                    "name": "SHUJULAIYUAN",
+                    "translatedCaption": "数据来源",
+                    "translatedDescription": "SHUJULAIYUAN"
+                  },
+                  {
+                    "name": "LEIMING",
+                    "translatedCaption": "类名",
+                    "translatedDescription": "LEIMING"
+                  },
+                  {
+                    "name": "FABURIQI",
+                    "translatedCaption": "发布日期",
+                    "translatedDescription": "FABURIQI"
+                  },
+                  {
+                    "name": "GONGCHENGKOUJING",
+                    "translatedCaption": "工程口径",
+                    "translatedDescription": "GONGCHENGKOUJING"
+                  },
+                  {
+                    "name": "JIAOHUOZHUANGTAI",
+                    "translatedCaption": "交货状态",
+                    "translatedDescription": "JIAOHUOZHUANGTAI"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "roles": [
+      {
+        "name": "读取",
+        "modelPermission": "read",
+        "members": [
+          {
+            "memberName": "CHINAONEBUILD\\yangjiahe",
+            "memberId": "S-1-5-21-1606980848-1844823847-725345543-1253"
+          },
+          {
+            "memberName": "CHINAONEBUILD\\pbiadmin",
+            "memberId": "S-1-5-21-1606980848-1844823847-725345543-20683"
+          }
+        ]
+      }
+    ],
+    "expressions": [
+      {
+        "name": "MYSTEEL",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+          "    MYSTEEL1 = JGSJK{[Name=\"MYSTEEL\"]}[Data],",
+          "    更改的类型 = Table.TransformColumnTypes(MYSTEEL1,{{\"JIAGE\", type number}, {\"JUNJIA\", type number}, {\"7_JUNJIA\", type number}, {\"10_JUNJIA\", type number}, {\"30_JUNJIA\", type number}, {\"FABURIQI\", type date}})",
+          "in",
+          "    更改的类型"
+        ]
+      },
+      {
+        "name": "HUNNINGTU",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+          "    HUNNINGTU1 = JGSJK{[Name=\"HUNNINGTU\"]}[Data],",
+          "    更改的类型 = Table.TransformColumnTypes(HUNNINGTU1,{{\"FABURIQI\", type date}, {\"JIAGE\", type number}})",
+          "in",
+          "    更改的类型"
+        ]
+      },
+      {
+        "name": "AREA_CITY",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oralce/172 16 8 78/oracledb\",",
+          "    JGSJK = 源{[Schema=\"JGSJK\"]}[Data],",
+          "    AREA_CITY1 = JGSJK{[Name=\"AREA_CITY\"]}[Data]",
+          "in",
+          "    AREA_CITY1"
+        ]
+      },
+      {
+        "name": "价格类型",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45Wejan4eXqGU92b1eK1QHznuztg/Ge7tz8dG47mBcLAA==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type text) meta [Serialized.Text = true]) in type table [价格类型 = _t]),",
+          "    更改的类型 = Table.TransformColumnTypes(源,{{\"价格类型\", type text}})",
+          "in",
+          "    更改的类型"
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "700"
+      },
+      {
+        "name": "__TEdtr",
+        "value": "1"
+      }
+    ]
+  }
+}
