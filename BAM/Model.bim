@@ -149,7 +149,8 @@
           {
             "name": "施工专业",
             "dataType": "string",
-            "sourceColumn": "施工专业"
+            "sourceColumn": "施工专业",
+            "sortByColumn": "排序"
           },
           {
             "name": "排序",
@@ -580,6 +581,14 @@
             "name": "主合同编号",
             "dataType": "string",
             "sourceColumn": "主合同编号"
+          },
+          {
+            "type": "calculated",
+            "name": "合同标识",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "'D_承包合同'[合同名称]&\"(\"& 'D_承包合同'[合同编号]&\")\"",
+            "lineageTag": "ca66baf7-a1cd-448c-9beb-2b7f8cebcdf0"
           }
         ],
         "partitions": [
@@ -866,6 +875,11 @@
                 "value": "Automatic"
               }
             ]
+          },
+          {
+            "name": "分包类别",
+            "dataType": "string",
+            "sourceColumn": "分包类别"
           }
         ],
         "partitions": [
@@ -962,16 +976,8 @@
               "type": "m",
               "expression": [
                 "let",
-                "    源 = #\"GSPM_FENBAOHETONGJIESUAN（分包合同结算）\",",
-                "    删除的其他列 = Table.SelectColumns(源,{\"FXIANGMUBIANMA\", \"FXIANGMUMINGCHENG\", \"FHETONGBIANHAO\", \"FJIESUANJIAHS\", \"FJIESUANJIABHS\", \"FQIANDINGSHIJIAN\", \"FPINGSHENZHUANGTAI\", \"SCREATETIME\", \"FJIESUANLEIXING\"}),",
-                "    提取的日期 = Table.TransformColumns(删除的其他列,{{\"FQIANDINGSHIJIAN\", DateTime.Date, type date}}),",
-                "    重命名的列 = Table.RenameColumns(提取的日期,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FJIESUANJIAHS\", \"含税结算额\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FJIESUANJIABHS\", \"不含税结算额\"}}),",
-                "    #\"已添加自定义（KEYID）\" = Table.AddColumn(重命名的列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text),",
-                "    排序的行 = Table.Buffer(Table.Sort(#\"已添加自定义（KEYID）\",{{\"KEYID\", Order.Descending}, {\"SCREATETIME\", Order.Descending}})),",
-                "    #\"删除的副本（取各项目该合同末期结算）\" = Table.Distinct(排序的行, {\"KEYID\"}),",
-                "    删除的其他列1 = Table.SelectColumns(#\"删除的副本（取各项目该合同末期结算）\",{\"项目编码\", \"合同编号\", \"含税结算额\", \"不含税结算额\", \"签订日期\", \"KEYID\"}),",
-                "    #\"已添加自定义（计算税金）\" = Table.AddColumn(删除的其他列1, \"税金\", each List.Sum({[含税结算额],-[不含税结算额]}),Number.Type),",
-                "    重排序的列 = Table.ReorderColumns(#\"已添加自定义（计算税金）\",{\"KEYID\", \"项目编码\", \"合同编号\", \"签订日期\", \"不含税结算额\", \"含税结算额\", \"税金\"})",
+                "    源 = Table.Combine({单项指定分包结算, 集采分包虚拟结算}),",
+                "    重排序的列 = Table.ReorderColumns(源,{\"KEYID\", \"项目编码\", \"合同编号\", \"签订日期\", \"不含税结算额\", \"含税结算额\", \"税金\"})",
                 "in",
                 "    重排序的列"
               ]
@@ -1941,6 +1947,11 @@
                 "value": "Automatic"
               }
             ]
+          },
+          {
+            "name": "业务小类",
+            "dataType": "string",
+            "sourceColumn": "业务小类"
           }
         ],
         "partitions": [
@@ -1952,9 +1963,10 @@
               "expression": [
                 "let",
                 "    源 = 物资合同结算,",
-                "    筛选的行 = Table.SelectRows(源, each ([业务大类] = \"消耗\"))",
+                "    筛选的行 = Table.SelectRows(源, each ([业务大类] = \"消耗\")),",
+                "    追加的查询 = Table.Combine({筛选的行, 集采物资虚拟结算})",
                 "in",
-                "    筛选的行"
+                "    追加的查询"
               ]
             }
           }
@@ -2033,6 +2045,11 @@
                 "value": "Automatic"
               }
             ]
+          },
+          {
+            "name": "业务小类",
+            "dataType": "string",
+            "sourceColumn": "业务小类"
           }
         ],
         "partitions": [
@@ -2044,9 +2061,10 @@
               "expression": [
                 "let",
                 "    源 = 物资合同结算,",
-                "    筛选的行 = Table.SelectRows(源, each ([业务大类] = \"周转\"))",
+                "    筛选的行 = Table.SelectRows(源, each ([业务大类] = \"周转\")),",
+                "    追加的查询 = Table.Combine({筛选的行, 集采租赁虚拟结算})",
                 "in",
-                "    筛选的行"
+                "    追加的查询"
               ]
             }
           }
@@ -2081,9 +2099,10 @@
                 "let",
                 "    源 = Table.NestedJoin(门户账户, {\"身份证\"}, 员工项目, {\"身份证\"}, \"员工项目\", JoinKind.LeftOuter),",
                 "    #\"展开的“员工项目”\" = Table.ExpandTableColumn(源, \"员工项目\", {\"项目编码\"}, {\"项目编码\"}),",
-                "    筛选的行 = Table.SelectRows(#\"展开的“员工项目”\", each [项目编码] <> null and [项目编码] <> \"\")",
+                "    筛选的行 = Table.SelectRows(#\"展开的“员工项目”\", each [项目编码] <> null and [项目编码] <> \"\"),",
+                "    删除的副本 = Table.Distinct(筛选的行, {\"账号\", \"项目编码\"})",
                 "in",
-                "    筛选的行"
+                "    删除的副本"
               ]
             }
           }
@@ -3485,23 +3504,48 @@
           {
             "name": "M_下游合同结算_价税合计",
             "expression": "[M_分包结算_价税合计]+[M_物资结算_价税合计]+[M_租赁结算_价税合计]",
-            "formatString": "0.00",
+            "formatString": "#,0.00",
             "displayFolder": "00项目级度量",
             "lineageTag": "3f067db1-15e7-4cf4-9c9e-6f0082e9f6ed"
           },
           {
             "name": "M_下游合同应付_价税合计",
             "expression": "[M_分包应付_价税合计]+[M_物资应付_价税合计]+[M_租赁应付_价税合计]",
-            "formatString": "0.00",
+            "formatString": "#,0.00",
             "displayFolder": "00项目级度量",
             "lineageTag": "b6050294-81c4-4ce4-ba2d-fc610c9c2633"
           },
           {
             "name": "M_欠分包款物资款",
             "expression": "[M_欠分包款]+[M_物资欠款]+[M_租赁欠款]",
-            "formatString": "0.00",
+            "formatString": "#,0.00",
             "displayFolder": "00项目级度量",
             "lineageTag": "4e2677c7-fb87-49f5-bf80-7085f0da9edf"
+          },
+          {
+            "name": "【承包合同_累计】",
+            "expression": "CALCULATE( [M_承包合同_价税合计], 'D_日历'[日期] <= MAX( 'D_日历'[日期] ) )",
+            "displayFolder": "01.承包合同\\合同及结算",
+            "lineageTag": "bd78fb87-dc80-4c0f-ac36-448b94001639"
+          },
+          {
+            "name": "【确权_累计】",
+            "expression": "CALCULATE( [M_确权_价税合计], 'D_日历'[日期] <= MAX( 'D_日历'[日期] ) )",
+            "displayFolder": "01.承包合同\\确权",
+            "lineageTag": "aa913851-406f-4999-90f3-1610d77a174f"
+          },
+          {
+            "name": "【承包合同回款_累计】",
+            "expression": "CALCULATE( [M_承包合同回款], 'D_日历'[日期] <= MAX( 'D_日历'[日期] ) )",
+            "displayFolder": "01.承包合同\\回款",
+            "lineageTag": "e3910c0c-64a1-4bdc-a173-bf9fe9211247"
+          },
+          {
+            "name": "【累计确权率】",
+            "expression": "DIVIDE([【确权_累计】],[【承包合同_累计】])",
+            "formatString": "#,##0.00 %",
+            "displayFolder": "01.承包合同\\确权",
+            "lineageTag": "700b4055-2505-4e71-ac9c-b25612758908"
           }
         ]
       },
@@ -4450,6 +4494,46 @@
             "value": "7eaa1c1643a64cccb80140528d48df0b"
           }
         ]
+      },
+      {
+        "name": "时间智能",
+        "lineageTag": "cca00603-c2c1-4380-b519-0a024490aa3e",
+        "calculationGroup": {
+          "precedence": 1,
+          "calculationItems": [
+            {
+              "name": "原值",
+              "expression": "SELECTEDMEASURE()"
+            },
+            {
+              "name": "累计",
+              "expression": "CALCULATE( SELECTEDMEASURE(), FILTER( ALL( 'D_日历'[日期] ), 'D_日历'[日期] <= MAX( 'D_日历'[日期] ) ) )"
+            }
+          ]
+        },
+        "columns": [
+          {
+            "name": "时间选择",
+            "dataType": "string",
+            "sourceColumn": "Name",
+            "sortByColumn": "Ordinal"
+          },
+          {
+            "name": "Ordinal",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Ordinal"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "mode": "import",
+            "source": {
+              "type": "calculationGroup"
+            }
+          }
+        ]
       }
     ],
     "relationships": [
@@ -4999,7 +5083,7 @@
         "fromTable": "F_业主合同回款",
         "fromColumn": "分包类型",
         "toTable": "D_分包类型",
-        "toColumn": "分包类型"
+        "toColumn": "简称"
       },
       {
         "name": "f5cfe88b-28d8-4ec8-858f-6e031e0d8ee1",
@@ -5513,7 +5597,7 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_HETONGPINGSHEN = GSPM{[Name=\"GSPM_HETONGPINGSHEN\"]}[Data],",
-          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FHETONGXIEYIHAO\", \"补充协议号\"}, {\"FHETONGMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FZHAOBIAOFANGSHI\", \"招标方式\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FDAIQIANHETONGMINGCHENG\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMUMINGCHENG\", \"商务科目\"}, {\"FDAIQIANHETONGBIANMA\", \"标准合同编码\"}, {\"FGUONEIWAI\", \"国内外\"}}),",
+          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FHETONGXIEYIHAO\", \"补充协议号\"}, {\"FHETONGMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FZHAOBIAOFANGSHI\", \"招标方式\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FDAIQIANHETONGMINGCHENG\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMUMINGCHENG\", \"商务科目\"}, {\"FDAIQIANHETONGBIANMA\", \"标准合同编码\"}, {\"FGUONEIWAI\", \"国内外\"}, {\"FJUFENBAOLEIBIE\", \"分包类别\"}}),",
           "    筛选的行 = Table.SelectRows(重命名的列, each ([单据状态] = \"已完成\"))",
           "in",
           "    筛选的行"
@@ -5527,7 +5611,7 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_HETONGPINGSHEN = GSPM{[Name=\"GSPM_FENBAOBUCHONGPINGSHEN\"]}[Data],",
-          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FBUCHONGXIEYIHAO\", \"补充协议号\"}, {\"FBUCHONGXIEYIMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGRIQI\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FSFJZDXM\", \"是否针对项目\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMU\", \"商务科目\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}, {\"FGUONEIWAI\", \"国内外\"}}),",
+          "    重命名的列 = Table.RenameColumns(GSPM_HETONGPINGSHEN,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FBUCHONGXIEYIHAO\", \"补充协议号\"}, {\"FBUCHONGXIEYIMINGCHENG\", \"合同名称\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FSHANGWUKEMUID\", \"商务科目ID\"}, {\"FCAIWUKEMUID\", \"财务科目ID\"}, {\"FSHIFOULINJIANHT\", \"是否临建合同\"}, {\"FSHIGONGZHUANYE\", \"施工专业\"}, {\"FHETONGLEIXING\", \"分包类型\"}, {\"FFENBAOBIANMA\", \"分包编码\"}, {\"FFENBAOMINGCHENG\", \"分包名称\"}, {\"FYEWULEIBIE\", \"业务类别\"}, {\"FHANSHUIHETONGZONGJIA\", \"含税合同价\"}, {\"FQIZHONGSHUIJIN\", \"税金\"}, {\"FBUHANSHUIHETONGZONGJIA\", \"不含税合同价\"}, {\"FQIANDINGRIQI\", \"签订日期\"}, {\"FSHIFOUZANGUHETONG\", \"是否暂估\"}, {\"FSFJZDXM\", \"是否针对项目\"}, {\"FBIAOZHUNHETONGNAME\", \"标准合同名称\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FHETONGNEIRONGMIAOSHU\", \"合同内容\"}, {\"FSHANGWUKEMU\", \"商务科目\"}, {\"FBIAOZHUNHETONGCODE\", \"标准合同编码\"}, {\"FGUONEIWAI\", \"国内外\"}, {\"FJUFENBAOLEIBIE\", \"分包类别\"}}),",
           "    筛选的行 = Table.SelectRows(重命名的列, each [单据状态]=\"已完成\")",
           "in",
           "    筛选的行"
@@ -5539,7 +5623,7 @@
         "expression": [
           "let",
           "    源 = #\"GSPM_HETONGPINGSHEN（分包原始合同）\",",
-          "    删除的其他列 = Table.SelectColumns(源,{\"合同编号\", \"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"商务科目\", \"财务科目ID\", \"是否临建合同\", \"施工专业\", \"分包类型\", \"分包编码\", \"分包名称\", \"是否暂估\", \"签订日期\", \"不含税合同价\", \"含税合同价\", \"税金\", \"单据状态\", \"业务类别\", \"国内外\"}),",
+          "    删除的其他列 = Table.SelectColumns(源,{\"合同编号\", \"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"商务科目\", \"财务科目ID\", \"是否临建合同\", \"施工专业\", \"分包类型\", \"分包编码\", \"分包名称\", \"是否暂估\", \"分包类别\", \"签订日期\", \"不含税合同价\", \"含税合同价\", \"税金\", \"单据状态\", \"业务类别\", \"国内外\"}),",
           "    // KEYID作为后续业务串联线索",
           "    已添加自定义 = Table.AddColumn(删除的其他列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type)",
           "in",
@@ -5552,7 +5636,7 @@
         "expression": [
           "let",
           "    源 = #\"GSPM_FENBAOBUCHONGPINGSHEN（分包补充协议）\",",
-          "    删除的其他列 = Table.SelectColumns(源,{\"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"合同编号\", \"分包编码\", \"分包名称\", \"是否临建合同\", \"是否暂估\", \"合同内容\", \"含税合同价\", \"税金\", \"不含税合同价\", \"签订日期\", \"单据状态\", \"业务类别\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"国内外\", \"施工专业\", \"分包类型\"}),",
+          "    删除的其他列 = Table.SelectColumns(源,{\"补充协议号\", \"合同名称\", \"项目编码\", \"项目名称\", \"合同编号\", \"分包编码\", \"分包名称\", \"是否临建合同\", \"是否暂估\", \"合同内容\", \"含税合同价\", \"税金\", \"不含税合同价\", \"签订日期\", \"单据状态\", \"业务类别\", \"标准合同编码\", \"标准合同名称\", \"商务科目ID\", \"财务科目ID\", \"国内外\", \"施工专业\", \"分包类别\", \"分包类型\"}),",
           "    已添加自定义 = Table.AddColumn(删除的其他列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type)",
           "in",
           "    已添加自定义"
@@ -5932,7 +6016,7 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_FENBAOHETONGJIESUAN = GSPM{[Name=\"GSPM_FENBAOHETONGJIESUAN\"]}[Data],",
-          "    筛选的行 = Table.SelectRows(GSPM_FENBAOHETONGJIESUAN, each ([FPINGSHENZHUANGTAI] = \"已完成\") and ([FJIESUANLEIXING] = \"正常结算\" or [FJIESUANLEIXING] = \"结算签约后让利\"))",
+          "    筛选的行 = Table.SelectRows(GSPM_FENBAOHETONGJIESUAN, each ([FPINGSHENZHUANGTAI] = \"已完成\") and ([FJIESUANLEIXING] = \"正常结算\" or [FJIESUANLEIXING] = \"结算签约后让利\") and ([FYEWULEIBIE] <> \"集采分包合同结算评审\"))",
           "in",
           "    筛选的行"
         ]
@@ -6543,9 +6627,9 @@
           "    源 = X5,",
           "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
           "    GSPM_WUZIHETONGJIESUANPS = GSPM{[Name=\"GSPM_WUZIHETONGJIESUANPS\"]}[Data],",
-          "    筛选的行 = Table.SelectRows(GSPM_WUZIHETONGJIESUANPS, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
-          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FXIANGMUBIANMA\", \"FHETONGBIANHAO\", \"FJIESUANJIAHS\", \"FJIESUANJIABHS\", \"FQIANDINGRIQI\", \"FYEWUDALEI\", \"SCREATETIME\"}),",
-          "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FJIESUANJIAHS\", \"含税结算额\"}, {\"FQIANDINGRIQI\", \"签订日期\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FYEWUDALEI\", \"业务大类\"}, {\"FJIESUANJIABHS\", \"不含税结算额\"}}),",
+          "    筛选的行 = Table.SelectRows(GSPM_WUZIHETONGJIESUANPS, each ([FPINGSHENZHUANGTAI] = \"已完成\") and ([FHETONGPINGSHENTYPE] <> \"统一转账合同结算\") and ([FHETONGPINGSHENTYPE] <> \"集采租赁合同结算\")),",
+          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FXIANGMUBIANMA\", \"FHETONGBIANHAO\", \"FQIANDINGSHIJIAN\", \"FJIESUANJIAHS\", \"FJIESUANJIABHS\", \"FYEWUDALEI\", \"FYEWUXIAOLEI\", \"SCREATETIME\"}),",
+          "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FJIESUANJIAHS\", \"含税结算额\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FYEWUDALEI\", \"业务大类\"}, {\"FJIESUANJIABHS\", \"不含税结算额\"}, {\"FYEWUXIAOLEI\", \"业务小类\"}}),",
           "    已添加自定义 = Table.AddColumn(重命名的列, \"税金\", each List.Sum({[含税结算额],-[不含税结算额]}),Number.Type),",
           "    #\"已添加自定义(KEYID)\" = Table.AddColumn(已添加自定义, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type),",
           "    排序的行 = Table.Sort(#\"已添加自定义(KEYID)\",{{\"KEYID\", Order.Ascending}, {\"SCREATETIME\", Order.Descending}}),",
@@ -6728,11 +6812,9 @@
           "let",
           "    源 = X5组织机构,",
           "    筛选的行 = Table.SelectRows(源, each ([机构] = \"U_ORG_XM\")),",
-          "    #\"合并的查询(排除总部员工)\" = Table.NestedJoin(筛选的行, {\"身份证\"}, 总部员工, {\"身份证\"}, \"总部员工\", JoinKind.LeftAnti),",
-          "    #\"合并的查询（排除分公司员工）\" = Table.NestedJoin(#\"合并的查询(排除总部员工)\", {\"身份证\"}, 区域公司员工, {\"身份证\"}, \"分公司员工\", JoinKind.LeftAnti),",
-          "    删除的列 = Table.RemoveColumns(#\"合并的查询（排除分公司员工）\",{\"总部员工\", \"分公司员工\"})",
+          "    #\"合并的查询(排除总部员工)\" = Table.NestedJoin(筛选的行, {\"身份证\"}, 总部员工, {\"身份证\"}, \"总部员工\", JoinKind.LeftAnti)",
           "in",
-          "    删除的列"
+          "    #\"合并的查询(排除总部员工)\""
         ]
       },
       {
@@ -7008,6 +7090,85 @@
           "    更改的类型 = Table.TransformColumnTypes(源,{{\"编号\", type text}})",
           "in",
           "    更改的类型"
+        ]
+      },
+      {
+        "name": "单项指定分包结算",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"GSPM_FENBAOHETONGJIESUAN（分包合同结算）\",",
+          "    删除的其他列 = Table.SelectColumns(源,{\"FXIANGMUBIANMA\", \"FXIANGMUMINGCHENG\", \"FHETONGBIANHAO\", \"FJIESUANJIAHS\", \"FJIESUANJIABHS\", \"FQIANDINGSHIJIAN\", \"FPINGSHENZHUANGTAI\", \"SCREATETIME\", \"FJIESUANLEIXING\"}),",
+          "    提取的日期 = Table.TransformColumns(删除的其他列,{{\"FQIANDINGSHIJIAN\", DateTime.Date, type date}}),",
+          "    重命名的列 = Table.RenameColumns(提取的日期,{{\"FHETONGBIANHAO\", \"合同编号\"}, {\"FJIESUANJIAHS\", \"含税结算额\"}, {\"FPINGSHENZHUANGTAI\", \"单据状态\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FJIESUANJIABHS\", \"不含税结算额\"}}),",
+          "    #\"已添加自定义（KEYID）\" = Table.AddColumn(重命名的列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),type text),",
+          "    排序的行 = Table.Buffer(Table.Sort(#\"已添加自定义（KEYID）\",{{\"KEYID\", Order.Descending}, {\"SCREATETIME\", Order.Descending}})),",
+          "    #\"删除的副本（取各项目该合同末期结算）\" = Table.Distinct(排序的行, {\"KEYID\"}),",
+          "    删除的其他列1 = Table.SelectColumns(#\"删除的副本（取各项目该合同末期结算）\",{\"项目编码\", \"合同编号\", \"含税结算额\", \"不含税结算额\", \"签订日期\", \"KEYID\"}),",
+          "    #\"已添加自定义（计算税金）\" = Table.AddColumn(删除的其他列1, \"税金\", each List.Sum({[含税结算额],-[不含税结算额]}),Number.Type)",
+          "in",
+          "    #\"已添加自定义（计算税金）\""
+        ]
+      },
+      {
+        "name": "GSPM_FENBAOHETONGXUNIJIESUAN（集采分包合同虚拟结算）",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_FENBAOHETONGJIESUAN = GSPM{[Name=\"GSPM_FENBAOHETONGXUNIJIESUAN\"]}[Data],",
+          "    筛选的行 = Table.SelectRows(GSPM_FENBAOHETONGJIESUAN, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+          "    重命名的列 = Table.RenameColumns(筛选的行,{{\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FHETONGBIANHAO\", \"合同编号\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FJIESUANJIABHS\", \"不含税结算额\"}, {\"FJIESUANJIAHS\", \"含税结算额\"}, {\"FJIESUANJIASE\", \"税金\"}}),",
+          "    删除的其他列 = Table.SelectColumns(重命名的列,{\"项目编码\", \"合同编号\", \"含税结算额\", \"不含税结算额\", \"税金\", \"签订日期\"})",
+          "in",
+          "    删除的其他列"
+        ]
+      },
+      {
+        "name": "集采分包虚拟结算",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"GSPM_FENBAOHETONGXUNIJIESUAN（集采分包合同虚拟结算）\",",
+          "    已添加自定义 = Table.AddColumn(源, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type),",
+          "    提取的日期 = Table.TransformColumns(已添加自定义,{{\"签订日期\", DateTime.Date, type date}})",
+          "in",
+          "    提取的日期"
+        ]
+      },
+      {
+        "name": "集采物资虚拟结算",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_WUZIHETONGJIESUANPS = GSPM{[Name=\"GSPM_WUZIHETONGXUNIJIESUANPS\"]}[Data],",
+          "    筛选的行 = Table.SelectRows(GSPM_WUZIHETONGJIESUANPS, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+          "    重命名的列 = Table.RenameColumns(筛选的行,{{\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FHETONGBIANHAO\", \"合同编号\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FJIESUANJIAHS\", \"含税结算额\"}, {\"FJIESUANJIABHS\", \"不含税结算额\"}, {\"FJIESUANJIASE\", \"税金\"}}),",
+          "    删除的其他列 = Table.SelectColumns(重命名的列,{\"项目编码\", \"合同编号\", \"含税结算额\", \"不含税结算额\", \"签订日期\", \"税金\"}),",
+          "    已添加自定义 = Table.AddColumn(删除的其他列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type),",
+          "    提取的日期 = Table.TransformColumns(已添加自定义,{{\"签订日期\", DateTime.Date, type date}})",
+          "in",
+          "    提取的日期"
+        ]
+      },
+      {
+        "name": "集采租赁虚拟结算",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_WUZIHETONGJIESUANPS = GSPM{[Name=\"GSPM_ZULINHETONGXUNIJIESUANPS\"]}[Data],",
+          "    筛选的行 = Table.SelectRows(GSPM_WUZIHETONGJIESUANPS, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+          "    重命名的列 = Table.RenameColumns(筛选的行,{{\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FHETONGBIANHAO\", \"合同编号\"}, {\"FQIANDINGSHIJIAN\", \"签订日期\"}, {\"FJIESUANJIAHS\", \"含税结算额\"}, {\"FJIESUANJIABHS\", \"不含税结算额\"}, {\"FJIESUANJIASE\", \"税金\"}}),",
+          "    删除的其他列 = Table.SelectColumns(重命名的列,{\"项目编码\", \"合同编号\", \"含税结算额\", \"不含税结算额\", \"签订日期\", \"税金\"}),",
+          "    已添加自定义 = Table.AddColumn(删除的其他列, \"KEYID\", each Text.Combine({[合同编号],[项目编码]},\"@\"),Text.Type),",
+          "    提取的日期 = Table.TransformColumns(已添加自定义,{{\"签订日期\", DateTime.Date, type date}})",
+          "in",
+          "    提取的日期"
         ]
       }
     ],
