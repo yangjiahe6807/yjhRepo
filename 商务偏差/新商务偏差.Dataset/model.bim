@@ -1,0 +1,1354 @@
+{
+  "compatibilityLevel": 1550,
+  "model": {
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.119.666.0 (23.07)"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"各年收益基础表\",\"商务偏差\",\"fx_RenameField\",\"X5\",\"MD_XIANGMUXINXI\",\"fx_RenameFiled\",\"项目信息\",\"D_项目信息\",\"D-责任体\",\"年\",\"月\",\"度量值\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "zh-CN",
+    "cultures": [
+      {
+        "name": "zh-CN",
+        "linguisticMetadata": {
+          "content": {
+            "DynamicImprovement": "HighConfidence",
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "各年收益基础表",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true, Query=\"select * from user_col_comments\"]),",
+          "    筛选的行 = Table.SelectRows(源, each [TABLE_NAME] = \"GSPM_SHANGWUPIANCHA\"),",
+          "    删除的列 = Table.RemoveColumns(筛选的行,{\"TABLE_NAME\"}),",
+          "    转置表 = Table.Transpose(删除的列),",
+          "    提升的标题 = Table.PromoteHeaders(转置表, [PromoteAllScalars=true]),",
+          "    追加的查询 = Table.Combine({提升的标题, 商务偏差}),",
+          "    提升的标题1 = Table.PromoteHeaders(追加的查询, [PromoteAllScalars=true]),",
+          "    更改的类型1 = Table.TransformColumnTypes(提升的标题1,{{\"项目ID\", type text}, {\"版本\", Int64.Type}, {\"项目编码\", type text}, {\"项目编号\", type text}, {\"项目名称\", type text}, {\"业务年\", Int64.Type}, {\"业务月\", Int64.Type}, {\"业务单号\", type text}, {\"评审状态ID\", Int64.Type}, {\"评审状态\", type text}, {\"合同签订年份\", Int64.Type}, {\"成本主办\", type text}, {\"产值所属分公司\", type text}, {\"大客户\", type text}, {\"所属板块\", type text}, {\"所属类型\", type text}, {\"总部联络人ID\", type text}, {\"总部联络人Code\", type text}, {\"总部联络人\", type text}, {\"项目总监\", type text}, {\"项目总监联系电话\", type text}, {\"项目经理\", type text}, {\"项目经理联系电话\", type text}, {\"商务经理\", type text}, {\"商务经理联系电话\", Int64.Type}, {\"商务策划是否完成\", type text}, {\"管理考核节点\", Int64.Type}, {\"合同收入（万元）\", type number}, {\"自施合同收入（万元）\", type number}, {\"其中：自施土建合同收入（万元）\", type number}, {\"其中：自施机电合同收入（万元）\", type number}, {\"甲指合同收入（万元）\", type number}, {\"其中：甲指土建合同收入（万元）\", type number}, {\"其中：甲指机电合同收入（万元）\", type number}, {\"投标测算成本（万元）\", type number}, {\"自施投标测算成本（万元）\", type number}, {\"其中：自施土建投标测算成本（万元）\", type number}, {\"其中：自施机电投标测算成本（万元）\", type number}, {\"甲指投标测算成本（万元）\", type number}, {\"其中：甲指土建投标测算成本（万元）\", type number}, {\"其中：甲指机电投标测算成本（万元）\", type number}, {\"投标测算收益额（万元）\", type number}, {\"自施投标测算收益额（万元）\", type number}, {\"其中：自施土建投标测算收益额（万元）\", type number}, {\"其中：自施机电投标测算收益额（万元）\", type number}, {\"甲指投标测算收益额（万元）\", type number}, {\"其中：甲指土建投标测算收益额（万元）\", type number}, {\"其中：甲指机电投标测算收益额（万元）\", type number}, {\"投标测算收益率\", type number}, {\"自施投标测算收益率\", type number}, {\"其中：自施土建自施投标测算收益率\", type number}, {\"其中：自施机电投标测算收益率\", type number}, {\"甲指投标测算收益率\", type number}, {\"其中：甲指土建投标测算收益率\", type number}, {\"其中：甲指机电投标测算收益率\", type number}, {\"还原成本（万元）\", type number}, {\"自施还原成本（万元）\", type number}, {\"其中：自施土建还原成本（万元）\", type number}, {\"其中：自施机电还原成本（万元）\", type number}, {\"甲指还原成本（万元）\", type number}, {\"其中：甲指土建还原成本（万元）\", type number}, {\"其中：甲指机电还原成本（万元）\", type number}, {\"还原成本收益额（万元）\", type number}, {\"自施还原成本收益额（万元）\", type number}, {\"其中：自施土建还原成本收益额（万元）\", type number}, {\"其中：自施机电还原成本收益额（万元）\", type number}, {\"甲指还原成本收益额（万元）\", type number}, {\"其中：甲指土建收还原成本收益额（万元）\", type number}, {\"其中：甲指机电还原成本收益额（万元）\", type number}, {\"还原成本收益率\", type number}, {\"自施还原成本收益率\", type number}, {\"其中：自施土建还原成本收益率\", type number}, {\"其中：自施机电还原成本收益率\", type number}, {\"甲指还原成本收益率\", type number}, {\"其中：甲指土建还原成本收益率\", type number}, {\"其中：甲指机电还原成本收益率\", type number}, {\"核定收益率\", type number}, {\"自施核定收益率\", type number}, {\"其中：自施土建核定收益率\", type number}, {\"其中：自施机电核定收益率\", type number}, {\"甲指核定收益率\", Int64.Type}, {\"其中：甲指土建核定收益率\", Int64.Type}, {\"其中：甲指机电核定收益率\", Int64.Type}, {\"核定收益额（万元）\", type number}, {\"自施核定收益额（万元）\", type number}, {\"其中：自施土建核定收益额（万元）\", type number}, {\"其中：自施机电核定收益额（万元）\", type number}, {\"甲指核定收益额（万元）\", Int64.Type}, {\"其中：甲指土建核定收益额（万元）\", Int64.Type}, {\"其中：甲指机电核定收益额（万元）\", Int64.Type}, {\"收入偏差（万元）\", type number}, {\"自施收入偏差（万元）\", type number}, {\"其中：自施土建收入偏差（万元）\", type number}, {\"其中：自施机电收入偏差（万元）\", type number}, {\"甲指收入偏差（万元）\", type number}, {\"其中：甲指土建收入偏差（万元）\", type number}, {\"其中：甲指机电收入偏差（万元）\", type number}, {\"支出偏差（万元）\", type number}, {\"自施支出偏差（万元）\", type number}, {\"其中：自施土建支出偏差（万元）\", type number}, {\"其中：自施机电支出偏差（万元）\", type number}, {\"甲指支出偏差（万元）\", type number}, {\"其中：甲指土建支出偏差（万元）\", type number}, {\"其中：甲指机电支出偏差（万元）\", type number}, {\"完全成本过程收益额（万元）\", type number}, {\"自施完全成本过程收益额（万元）\", type number}, {\"其中：自施土建完全成本过程收益额（万元）\", type number}, {\"其中：自施机电完全成本过程收益额（万元）\", type number}, {\"甲指完全成本过程收益额（万元）\", type number}, {\"其中：甲指土建完全成本过程收益额（万元）\", type number}, {\"其中：甲指机电完全成本过程收益额（万元）\", type number}, {\"完全成本过程收益率\", type number}, {\"自施完全成本过程收益率\", type number}, {\"其中：自施土建完全成本过程收益率\", type number}, {\"其中：自施机电完全成本过程收益率\", type number}, {\"甲指完全成本过程收益率\", type number}, {\"其中：甲指土建完全成本过程收益率\", type number}, {\"其中：甲指机电完全成本过程收益率\", type number}, {\"制造成本过程收益额（万元）\", type number}, {\"自施制造成本过程收益额（万元）\", type number}, {\"其中：自施土建制造成本过程收益额（万元）\", type number}, {\"其中：自施机电制造成本过程收益额（万元）\", type number}, {\"甲指制造成本过程收益额（万元）\", type number}, {\"其中：甲指土建制造成本过程收益额（万元）\", type number}, {\"其中：甲指机电制造成本过程收益额（万元）\", type number}, {\"项目累计申请管理奖承诺成本降低额（万元）\", type number}, {\"商务过程结算状态\", type text}, {\"项目进度状态\", type text}, {\"提交者ID\", type text}, {\"提交者\", type text}, {\"提交者岗位ID\", type text}, {\"提交者岗位\", type text}, {\"提交者部门ID\", type text}, {\"提交者部门\", type text}, {\"提交者机构ID\", type text}, {\"提交者机构\", type text}, {\"组织全路径ID\", type text}, {\"组织全路径名\", type text}, {\"创建时间\", type datetime}, {\"最后修改人标识\", type text}, {\"最后修改人\", type text}, {\"最后修改时间\", type datetime}, {\"附件\", type text}}),",
+          "    删除的其他列 = Table.SelectColumns(更改的类型1,{\"项目编码\", \"项目名称\", \"业务年\", \"业务月\", \"合同签订年份\", \"核定收益额（万元）\", \"完全成本过程收益额（万元）\", \"制造成本过程收益额（万元）\"}),",
+          "    筛选的行1 = Table.SelectRows(删除的其他列, each ([业务月] = 3 or [业务月] = 6 or [业务月] = 9 or [业务月] = 12)),",
+          "    复制的列 = Table.DuplicateColumn(筛选的行1, \"业务年\", \"年\"),",
+          "    复制的列1 = Table.DuplicateColumn(复制的列, \"业务月\", \"月\"),",
+          "    更改的类型 = Table.TransformColumnTypes(复制的列1,{{\"业务月\", type text}, {\"业务年\", type text}}),",
+          "    替换的值 = Table.ReplaceValue(更改的类型,\"3\",\"1季度\",Replacer.ReplaceText,{\"业务月\"}),",
+          "    替换的值1 = Table.ReplaceValue(替换的值,\"6\",\"2季度\",Replacer.ReplaceText,{\"业务月\"}),",
+          "    替换的值2 = Table.ReplaceValue(替换的值1,\"9\",\"3季度\",Replacer.ReplaceText,{\"业务月\"}),",
+          "    替换的值3 = Table.ReplaceValue(替换的值2,\"12\",\"4季度\",Replacer.ReplaceText,{\"业务月\"}),",
+          "    合并的列 = Table.CombineColumns(替换的值3,{\"业务年\", \"业务月\"},Combiner.CombineTextByDelimiter(\"-\", QuoteStyle.None),\"已合并\"),",
+          "    重命名的列 = Table.RenameColumns(合并的列,{{\"核定收益额（万元）\", \"核定\"}, {\"完全成本过程收益额（万元）\", \"完全\"}, {\"制造成本过程收益额（万元）\", \"制造\"}})",
+          "in",
+          "    重命名的列"
+        ],
+        "kind": "m",
+        "lineageTag": "9f773694-cb7c-4cab-981f-844267480846"
+      },
+      {
+        "name": "fx_RenameField",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Function"
+          }
+        ],
+        "description": [
+          "用于X5数据库自动翻译表字段名，将此函数结果置于Table.RenameColumns函数的字段列表参数。",
+          "参数说明：",
+          "OWNER：oracle 用户名",
+          "TABLE_NAME：需翻译列名的表名",
+          "L：翻译后字段名字符数，过长Oracle会报错，目前15合适"
+        ],
+        "expression": [
+          "let",
+          "    源 = (OWNER as text, TABLE_NAME as text, L as number) as list => let",
+          "        源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true, Query=\"select COLUMN_NAME,COMMENTS from all_col_comments where OWNER = '\" & OWNER & \"' and TABLE_NAME = '\" & TABLE_NAME & \"'\"]),",
+          "        替换的值 = Table.ReplaceValue(源,null, each [COLUMN_NAME],Replacer.ReplaceValue,{\"COMMENTS\"}),",
+          "        更改的类型 = Table.TransformColumnTypes(替换的值,{{\"COMMENTS\", type text}}),",
+          "        删除的副本 = Table.Distinct(更改的类型, {\"COMMENTS\"}),",
+          "        缩短说明字段长度=Table.TransformColumns(删除的副本, {{\"COMMENTS\", each Text.Start(_,L), type text}}),",
+          "        自定义1 = List.Zip({缩短说明字段长度[COLUMN_NAME],缩短说明字段长度[COMMENTS]})",
+          "    in",
+          "        自定义1",
+          "in",
+          "    源"
+        ],
+        "kind": "m",
+        "lineageTag": "e4f5e2dd-d352-4bc9-84d4-1b898d3c1688"
+      },
+      {
+        "name": "X5",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true])",
+          "in",
+          "    源"
+        ],
+        "kind": "m",
+        "lineageTag": "4a1fda28-afc4-4e8c-909e-7415af88ce91",
+        "queryGroup": "项目信息"
+      },
+      {
+        "name": "MD_XIANGMUXINXI",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    MD = 源{[Schema=\"MD\"]}[Data],",
+          "    MD_XIANGMUXINXI = MD{[Name=\"MD_XIANGMUXINXI\"]}[Data],",
+          "    重命名的列 = Table.RenameColumns(MD_XIANGMUXINXI,fx_RenameFiled(\"MD\",\"MD_XIANGMUXINXI\")),",
+          "    #\"停止折叠（取消后续会出错）\" = Table.StopFolding(重命名的列)",
+          "in",
+          "    #\"停止折叠（取消后续会出错）\""
+        ],
+        "kind": "m",
+        "lineageTag": "5d7891e2-489e-4048-8d74-9c5c24aa4998",
+        "queryGroup": "项目信息"
+      },
+      {
+        "name": "fx_RenameFiled",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Function"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = (OWNER as text,TABLE_NAME as text) as list => let",
+          "        源 =  X5,",
+          "        源1=Value.NativeQuery(源,\"select COLUMN_NAME,COMMENTS from all_col_comments where OWNER = '\" & OWNER &\"' and TABLE_NAME = '\" & TABLE_NAME & \"'\"),",
+          "        替换的值 = Table.ReplaceValue(源1,null, each [COLUMN_NAME],Replacer.ReplaceValue,{\"COMMENTS\"}),",
+          "        更改的类型 = Table.TransformColumnTypes(替换的值,{{\"COMMENTS\", type text}}),",
+          "        删除的副本 = Table.Distinct(更改的类型, {\"COMMENTS\"}),",
+          "        缩短说明字段长度=Table.TransformColumns(删除的副本, {{\"COMMENTS\", each Text.Start(_,15), type text}}),",
+          "        自定义1 = List.Zip({缩短说明字段长度[COLUMN_NAME],缩短说明字段长度[COMMENTS]})",
+          "    in",
+          "        自定义1",
+          "in",
+          "    源"
+        ],
+        "kind": "m",
+        "lineageTag": "e4fc5e6e-1081-49c3-b28e-e814867db45d",
+        "queryGroup": "项目信息"
+      },
+      {
+        "name": "项目信息",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = MD_XIANGMUXINXI,",
+          "    计算责任体 = Table.AddColumn(源, \"责任体\", each if [京内外分布] = \"国际\" then \"海外\" else if [厂房事业部] <> null then [厂房事业部] else if [直管机构] <> \"公司\" then [直管机构] else if [城市公司] <> null then [城市公司] else \"公司直营\", type text),",
+          "    重命名的列1 = Table.RenameColumns(计算责任体,{{\"fYWBK\", \"业务板块\"}}),",
+          "    删除的其他列 = Table.SelectColumns(重命名的列1,{\"项目编码\", \"项目名称\", \"专业分类\", \"签约单位\", \"实际开工日期\", \"实际竣工日期\", \"工程类别[一级]\", \"工程类别[二级]\", \"经营类型\", \"业务板块\", \"投标管理部门\", \"股份财务一体化项目编码\", \"股份一体化利润中心编码\", \"局口径营收归口部门\", \"责任体\"}),",
+          "    提取的日期 = Table.TransformColumns(删除的其他列,{{\"实际开工日期\", DateTime.Date, type date}, {\"实际竣工日期\", DateTime.Date, type date}})",
+          "in",
+          "    提取的日期"
+        ],
+        "kind": "m",
+        "lineageTag": "77884eb6-d1fc-443d-9414-c944cfb5c3c2",
+        "queryGroup": "项目信息"
+      },
+      {
+        "name": "年",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Number"
+          }
+        ],
+        "expression": "2023 meta [IsParameterQuery=true, Type=\"Number\", IsParameterQueryRequired=true]",
+        "kind": "m",
+        "lineageTag": "06d5453e-0a2a-4d65-8174-e9c6ffda509f"
+      },
+      {
+        "name": "月",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Number"
+          }
+        ],
+        "expression": "6 meta [IsParameterQuery=true, Type=\"Number\", IsParameterQueryRequired=true]",
+        "kind": "m",
+        "lineageTag": "3b9574ba-71ce-4e71-864e-37a577b310b6"
+      }
+    ],
+    "queryGroups": [
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "0"
+          }
+        ],
+        "folder": "项目信息"
+      }
+    ],
+    "relationships": [
+      {
+        "name": "ccf2742b-2d2e-4222-8779-264a582cd54c",
+        "fromColumn": "日期",
+        "fromTable": "商务偏差",
+        "toColumn": "Date",
+        "toTable": "日期"
+      },
+      {
+        "name": "d0460147-4894-4b0b-9698-69c8c2e07bf7",
+        "fromColumn": "项目编码",
+        "fromTable": "商务偏差",
+        "toColumn": "项目编码",
+        "toTable": "D_项目信息"
+      },
+      {
+        "name": "23cdc818-8056-416f-be5f-dcb29f53af24",
+        "fromColumn": "责任体",
+        "fromTable": "D_项目信息",
+        "toColumn": "责任体",
+        "toTable": "D-责任体"
+      }
+    ],
+    "sourceQueryCulture": "zh-CN",
+    "tables": [
+      {
+        "name": "D-责任体",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "排序",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "572982fa-ba72-4def-9650-d5688f61922b",
+            "sourceColumn": "排序",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "责任体",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "0312bfb6-5906-4207-b9dd-b5243fec0d2a",
+            "sourceColumn": "责任体",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "da3523d0-08fa-446d-8747-7d47399e87b7",
+        "partitions": [
+          {
+            "name": "D-责任体-98f9d38d-4266-4f28-a365-c3548981b418",
+            "mode": "import",
+            "queryGroup": "项目信息",
+            "source": {
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45Wetq65mn/juezt7yYsFRJR8lQKVYnWunJjjlPe6Y/7WiDyALFjcDiT3v70MSNYeIgLUjiJnD1vSjqTcHiL5buRxM3A4s/X7PmyY6GJ7u6n+yY9bJ5BVDcHC6+qwdZ3AKhvhNZ3BIm/nT2bGRxQwOwxLOt258umQbiQz20c/+TvbOfzu97uqMJ7hZDYCDEAgA=\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [责任体 = _t, 排序 = _t]),",
+                "    更改的类型 = Table.TransformColumnTypes(源,{{\"责任体\", type text}, {\"排序\", Int64.Type}})",
+                "in",
+                "    更改的类型"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "D_项目信息",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "专业分类",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "a772baf2-09bb-4b87-bb40-8b441c41a2e7",
+            "sourceColumn": "专业分类",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "业务板块",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "4321cea7-2658-452a-a0f8-a1ce9c92bf77",
+            "sourceColumn": "业务板块",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "实际开工日期",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "42025f09-a5fb-4921-95b9-55e9c872060c",
+            "sourceColumn": "实际开工日期",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "实际竣工日期",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "b1b18614-0fff-43ac-a330-3330b37ed522",
+            "sourceColumn": "实际竣工日期",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "局口径营收归口部门",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "176d24df-d0aa-41f0-91cf-65803e6b0f64",
+            "sourceColumn": "局口径营收归口部门",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "工程类别[一级]",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "528bc7cd-d437-4973-b43d-869313cf05ad",
+            "sourceColumn": "工程类别[一级]",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "工程类别[二级]",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "1966b34f-0ce5-43a5-b1ef-e0449ee9fb34",
+            "sourceColumn": "工程类别[二级]",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "投标管理部门",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "277fabb9-c88c-42ca-85e3-6090ade19a95",
+            "sourceColumn": "投标管理部门",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "签约单位",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "a28661ee-3a8a-43a9-a863-57c8ad659cec",
+            "sourceColumn": "签约单位",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "经营类型",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "2f2085fc-88b2-4175-a2b5-893e0fc84a3c",
+            "sourceColumn": "经营类型",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "股份一体化利润中心编码",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b788f4bc-8dd5-4348-8f0b-4ecca6bdd5fc",
+            "sourceColumn": "股份一体化利润中心编码",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "股份财务一体化项目编码",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "4e66ab12-988a-4b97-9218-effd9e43b98a",
+            "sourceColumn": "股份财务一体化项目编码",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "责任体",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "f647312a-fa34-438e-8f39-cee5ae6314be",
+            "sourceColumn": "责任体",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "项目名称",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "8835cc13-ae62-4a49-abbd-a0b7b5f92ebd",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "项目编码",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "2dd9c487-9816-4e61-8f7b-fb5cfd3cb6a2",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "9d0dc393-0734-4233-8bc6-574e95a1a666",
+        "partitions": [
+          {
+            "name": "D_项目信息-e49b7a73-34d7-48c0-961f-5e1581124e78",
+            "mode": "import",
+            "queryGroup": "项目信息",
+            "source": {
+              "expression": [
+                "let",
+                "    源 = 项目信息",
+                "in",
+                "    源"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "商务偏差",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "专业",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "6c40a4d1-c5f8-42f3-9158-0a38520104d3",
+            "sourceColumn": "专业",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "分包类型",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "f556a5d5-f9c1-4a8d-b41a-a016476d122e",
+            "sourceColumn": "分包类型",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "制造成本过程收益额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "bfca2e9a-0aa3-4d38-8b45-801ab9a4e501",
+            "sourceColumn": "制造成本过程收益额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "合同收入",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "3daf0140-8076-46fa-a7d8-434c86d163be",
+            "sourceColumn": "合同收入",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "合同签订年份",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "0068b470-30e6-4f43-898b-a72fe0cf6971",
+            "sourceColumn": "合同签订年份",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "完全成本过程收益额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "64ecbcf5-1631-49e0-b675-02c1bdb2a4b2",
+            "sourceColumn": "完全成本过程收益额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "所属板块",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9cb6703b-ec4a-4db5-be92-51d24f10e799",
+            "sourceColumn": "所属板块",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "所属类型",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "6fe465d7-c526-4f70-8b1a-9a5b87a78203",
+            "sourceColumn": "所属类型",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "投标测算收益额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "e8bebcfb-4502-4e64-93b6-b9d5dda48c1a",
+            "sourceColumn": "投标测算收益额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "支出偏差",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "beb29561-f94c-4063-b105-f71a860fa5d7",
+            "sourceColumn": "支出偏差",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "收入偏差",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "6490a5ba-16ae-486b-b08e-c9f50279a7f9",
+            "sourceColumn": "收入偏差",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "日期",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "0c37faa2-2c57-42ef-812e-84402869f31f",
+            "sourceColumn": "日期",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "核定收益额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "02210647-12e5-4cbd-9eef-84418836bdf7",
+            "sourceColumn": "核定收益额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "还原成本收益额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "b95c753a-9c58-4634-b76f-e0c82ba4414a",
+            "sourceColumn": "还原成本收益额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "项目名称",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "40f3e1ce-bac9-437d-a791-fb327258ae4f",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "项目编码",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "ce4517d4-93b2-4fb4-afed-26ddf4e45094",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "35d36038-104e-4af2-a782-b843c8eaae62",
+        "partitions": [
+          {
+            "name": "商务偏差-3b3296c2-669a-4e1e-9a43-e295347f6ac7",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+                "    GSPM_SHANGWUPIANCHA1 = GSPM{[Name=\"GSPM_SHANGWUPIANCHA\"]}[Data],",
+                "    筛选的行 = Table.SelectRows(GSPM_SHANGWUPIANCHA1, each ([FPINGSHENZHUANGTAI] = \"已完成\") and ([FNIAN] = 年) and ([FYUE] = 月)),",
+                "    已添加索引 = Table.AddIndexColumn(筛选的行, \"索引\", 0, 1, Int64.Type),",
+                "    重命名的列 = Table.RenameColumns(已添加索引,fx_RenameField(\"GSPM\",\"GSPM_SHANGWUPIANCHA\",30)),",
+                "    删除的其他列 = Table.SelectColumns(重命名的列,{\"项目编码\", \"项目名称\", \"业务年\", \"业务月\", \"合同签订年份\", \"所属板块\", \"所属类型\", \"其中：自施土建合同收入（万元）\", \"其中：自施机电合同收入（万元）\", \"其中：甲指土建合同收入（万元）\", \"其中：甲指机电合同收入（万元）\", \"其中：自施土建投标测算收益额（万元）\", \"其中：自施机电投标测算收益额（万元）\", \"其中：甲指土建投标测算收益额（万元）\", \"其中：甲指机电投标测算收益额（万元）\", \"其中：自施土建还原成本收益额（万元）\", \"其中：自施机电还原成本收益额（万元）\", \"其中：甲指土建收还原成本收益额（万元）\", \"其中：甲指机电还原成本收益额（万元）\", \"其中：自施土建核定收益额（万元）\", \"其中：自施机电核定收益额（万元）\", \"其中：甲指土建核定收益额（万元）\", \"其中：甲指机电核定收益额（万元）\", \"其中：自施土建收入偏差（万元）\", \"其中：自施机电收入偏差（万元）\", \"其中：甲指土建收入偏差（万元）\", \"其中：甲指机电收入偏差（万元）\", \"其中：自施土建支出偏差（万元）\", \"其中：自施机电支出偏差（万元）\", \"其中：甲指土建支出偏差（万元）\", \"其中：甲指机电支出偏差（万元）\", \"其中：自施土建完全成本过程收益额（万元）\", \"其中：自施机电完全成本过程收益额（万元）\", \"其中：甲指土建完全成本过程收益额（万元）\", \"其中：甲指机电完全成本过程收益额（万元）\", \"其中：自施土建制造成本过程收益额（万元）\", \"其中：自施机电制造成本过程收益额（万元）\", \"其中：甲指土建制造成本过程收益额（万元）\", \"其中：甲指机电制造成本过程收益额（万元）\"}),",
+                "    合并的列 = Table.CombineColumns(Table.TransformColumnTypes(删除的其他列, {{\"业务年\", type text}, {\"业务月\", type text}}, \"zh-CN\"),{\"业务年\", \"业务月\"},Combiner.CombineTextByDelimiter(\"-\", QuoteStyle.None),\"日期\"),",
+                "    重命名的列1 = Table.RenameColumns(合并的列,{{\"其中：自施土建合同收入（万元）\", \"自施-土建-合同收入\"}, {\"其中：自施机电合同收入（万元）\", \"自施-机电-合同收入\"}, {\"其中：甲指土建合同收入（万元）\", \"甲指-土建-合同收入\"}, {\"其中：甲指机电合同收入（万元）\", \"甲指-机电-合同收入\"}, {\"其中：自施土建投标测算收益额（万元）\", \"自施-土建-投标测算收益额\"}, {\"其中：自施机电投标测算收益额（万元）\", \"自施-机电-投标测算收益额\"}, {\"其中：甲指土建投标测算收益额（万元）\", \"甲指-土建-投标测算收益额\"}, {\"其中：甲指机电投标测算收益额（万元）\", \"甲指-机电-投标测算收益额\"}, {\"其中：自施土建还原成本收益额（万元）\", \"自施-土建-还原成本收益额\"}, {\"其中：自施机电还原成本收益额（万元）\", \"自施-机电-还原成本收益额\"}, {\"其中：甲指土建收还原成本收益额（万元）\", \"甲指-土建-还原成本收益额\"}, {\"其中：甲指机电还原成本收益额（万元）\", \"甲指-机电-还原成本收益额\"}, {\"其中：自施土建核定收益额（万元）\", \"自施-土建-核定收益额\"}, {\"其中：自施机电核定收益额（万元）\", \"自施-机电-核定收益额\"}, {\"其中：甲指土建核定收益额（万元）\", \"甲指-土建-核定收益额\"}, {\"其中：甲指机电核定收益额（万元）\", \"甲指-机电-核定收益额\"}, {\"其中：自施土建收入偏差（万元）\", \"自施-土建-收入偏差\"}, {\"其中：自施机电收入偏差（万元）\", \"自施-机电-收入偏差\"}, {\"其中：甲指土建收入偏差（万元）\", \"甲指-土建-收入偏差\"}, {\"其中：甲指机电收入偏差（万元）\", \"甲指-机电-收入偏差\"}, {\"其中：自施土建支出偏差（万元）\", \"自施-土建-支出偏差\"}, {\"其中：自施机电支出偏差（万元）\", \"自施-机电-支出偏差\"}, {\"其中：甲指土建支出偏差（万元）\", \"甲指-土建-支出偏差\"}, {\"其中：甲指机电支出偏差（万元）\", \"甲指-机电-支出偏差\"}, {\"其中：自施土建完全成本过程收益额（万元）\", \"自施-土建-完全成本过程收益额\"}, {\"其中：自施机电完全成本过程收益额（万元）\", \"自施-机电-完全成本过程收益额\"}, {\"其中：甲指土建完全成本过程收益额（万元）\", \"甲指-土建-完全成本过程收益额\"}, {\"其中：甲指机电完全成本过程收益额（万元）\", \"甲指-机电-完全成本过程收益额\"}, {\"其中：自施土建制造成本过程收益额（万元）\", \"自施-土建-制造成本过程收益额\"}, {\"其中：自施机电制造成本过程收益额（万元）\", \"自施-机电-制造成本过程收益额\"}, {\"其中：甲指土建制造成本过程收益额（万元）\", \"甲指-土建-制造成本过程收益额\"}, {\"其中：甲指机电制造成本过程收益额（万元）\", \"甲指-机电-制造成本过程收益额\"}}),",
+                "    已分析的日期 = Table.TransformColumns(重命名的列1,{{\"日期\", each Date.From(DateTimeZone.From(_)), type date}}),",
+                "    逆透视的列 = Table.UnpivotOtherColumns(已分析的日期, {\"项目编码\",\"日期\", \"项目名称\", \"合同签订年份\",\"所属板块\",\"所属类型\"}, \"属性\", \"值\"),",
+                "    按分隔符拆分列 = Table.SplitColumn(逆透视的列, \"属性\", Splitter.SplitTextByDelimiter(\"-\", QuoteStyle.Csv), {\"分包类型\", \"专业\", \"属性.3\"}),",
+                "    已透视列 = Table.Pivot(按分隔符拆分列, List.Distinct(按分隔符拆分列[属性.3]), \"属性.3\", \"值\")",
+                "in",
+                "    已透视列"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "度量值",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "列 1",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9413c216-f3cd-4970-a70b-b109cac65d03",
+            "sourceColumn": "列 1",
+            "summarizeBy": "none"
+          }
+        ],
+        "excludeFromModelRefresh": true,
+        "lineageTag": "7584310d-7175-43e3-a829-0b8c14a489ad",
+        "measures": [
+          {
+            "name": "_初始合同收入",
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[合同收入])",
+            "formatString": "#,0.00",
+            "lineageTag": "5fdf3937-c707-44cd-8868-e03a8268b614"
+          },
+          {
+            "name": "_还原收益",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[还原成本收益额])",
+            "lineageTag": "1d8a40cb-c166-4015-be6d-e0505002fb1d"
+          },
+          {
+            "name": "_核定收益",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[核定收益额])",
+            "lineageTag": "7769bc08-ed79-4aa7-beca-1a1a5a805b61"
+          },
+          {
+            "name": "_收入偏差",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[收入偏差])",
+            "lineageTag": "1913c7fc-a7f7-4dd3-84aa-bde3e9ff2eeb"
+          },
+          {
+            "name": "_投标收益",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[投标测算收益额])",
+            "lineageTag": "5a6f513b-9f6a-447f-af1e-0cf387617576"
+          },
+          {
+            "name": "_完全收益",
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[完全成本过程收益额])",
+            "formatString": "#,0.00",
+            "lineageTag": "294bbbad-9c9b-40e3-99e6-36cfea264fbe"
+          },
+          {
+            "name": "_支出偏差",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[支出偏差])",
+            "lineageTag": "462ead73-606d-4f3e-bf26-50f7a04c3e46"
+          },
+          {
+            "name": "_制造收益",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "基值",
+            "expression": "SUM('商务偏差'[制造成本过程收益额])",
+            "lineageTag": "a728017a-1b89-4d19-b232-7f160e953c8b"
+          },
+          {
+            "name": "_自施初始合同收入",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "基值",
+            "expression": "CALCULATE(SUM('商务偏差'[合同收入]),'商务偏差'[分包类型]=\"自施\")",
+            "lineageTag": "e0ac2d35-7333-4f0d-a4f6-b8331b5c4c73"
+          },
+          {
+            "name": "_初始合同收入末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_初始合同收入],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_初始合同收入]))",
+            "lineageTag": "1da53f32-9653-480e-b3b0-08c26bc3ac4e"
+          },
+          {
+            "name": "_还原收益末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_还原收益],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_还原收益]))",
+            "lineageTag": "03723a58-3526-4fbe-a8f3-ebe0516d8a6d"
+          },
+          {
+            "name": "_核定收益末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_核定收益],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_核定收益]))",
+            "lineageTag": "03f2ee50-0d18-435c-9509-bc2d261b2167"
+          },
+          {
+            "name": "_收入偏差末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_收入偏差],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_收入偏差]))",
+            "lineageTag": "3e5e063b-de37-4316-ac4a-91095ba5d9c6"
+          },
+          {
+            "name": "_投标收益末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_投标收益],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_投标收益]))",
+            "lineageTag": "29ad2793-694e-47ce-a180-b784f6872ae2"
+          },
+          {
+            "name": "_完全收益末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_完全收益],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_完全收益])) //从头到所选日期的末期值",
+            "lineageTag": "c5d76a56-52ca-43c0-80cf-6ef2c3d2852e"
+          },
+          {
+            "name": "_支出偏差末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_支出偏差],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_支出偏差]))",
+            "lineageTag": "c3f491b1-3f47-42a8-9e6c-99bbabc30e7e"
+          },
+          {
+            "name": "_制造收益末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_制造收益],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_制造收益]))",
+            "lineageTag": "89bfa9ec-4774-4b44-833d-3425bb83f374"
+          },
+          {
+            "name": "_自施初始合同收入末期",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "末期",
+            "expression": "CALCULATE([_自施初始合同收入],LASTNONBLANK(DATESBETWEEN('日期'[Date],BLANK(),MAX('日期'[Date])),[_自施初始合同收入]))",
+            "lineageTag": "3463aeb8-2c72-414e-b4fc-78cdb86a66d1"
+          },
+          {
+            "name": "【初始合同收入】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_初始合同收入末期])",
+            "lineageTag": "6028ffa4-7a5d-4c3d-accd-57f72323d75e"
+          },
+          {
+            "name": "【过程收益率】",
+            "displayFolder": "最终指标",
+            "expression": "DIVIDE([【完全收益】],[【合同动态收入】])",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "ccef633f-dbf2-4e86-847e-90e246ae2b94"
+          },
+          {
+            "name": "【还原收益】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_还原收益末期])",
+            "lineageTag": "adc93086-8423-49e3-81f3-59edfc575814"
+          },
+          {
+            "name": "【还原收益率】",
+            "displayFolder": "最终指标",
+            "expression": "DIVIDE([【还原收益】],[【自施初始合同收入】])",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "2614072f-b41b-48e6-b851-6ea44489788c"
+          },
+          {
+            "name": "【合同动态收入】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "[【自施初始合同收入】]+[【收入偏差】]",
+            "lineageTag": "b8940641-935d-4bb6-844f-dd84fd84aec0"
+          },
+          {
+            "name": "【核定收益】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_核定收益末期])",
+            "lineageTag": "a2e82e94-4c17-43a6-9653-b82e41d17d08"
+          },
+          {
+            "name": "【核定收益率】",
+            "displayFolder": "最终指标",
+            "expression": "DIVIDE([【核定收益】],[【自施初始合同收入】])",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "8e2b4ec3-94fe-4846-a8af-303ae2fc371c"
+          },
+          {
+            "name": "【收入偏差】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_收入偏差末期])",
+            "lineageTag": "1296d1ee-c730-460c-ad98-cd888738fa82"
+          },
+          {
+            "name": "【投标收益】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_投标收益末期])",
+            "lineageTag": "9130214c-0200-44eb-8ffe-a2d99778d867"
+          },
+          {
+            "name": "【投标收益率】",
+            "displayFolder": "最终指标",
+            "expression": "DIVIDE([【投标收益】],[【初始合同收入】])",
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "321a64bb-28eb-4307-9bf8-3054cb83b5e6"
+          },
+          {
+            "name": "【完全收益】",
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_完全收益末期])",
+            "formatString": "#,0.00",
+            "lineageTag": "c36c4e19-075f-4089-bf72-8eb70e68ab47"
+          },
+          {
+            "name": "【支出偏差】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_支出偏差末期])",
+            "lineageTag": "5a3383b2-3179-47fe-8adc-b0eb3c8f6f38"
+          },
+          {
+            "name": "【制造收益】",
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_制造收益末期])",
+            "formatString": "#,0.00",
+            "lineageTag": "75c6258a-5afe-4714-b871-34c2f087e99c"
+          },
+          {
+            "name": "【自施初始合同收入】",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "displayFolder": "最终指标",
+            "expression": "SUMX(KEEPFILTERS(ALLSELECTED('D_项目信息'[项目名称])),[_自施初始合同收入末期])",
+            "lineageTag": "85cf19e1-0a26-432e-8ff9-75be032ec7ce"
+          },
+          {
+            "name": "【亏损Top20表格标题】",
+            "expression": "SELECTEDVALUE('商务偏差'[专业]) & \"亏损TOP20\"",
+            "lineageTag": "15f1d556-0189-42ad-ab66-f23f2d14685f"
+          },
+          {
+            "name": "【盈利TOP20表格标题】",
+            "expression": "SELECTEDVALUE('商务偏差'[专业]) & \"盈利TOP20\"",
+            "lineageTag": "be6d9e46-e932-47ed-86c8-e9f62d2798b8"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "度量值-9e332712-9b06-4e1d-9ff0-8ed229a7711f",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    源 = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i44FAA==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#\"列 1\" = _t])",
+                "in",
+                "    源"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "日期",
+        "annotations": [
+          {
+            "name": "PBI_Id",
+            "value": "37271c57e70c4bb8bf1f7977b9d8b54d"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "isDataTypeInferred": true,
+            "isKey": true,
+            "isNameInferred": true,
+            "lineageTag": "438e6071-ee76-47b8-ab15-954d70de45d7",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "季度",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": "FORMAT('日期'[Date],\"yyyy年Q季度\")",
+            "isDataTypeInferred": true,
+            "lineageTag": "01508f34-94ab-454f-ad03-50aaedd14497",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "年",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "expression": "YEAR('日期'[Date])",
+            "formatString": "0",
+            "isDataTypeInferred": true,
+            "lineageTag": "2d06a74a-6826-4e72-8e03-03d5c97e7949",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "月份",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": "FORMAT('日期'[Date],\"yyyy年mm月\")",
+            "isDataTypeInferred": true,
+            "lineageTag": "e0333d5b-3509-4349-8231-1638918fbab3",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "dataCategory": "Time",
+        "hierarchies": [
+          {
+            "name": "年 层次结构",
+            "levels": [
+              {
+                "name": "年",
+                "column": "年",
+                "lineageTag": "6d2ab53d-7107-47bc-ad8c-6efb30395638",
+                "ordinal": 0
+              },
+              {
+                "name": "季度",
+                "column": "季度",
+                "lineageTag": "92e1a0fb-c55d-43bb-9a0c-c2a97cabfecf",
+                "ordinal": 1
+              }
+            ],
+            "lineageTag": "fe6ccdbc-6a92-4292-b1ac-075d9b5ffc67"
+          }
+        ],
+        "lineageTag": "fb543f30-b891-44ac-848b-e3d54ba2a86e",
+        "partitions": [
+          {
+            "name": "日期-42f9310f-7327-4516-b68d-7d2c2fec60c7",
+            "mode": "import",
+            "source": {
+              "expression": "CALENDAR(\"2017-1-1\",TODAY())",
+              "type": "calculated"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
