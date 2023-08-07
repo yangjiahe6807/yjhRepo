@@ -1,0 +1,285 @@
+{
+  "compatibilityLevel": 1567,
+  "model": {
+    "annotations": [
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.119.986.0 (23.07)"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"主表\",\"从表\",\"全周期施工产值计划\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "zh-CN",
+    "cultures": [
+      {
+        "name": "zh-CN",
+        "linguisticMetadata": {
+          "content": {
+            "DynamicImprovement": "HighConfidence",
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "主表",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_QZQISHIGONGJIHUANCZFJ_ZB1 = GSPM{[Name=\"GSPM_QZQISHIGONGJIHUANCZFJ_ZB\"]}[Data],",
+          "    排序的行 = Table.Sort(GSPM_QZQISHIGONGJIHUANCZFJ_ZB1,{{\"FXIANGMUBIANMA\", Order.Ascending}}),",
+          "    筛选的行 = Table.SelectRows(排序的行, each ([FPSZT] = \"已完成\")),",
+          "    排序的行1 = Table.Sort(筛选的行,{{\"FXIANGMUBIANMA\", Order.Ascending}, {\"FPSJSSJ\", Order.Descending}}),",
+          "    已添加索引 = Table.AddIndexColumn(排序的行1, \"索引\", 0, 1, Int64.Type),",
+          "    删除的副本 = Table.Distinct(已添加索引, {\"FXIANGMUBIANMA\"}),",
+          "    删除的其他列 = Table.SelectColumns(删除的副本,{\"FID\", \"FXIANGMUBIANMA\", \"FXIANGMUMINGCHENG\", \"FCHENGBAOHETONGZSJE\", \"FQZCBHETJZGZJE\", \"FTJHTE\"}),",
+          "    重命名的列 = Table.RenameColumns(删除的其他列,{{\"FXIANGMUBIANMA\", \"项目编码\"}, {\"FXIANGMUMINGCHENG\", \"项目名称\"}, {\"FTJHTE\", \"统计合同额\"}, {\"FCHENGBAOHETONGZSJE\", \"承包合同自施金额\"}, {\"FQZCBHETJZGZJE\", \"其中承包合同甲指过账金额\"}})",
+          "in",
+          "    重命名的列"
+        ],
+        "kind": "m",
+        "lineageTag": "34382a53-f6a4-4af5-b601-8209cee6d100"
+      },
+      {
+        "name": "从表",
+        "expression": [
+          "let",
+          "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_QZQISHIGONGJIHUANCZFJ_CB1 = GSPM{[Name=\"GSPM_QZQISHIGONGJIHUANCZFJ_CB\"]}[Data],",
+          "    重命名的列 = Table.RenameColumns(GSPM_QZQISHIGONGJIHUANCZFJ_CB1,{{\"FHJ\", \"合计\"}, {\"FZSXJ\", \"自施小计\"}, {\"FJZXJ\", \"甲指小计\"}, {\"FJDZS\", \"机电自施\"}, {\"FTJZS\", \"土建自施\"}, {\"FJDZDGZ\", \"机电甲指过账\"}, {\"FTJZDGZ\", \"土建甲指过账\"}, {\"FBIAODUAN\", \"标段\"}, {\"FYEAR\", \"年度\"}, {\"FMONTH\", \"月份\"}, {\"FXINGXIANGJINDU\", \"形象进度\"}}),",
+          "    删除的其他列 = Table.SelectColumns(重命名的列,{\"FZBID\", \"标段\", \"年度\", \"月份\", \"形象进度\", \"合计\", \"自施小计\", \"甲指小计\", \"机电自施\", \"土建自施\", \"机电甲指过账\", \"土建甲指过账\"})",
+          "in",
+          "    删除的其他列"
+        ],
+        "kind": "m",
+        "lineageTag": "2fbd70a6-513e-4c29-9b95-c3b16a7783c2"
+      }
+    ],
+    "sourceQueryCulture": "zh-CN",
+    "tables": [
+      {
+        "name": "全周期施工产值计划",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "其中承包合同甲指过账金额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "0b1f6491-f19c-47a2-88ad-134dcb1b458e",
+            "sourceColumn": "其中承包合同甲指过账金额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "合计",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "1272060f-979f-4f46-9270-38cc66d21f54",
+            "sourceColumn": "合计",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "年度",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "DataType"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "bee099d9-f449-4b58-b93a-550cca9afdc0",
+            "sourceColumn": "年度",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "形象进度",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "abacee58-edbd-4550-b4fa-95472952f098",
+            "sourceColumn": "形象进度",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "承包合同自施金额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "49070017-5598-4c2f-816d-a65cfbfd430c",
+            "sourceColumn": "承包合同自施金额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "月份",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "changedProperties": [
+              {
+                "property": "DataType"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "603af964-dea9-457e-be82-ffe3b47a636c",
+            "sourceColumn": "月份",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "标段",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "7fd57587-a70a-4c86-b20f-5e3be169811a",
+            "sourceColumn": "标段",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "统计合同额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "c82981fd-da25-4ee4-ac2f-a9cda9d6eb81",
+            "sourceColumn": "统计合同额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "项目名称",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "31c1f788-2ff4-4f52-8683-4c43bb2dd695",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "项目编码",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "06b00f1e-8a10-4465-a42f-3ecb0f80b97c",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "aece6cfb-b54a-4cc3-b274-e17f4d494088",
+        "partitions": [
+          {
+            "name": "全周期施工产值计划-69a5de26-eb6e-447b-b090-0c862eb65c60",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    源 = Table.NestedJoin(主表, {\"FID\"}, 从表, {\"FZBID\"}, \"从表\", JoinKind.Inner),",
+                "    #\"展开的“从表”\" = Table.ExpandTableColumn(源, \"从表\", {\"标段\", \"年度\", \"月份\", \"形象进度\", \"合计\"}, {\"标段\", \"年度\", \"月份\", \"形象进度\", \"合计\"}),",
+                "    删除的列 = Table.RemoveColumns(#\"展开的“从表”\",{\"FID\"})",
+                "in",
+                "    删除的列"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
