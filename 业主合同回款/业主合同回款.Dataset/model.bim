@@ -1,0 +1,394 @@
+{
+  "compatibilityLevel": 1550,
+  "model": {
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.119.986.0 (23.07)"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"X5\",\"fxRenameFields\",\"GSPM_CBFKJD_HKPF_ZB（业主收款初始化主表）\",\"GSPM_CBFKJD_HKPF_C1B（业主收款初始化明细）\",\"业主合同回款初始化\",\"GSPM_GONGCHENGKUANHS_ZB（业主收款主表）\",\"GSPM_GONGCHENGKUANHS_ZB（业主收款明细）\",\"业主合同回款登记\",\"F_业主合同回款\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "zh-CN",
+    "cultures": [
+      {
+        "name": "zh-CN",
+        "linguisticMetadata": {
+          "content": {
+            "DynamicImprovement": "HighConfidence",
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "X5",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true])",
+          "in",
+          "    源"
+        ],
+        "kind": "m",
+        "lineageTag": "171185aa-3c85-4e35-bc61-2dc314c000d0",
+        "queryGroup": "参数及自定义函数"
+      },
+      {
+        "name": "fxRenameFields",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Function"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = (OWNER as text,TABLE_NAME as text) as list => let",
+          "        源 =  X5,",
+          "        源1=Value.NativeQuery(源,\"select COLUMN_NAME,COMMENTS from all_col_comments where OWNER = '\" & OWNER &\"' and TABLE_NAME = '\" & TABLE_NAME & \"'\"),",
+          "        替换的值 = Table.ReplaceValue(源1,null, each [COLUMN_NAME],Replacer.ReplaceValue,{\"COMMENTS\"}),",
+          "        更改的类型 = Table.TransformColumnTypes(替换的值,{{\"COMMENTS\", type text}}),",
+          "        删除的副本 = Table.Distinct(更改的类型, {\"COMMENTS\"}),",
+          "        缩短说明字段长度=Table.TransformColumns(删除的副本, {{\"COMMENTS\", each Text.Start(_,15), type text}}),",
+          "        自定义1 = List.Zip({缩短说明字段长度[COLUMN_NAME],缩短说明字段长度[COMMENTS]})",
+          "    in",
+          "        自定义1",
+          "in",
+          "    源"
+        ],
+        "kind": "m",
+        "lineageTag": "71fca8b0-3abc-4f13-b67c-6e78204eb3ac",
+        "queryGroup": "参数及自定义函数"
+      },
+      {
+        "name": "GSPM_CBFKJD_HKPF_ZB（业主收款初始化主表）",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_CBFKJD_HKPF_ZB1 = GSPM{[Name=\"GSPM_CBFKJD_HKPF_ZB\"]}[Data],",
+          "    重命名的列 = Table.RenameColumns(GSPM_CBFKJD_HKPF_ZB1,fxRenameFields(\"GSPM\",\"GSPM_CBFKJD_HKPF_ZB\")),",
+          "    筛选的行 = Table.SelectRows(重命名的列, each ([评审状态] = \"已完成\")),",
+          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"项目编码\", \"项目名称\", \"FID\", \"创建时间\"}),",
+          "    排序的行 = Table.Sort(删除的其他列,{{\"项目编码\", Order.Ascending}, {\"创建时间\", Order.Descending}}),",
+          "    已添加索引 = Table.AddIndexColumn(排序的行, \"索引\", 0, 1, Int64.Type),",
+          "    删除的副本 = Table.Distinct(已添加索引, {\"项目编码\"}),",
+          "    提取的日期 = Table.TransformColumns(删除的副本,{{\"创建时间\", DateTime.Date, type date}}),",
+          "    删除的列 = Table.RemoveColumns(提取的日期,{\"索引\"}),",
+          "    重命名的列1 = Table.RenameColumns(删除的列,{{\"创建时间\", \"实际回款日期\"}})",
+          "in",
+          "    重命名的列1"
+        ],
+        "kind": "m",
+        "lineageTag": "4e8e359e-5c3a-42be-89c4-abcd3fd08969"
+      },
+      {
+        "name": "GSPM_CBFKJD_HKPF_C1B（业主收款初始化明细）",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_CBFKJD_HKPF_ZB1 = GSPM{[Name=\"GSPM_CBFKJD_HKPF_C1B\"]}[Data],",
+          "    重命名的列 = Table.RenameColumns(GSPM_CBFKJD_HKPF_ZB1,fxRenameFields(\"GSPM\",\"GSPM_CBFKJD_HKPF_C1B\")),",
+          "    删除的其他列 = Table.SelectColumns(重命名的列,{\"合同编号\", \"主表ID\", \"累计回款金额\", \"其中土建自施劈分总额\", \"其中机电自施劈分总额\", \"其中土建指定劈分总额\", \"其中机电指定劈分总额\"}),",
+          "    重命名的列1 = Table.RenameColumns(删除的其他列,{{\"其中土建自施劈分总额\", \"土建-自施\"}, {\"其中机电自施劈分总额\", \"机电-自施\"}, {\"其中土建指定劈分总额\", \"土建-指定\"}, {\"其中机电指定劈分总额\", \"机电-指定\"}})",
+          "in",
+          "    重命名的列1"
+        ],
+        "kind": "m",
+        "lineageTag": "d59193ba-fbf5-4445-b1e3-360635f52332"
+      },
+      {
+        "name": "业主合同回款初始化",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = Table.NestedJoin(#\"GSPM_CBFKJD_HKPF_ZB（业主收款初始化主表）\", {\"FID\"}, #\"GSPM_CBFKJD_HKPF_C1B（业主收款初始化明细）\", {\"主表ID\"}, \"GSPM_CBFKJD_HKPF_ZB（业主收款初始化明细）\", JoinKind.Inner),",
+          "    #\"展开的“GSPM_CBFKJD_HKPF_ZB（业主收款初始化明细）”\" = Table.ExpandTableColumn(源, \"GSPM_CBFKJD_HKPF_ZB（业主收款初始化明细）\", {\"合同编号\", \"土建-自施\", \"机电-自施\", \"土建-指定\", \"机电-指定\"}, {\"合同编号\", \"土建-自施\", \"机电-自施\", \"土建-指定\", \"机电-指定\"}),",
+          "    删除的列 = Table.RemoveColumns(#\"展开的“GSPM_CBFKJD_HKPF_ZB（业主收款初始化明细）”\",{\"FID\"}),",
+          "    已添加自定义 = Table.AddColumn(删除的列, \"回款类型\", each \"初始化\",Text.Type),",
+          "    逆透视的列 = Table.UnpivotOtherColumns(已添加自定义, {\"项目编码\", \"项目名称\", \"实际回款日期\", \"合同编号\", \"回款类型\"}, \"属性\", \"金额\"),",
+          "    按分隔符拆分列 = Table.SplitColumn(逆透视的列, \"属性\", Splitter.SplitTextByDelimiter(\"-\", QuoteStyle.Csv), {\"施工专业\", \"分包类型\"})",
+          "in",
+          "    按分隔符拆分列"
+        ],
+        "kind": "m",
+        "lineageTag": "673d4b5d-bae7-49eb-9fcc-3d46c757d644"
+      },
+      {
+        "name": "GSPM_GONGCHENGKUANHS_ZB（业主收款主表）",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_CBFKJD_HKPF_ZB1 = GSPM{[Name=\"GSPM_GONGCHENGKUANHS_ZB\"]}[Data],",
+          "    重命名的列 = Table.RenameColumns(GSPM_CBFKJD_HKPF_ZB1,fxRenameFields(\"GSPM\",\"GSPM_GONGCHENGKUANHS_ZB\")),",
+          "    筛选的行 = Table.SelectRows(重命名的列, each ([评审状态] = \"已完成\")),",
+          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FID\", \"项目编码\", \"项目名称\"})",
+          "in",
+          "    删除的其他列"
+        ],
+        "kind": "m",
+        "lineageTag": "391f1430-c66b-4ada-afad-48cb6048df9f"
+      },
+      {
+        "name": "GSPM_GONGCHENGKUANHS_ZB（业主收款明细）",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = #\"X5\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_CBFKJD_HKPF_ZB1 = GSPM{[Name=\"GSPM_GONGCHENGKUANHS_CB\"]}[Data],",
+          "    重命名的列 = Table.RenameColumns(GSPM_CBFKJD_HKPF_ZB1,fxRenameFields(\"GSPM\",\"GSPM_GONGCHENGKUANHS_CB\"),MissingField.Ignore),",
+          "    #\"筛选的行（去掉收款为null）\" = Table.SelectRows(重命名的列, each ([本次回款金额] <> null)),",
+          "    删除的其他列1 = Table.SelectColumns(#\"筛选的行（去掉收款为null）\",{\"合同编号\", \"实际回款日期\", \"其中土建自施\", \"其中土建指定\", \"其中机电自施\", \"其中机电指定\", \"回款类型\", \"主表ID\"}),",
+          "    重命名的列1 = Table.RenameColumns(删除的其他列1,{{\"其中土建自施\", \"土建-自施\"}, {\"其中土建指定\", \"土建-指定\"}, {\"其中机电自施\", \"机电-自施\"}, {\"其中机电指定\", \"机电-指定\"}}),",
+          "    提取的日期 = Table.TransformColumns(重命名的列1,{{\"实际回款日期\", DateTime.Date, type date}})",
+          "in",
+          "    提取的日期"
+        ],
+        "kind": "m",
+        "lineageTag": "d5f30fe5-c0c4-4329-9227-ba5c56665b4c"
+      },
+      {
+        "name": "业主合同回款登记",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    源 = Table.NestedJoin(#\"GSPM_GONGCHENGKUANHS_ZB（业主收款主表）\", {\"FID\"}, #\"GSPM_GONGCHENGKUANHS_ZB（业主收款明细）\", {\"主表ID\"}, \"GSPM_GONGCHENGKUANHS_ZB（业主收款明细）\", JoinKind.Inner),",
+          "    #\"展开的“GSPM_GONGCHENGKUANHS_ZB（业主收款明细）”\" = Table.ExpandTableColumn(源, \"GSPM_GONGCHENGKUANHS_ZB（业主收款明细）\", {\"合同编号\", \"实际回款日期\", \"土建-自施\", \"土建-指定\", \"机电-自施\", \"机电-指定\", \"回款类型\"}, {\"合同编号\", \"实际回款日期\", \"土建-自施\", \"土建-指定\", \"机电-自施\", \"机电-指定\", \"回款类型\"}),",
+          "    删除的列 = Table.RemoveColumns(#\"展开的“GSPM_GONGCHENGKUANHS_ZB（业主收款明细）”\",{\"FID\"}),",
+          "    逆透视的列 = Table.UnpivotOtherColumns(删除的列, {\"项目编码\", \"项目名称\", \"合同编号\", \"实际回款日期\", \"回款类型\"}, \"属性\", \"金额\"),",
+          "    按分隔符拆分列 = Table.SplitColumn(逆透视的列, \"属性\", Splitter.SplitTextByDelimiter(\"-\", QuoteStyle.Csv), {\"施工专业\", \"分包类型\"})",
+          "in",
+          "    按分隔符拆分列"
+        ],
+        "kind": "m",
+        "lineageTag": "ff60f295-9673-4afc-927a-fefbdd4c49fc"
+      }
+    ],
+    "queryGroups": [
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "0"
+          }
+        ],
+        "folder": "参数及自定义函数"
+      }
+    ],
+    "sourceQueryCulture": "zh-CN",
+    "tables": [
+      {
+        "name": "F_业主合同回款",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "导航"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "分包类型",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "8b6e3d25-402b-456d-a949-c1caf1dfa1a5",
+            "sourceColumn": "分包类型",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "合同编号",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "1be0f37d-d1f3-4f7a-a2b8-22d7ecd532e1",
+            "sourceColumn": "合同编号",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "回款类型",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "826cbfe6-a7de-4204-b651-34011125f378",
+            "sourceColumn": "回款类型",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "实际回款日期",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "b1cebd51-7abe-4b6e-9d36-5262494dfc30",
+            "sourceColumn": "实际回款日期",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "施工专业",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "aad36e73-144f-421a-9a82-80777d7e352c",
+            "sourceColumn": "施工专业",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "金额",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "8c52649e-00ff-4add-8843-f7fe3622bc0f",
+            "sourceColumn": "金额",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "项目名称",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "61ddf607-b2bb-42db-b4d0-0ba66ee4c86b",
+            "sourceColumn": "项目名称",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "项目编码",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "a2920be3-fe17-456e-98d5-e075a1fa222c",
+            "sourceColumn": "项目编码",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "7c64e1ae-5e0d-4d95-9613-25a1531379bc",
+        "partitions": [
+          {
+            "name": "F_业主合同回款",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    源 = Table.Combine({业主合同回款初始化, 业主合同回款登记})",
+                "in",
+                "    源"
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
