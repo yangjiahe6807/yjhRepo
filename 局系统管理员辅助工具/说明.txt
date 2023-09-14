@@ -1,2 +1,0 @@
-安装.net2.0，解压直接用即可
-http://pmc.cscec1b.net/PMSManager/default.htm
