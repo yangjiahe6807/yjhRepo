@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../商务模型.Dataset"
+    },
+    "byConnection": null
+  }
+}
