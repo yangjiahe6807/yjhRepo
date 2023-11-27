@@ -1,0 +1,675 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1600,
+  "model": {
+    "name": "模型",
+    "culture": "zh-CN",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "Oracle/172 16 8 78/oracledb",
+        "connectionDetails": {
+          "protocol": "oracle",
+          "address": {
+            "server": "172.16.8.78/oracledb"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {
+          "hierarchicalNavigation": true
+        },
+        "credential": {
+          "AuthenticationKind": "UsernamePassword",
+          "kind": "Oracle",
+          "path": "172.16.8.78/oracledb",
+          "Username": "gspm",
+          "PrivacySetting": "Public"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "成本分析主表-初始目标主表含调整",
+        "columns": [
+          {
+            "name": "FID",
+            "dataType": "string",
+            "sourceColumn": "FID"
+          },
+          {
+            "name": "FXIANGMUBIANMA",
+            "dataType": "string",
+            "sourceColumn": "FXIANGMUBIANMA"
+          },
+          {
+            "name": "FMBCBZSR",
+            "dataType": "double",
+            "sourceColumn": "FMBCBZSR"
+          },
+          {
+            "name": "FMBCBZZC",
+            "dataType": "double",
+            "sourceColumn": "FMBCBZZC"
+          },
+          {
+            "name": "FMBCBJFZGED",
+            "dataType": "double",
+            "sourceColumn": "FMBCBJFZGED"
+          },
+          {
+            "name": "FMBCBGLWYHYJ",
+            "dataType": "string",
+            "sourceColumn": "FMBCBGLWYHYJ"
+          },
+          {
+            "name": "FSWCHSRZJ",
+            "dataType": "double",
+            "sourceColumn": "FSWCHSRZJ"
+          },
+          {
+            "name": "FSWCHCBJS",
+            "dataType": "double",
+            "sourceColumn": "FSWCHCBJS"
+          },
+          {
+            "name": "FSWCHSYL",
+            "dataType": "double",
+            "sourceColumn": "FSWCHSYL"
+          },
+          {
+            "name": "FCSCHSRYSX",
+            "dataType": "double",
+            "sourceColumn": "FCSCHSRYSX"
+          },
+          {
+            "name": "FCSCHCBYSX",
+            "dataType": "double",
+            "sourceColumn": "FCSCHCBYSX"
+          },
+          {
+            "name": "FCSCHSYLYSX",
+            "dataType": "double",
+            "sourceColumn": "FCSCHSYLYSX"
+          },
+          {
+            "name": "FMBCBSYLBC",
+            "dataType": "double",
+            "sourceColumn": "FMBCBSYLBC"
+          },
+          {
+            "name": "FTJMBCBSYLBC",
+            "dataType": "double",
+            "sourceColumn": "FTJMBCBSYLBC"
+          },
+          {
+            "name": "FJDMBCBSYLBC",
+            "dataType": "double",
+            "sourceColumn": "FJDMBCBSYLBC"
+          },
+          {
+            "name": "FBHCHCYYYFX",
+            "dataType": "string",
+            "sourceColumn": "FBHCHCYYYFX"
+          },
+          {
+            "name": "FCBJLQK",
+            "dataType": "string",
+            "sourceColumn": "FCBJLQK"
+          },
+          {
+            "name": "FCBJJQK",
+            "dataType": "string",
+            "sourceColumn": "FCBJJQK"
+          },
+          {
+            "name": "FMBCBBZXZJY",
+            "dataType": "string",
+            "sourceColumn": "FMBCBBZXZJY"
+          },
+          {
+            "name": "FMBCBXZGLF",
+            "dataType": "double",
+            "sourceColumn": "FMBCBXZGLF"
+          },
+          {
+            "name": "SCREATETIME",
+            "dataType": "dateTime",
+            "sourceColumn": "SCREATETIME"
+          },
+          {
+            "name": "FJIJIAMOSHI",
+            "dataType": "string",
+            "sourceColumn": "FJIJIAMOSHI"
+          },
+          {
+            "name": "FQINGDANMOSHI",
+            "dataType": "string",
+            "sourceColumn": "FQINGDANMOSHI"
+          },
+          {
+            "name": "FXMQUANCHENG",
+            "dataType": "string",
+            "sourceColumn": "FXMQUANCHENG"
+          },
+          {
+            "name": "FXIANGMULEIXING",
+            "dataType": "string",
+            "sourceColumn": "FXIANGMULEIXING"
+          },
+          {
+            "name": "FJISHUIFANGSHI",
+            "dataType": "string",
+            "sourceColumn": "FJISHUIFANGSHI"
+          },
+          {
+            "name": "FTJZDHDSYL",
+            "dataType": "double",
+            "sourceColumn": "FTJZDHDSYL"
+          },
+          {
+            "name": "FJDZDHDSYL",
+            "dataType": "double",
+            "sourceColumn": "FJDZDHDSYL"
+          },
+          {
+            "name": "FTBGLBM",
+            "dataType": "string",
+            "sourceColumn": "FTBGLBM"
+          },
+          {
+            "name": "FTJZSHDSYL",
+            "dataType": "double",
+            "sourceColumn": "FTJZSHDSYL"
+          },
+          {
+            "name": "FJDZSHDSYL",
+            "dataType": "double",
+            "sourceColumn": "FJDZSHDSYL"
+          },
+          {
+            "name": "FZHHDSYL",
+            "dataType": "double",
+            "sourceColumn": "FZHHDSYL"
+          },
+          {
+            "name": "FJDHLXTJ",
+            "dataType": "string",
+            "sourceColumn": "FJDHLXTJ"
+          },
+          {
+            "name": "FJIANZHUMIANJI",
+            "dataType": "double",
+            "sourceColumn": "FJIANZHUMIANJI"
+          },
+          {
+            "name": "FYFSFJWZCZ",
+            "dataType": "double",
+            "sourceColumn": "FYFSFJWZCZ"
+          },
+          {
+            "name": "FYFSFJWZCZBHS",
+            "dataType": "double",
+            "sourceColumn": "FYFSFJWZCZBHS"
+          },
+          {
+            "name": "FYFSSYWZCZ",
+            "dataType": "double",
+            "sourceColumn": "FYFSSYWZCZ"
+          },
+          {
+            "name": "FTBXFL",
+            "dataType": "double",
+            "sourceColumn": "FTBXFL"
+          },
+          {
+            "name": "FXMSZDQDESYL",
+            "dataType": "double",
+            "sourceColumn": "FXMSZDQDESYL"
+          },
+          {
+            "name": "FBQSYLBHCH",
+            "dataType": "double",
+            "sourceColumn": "FBQSYLBHCH"
+          },
+          {
+            "name": "FTJBQSYLBHCH",
+            "dataType": "double",
+            "sourceColumn": "FTJBQSYLBHCH"
+          },
+          {
+            "name": "FJDBQSYLBHCH",
+            "dataType": "double",
+            "sourceColumn": "FJDBQSYLBHCH"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+                "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+                "    GSPM_CHUSHIMUBIAOCBZB1 = GSPM{[Name=\"GSPM_CHUSHIMUBIAOCBZB\"]}[Data],",
+                "    筛选的行 = Table.SelectRows(GSPM_CHUSHIMUBIAOCBZB1, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+                "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FID\", \"FXIANGMUBIANMA\", \"FMBCBZSR\", \"FMBCBZZC\", \"FMBCBJFZGED\", \"FMBCBGLWYHYJ\", \"FSWCHSRZJ\", \"FSWCHCBJS\", \"FSWCHSYL\", \"FSWCHSRZJYSX\", \"FSWCHCBJSYSX\", \"FSWCHSYLYSX\", \"FMBCBSYLBC\", \"FTJMBCBSYLBC\", \"FJDMBCBSYLBC\", \"FBHCHCYYYFX\", \"FCBJLQK\", \"FCBJJQK\", \"FMBCBBZXZJY\", \"FMBCBXZGLF\", \"SCREATETIME\"}),",
+                "    追加的查询 = Table.Combine({删除的其他列, 调整目标主表}),",
+                "    排序的行 = Table.Sort(追加的查询,{{\"FXIANGMUBIANMA\", Order.Descending}, {\"SCREATETIME\", Order.Ascending}}),",
+                "    向下填充 = Table.FillDown(排序的行,{\"FMBCBZSR\", \"FMBCBZZC\", \"FMBCBJFZGED\", \"FMBCBGLWYHYJ\", \"FSWCHSRZJ\", \"FSWCHCBJS\", \"FSWCHSYL\", \"FSWCHSRZJYSX\", \"FSWCHCBJSYSX\", \"FSWCHSYLYSX\", \"FMBCBSYLBC\", \"FTJMBCBSYLBC\", \"FJDMBCBSYLBC\", \"FBHCHCYYYFX\", \"FCBJLQK\", \"FCBJJQK\", \"FMBCBBZXZJY\", \"FMBCBXZGLF\", \"SCREATETIME\", \"FJIJIAMOSHI\", \"FQINGDANMOSHI\"}),",
+                "    排序的行1 = Table.Sort(向下填充,{{\"FXIANGMUBIANMA\", Order.Ascending}, {\"SCREATETIME\", Order.Descending}}),",
+                "    删除的副本 = Table.Distinct(排序的行1, {\"FXIANGMUBIANMA\"}),",
+                "    合并的查询 = Table.NestedJoin(删除的副本, {\"FXIANGMUBIANMA\"}, MD_XIANGMUXINXI, {\"FXMBIANMA\"}, \"MD_XIANGMUXINXI\", JoinKind.LeftOuter),",
+                "    #\"展开的“MD_XIANGMUXINXI”\" = Table.ExpandTableColumn(合并的查询, \"MD_XIANGMUXINXI\", {\"FXMQUANCHENG\", \"FXMXINGZHI\", \"FJISHUIFANGSHI\", \"FJIANZHUMJ\", \"FTUJIANHEDINGSYLJZ\", \"FJIDIANHEDINGSYLJZ\", \"FTBGLBM\", \"FLC\", \"FTUJIANHEDINGSYL\", \"FJIDIANHEDINGSYL\", \"FZONGHEHEDINGSYL\", \"FJDHLXTJ\"}, {\"FXMQUANCHENG\", \"FXMXINGZHI\", \"FJISHUIFANGSHI\", \"FJIANZHUMJ\", \"FTUJIANHEDINGSYLJZ\", \"FJIDIANHEDINGSYLJZ\", \"FTBGLBM\", \"FLC\", \"FTUJIANHEDINGSYL\", \"FJIDIANHEDINGSYL\", \"FZONGHEHEDINGSYL\", \"FJDHLXTJ\"}),",
+                "    替换的值 = Table.ReplaceValue(#\"展开的“MD_XIANGMUXINXI”\",null,0,Replacer.ReplaceValue,{\"FJIANZHUMJ\"}),",
+                "    替换的值1 = Table.ReplaceValue(替换的值,null,0,Replacer.ReplaceValue,{\"FLC\"}),",
+                "    已添加条件列 = Table.AddColumn(替换的值1, \"shigongmianjiorlc\", each if [FJIANZHUMJ] = 0 then [FLC] else [FJIANZHUMJ]),",
+                "    更改的类型 = Table.TransformColumnTypes(已添加条件列,{{\"shigongmianjiorlc\", type number}}),",
+                "    删除的列 = Table.RemoveColumns(更改的类型,{\"FJIANZHUMJ\", \"FLC\"}),",
+                "    重命名的列 = Table.RenameColumns(删除的列,{{\"shigongmianjiorlc\", \"FJIANZHUMIANJI\"}, {\"FXMXINGZHI\", \"FXIANGMULEIXING\"}, {\"FZONGHEHEDINGSYL\", \"FZHHDSYL\"}, {\"FTUJIANHEDINGSYL\", \"FTJZSHDSYL\"}, {\"FJIDIANHEDINGSYL\", \"FJDZSHDSYL\"}, {\"FTUJIANHEDINGSYLJZ\", \"FTJZDHDSYL\"}, {\"FJIDIANHEDINGSYLJZ\", \"FJDZDHDSYL\"}}),",
+                "    重命名的列2 = Table.RenameColumns(重命名的列,{{\"FSWCHSRZJYSX\", \"FCSCHSRYSX\"}, {\"FSWCHCBJSYSX\", \"FCSCHCBYSX\"}, {\"FSWCHSYLYSX\", \"FCSCHSYLYSX\"}}),",
+                "    合并的查询1 = Table.NestedJoin(重命名的列2, {\"FXIANGMUBIANMA\"}, 项目维度废旧物资处置, {\"FXIANGMUBIANMA\"}, \"项目维度废旧物资处置\", JoinKind.LeftOuter),",
+                "    #\"展开的“项目维度废旧物资处置”\" = Table.ExpandTableColumn(合并的查询1, \"项目维度废旧物资处置\", {\"FYFSFJWZCZ\", \"FYFSFJWZCZBHS\"}, {\"FYFSFJWZCZ\", \"FYFSFJWZCZBHS\"}),",
+                "    合并的查询2 = Table.NestedJoin(#\"展开的“项目维度废旧物资处置”\", {\"FXIANGMUBIANMA\"}, 项目维度的调拨, {\"FXIANGMUBIANMA\"}, \"项目维度的调拨\", JoinKind.LeftOuter),",
+                "    #\"展开的“项目维度的调拨”\" = Table.ExpandTableColumn(合并的查询2, \"项目维度的调拨\", {\"FYFSSYWZCZ\"}, {\"FYFSSYWZCZ\"}),",
+                "    合并的查询3 = Table.NestedJoin(#\"展开的“项目维度的调拨”\", {\"FXIANGMUBIANMA\"}, 标前成本主表含调整, {\"FXIANGMUBIANMA\"}, \"标前成本主表含调整\", JoinKind.LeftOuter),",
+                "    #\"展开的“标前成本主表含调整”\" = Table.ExpandTableColumn(合并的查询3, \"标前成本主表含调整\", {\"FTBXFL\", \"FXMSZDQDESYL\", \"FBQSYLBHCH\", \"FTJBQSYLBHCH\", \"FJDBQSYLBHCH\"}, {\"FTBXFL\", \"FXMSZDQDESYL\", \"FBQSYLBHCH\", \"FTJBQSYLBHCH\", \"FJDBQSYLBHCH\"})",
+                "in",
+                "    #\"展开的“标前成本主表含调整”\""
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "test",
+            "expression": "1"
+          }
+        ]
+      },
+      {
+        "name": "调整目标主表",
+        "columns": [
+          {
+            "name": "FID",
+            "dataType": "string",
+            "sourceColumn": "FID"
+          },
+          {
+            "name": "FXIANGMUBIANMA",
+            "dataType": "string",
+            "sourceColumn": "FXIANGMUBIANMA"
+          },
+          {
+            "name": "FJIJIAMOSHI",
+            "dataType": "string",
+            "sourceColumn": "FJIJIAMOSHI"
+          },
+          {
+            "name": "FMBCBSYLBC",
+            "dataType": "double",
+            "sourceColumn": "FMBCBSYLBC"
+          },
+          {
+            "name": "FTJMBCBSYLBC",
+            "dataType": "double",
+            "sourceColumn": "FTJMBCBSYLBC"
+          },
+          {
+            "name": "FJDMBCBSYLBC",
+            "dataType": "double",
+            "sourceColumn": "FJDMBCBSYLBC"
+          },
+          {
+            "name": "FBHCHCYYYFX",
+            "dataType": "string",
+            "sourceColumn": "FBHCHCYYYFX"
+          },
+          {
+            "name": "FCBJLQK",
+            "dataType": "string",
+            "sourceColumn": "FCBJLQK"
+          },
+          {
+            "name": "FCBJJQK",
+            "dataType": "string",
+            "sourceColumn": "FCBJJQK"
+          },
+          {
+            "name": "FMBCBBZXZJY",
+            "dataType": "string",
+            "sourceColumn": "FMBCBBZXZJY"
+          },
+          {
+            "name": "FMBCBXZGLF",
+            "dataType": "double",
+            "sourceColumn": "FMBCBXZGLF"
+          },
+          {
+            "name": "SCREATETIME",
+            "dataType": "dateTime",
+            "sourceColumn": "SCREATETIME"
+          },
+          {
+            "name": "FQINGDANMOSHI",
+            "dataType": "string",
+            "sourceColumn": "FQINGDANMOSHI"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+                "    GSPM_TZMUBIAOCBZB1 = GSPM{[Name=\"GSPM_TZMUBIAOCBZB\"]}[Data],",
+                "    筛选的行 = Table.SelectRows(GSPM_TZMUBIAOCBZB1, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+                "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FID\", \"FXIANGMUBIANMA\", \"FJIJIAMOSHI\", \"FMBCBSYLBC\", \"FTJMBCBSYLBC\", \"FJDMBCBSYLBC\", \"FBHCHCYYYFX\", \"FCBJLQK\", \"FCBJJQK\", \"FMBCBBZXZJY\", \"FMBCBXZGLF\", \"SCREATETIME\", \"FQINGDANMOSHI\"})",
+                "in",
+                "    删除的其他列"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "MD_XIANGMUXINXI",
+        "columns": [
+          {
+            "name": "FXMBIANMA",
+            "dataType": "string",
+            "sourceColumn": "FXMBIANMA"
+          },
+          {
+            "name": "FXMQUANCHENG",
+            "dataType": "string",
+            "sourceColumn": "FXMQUANCHENG"
+          },
+          {
+            "name": "FXMXINGZHI",
+            "dataType": "string",
+            "sourceColumn": "FXMXINGZHI"
+          },
+          {
+            "name": "FJISHUIFANGSHI",
+            "dataType": "string",
+            "sourceColumn": "FJISHUIFANGSHI"
+          },
+          {
+            "name": "FJNWFB",
+            "dataType": "string",
+            "sourceColumn": "FJNWFB"
+          },
+          {
+            "name": "FJIANZHUMJ",
+            "dataType": "double",
+            "sourceColumn": "FJIANZHUMJ"
+          },
+          {
+            "name": "FXMSSZT",
+            "dataType": "string",
+            "sourceColumn": "FXMSSZT"
+          },
+          {
+            "name": "FXMJSZT",
+            "dataType": "string",
+            "sourceColumn": "FXMJSZT"
+          },
+          {
+            "name": "FTUJIANHEDINGSYLJZ",
+            "dataType": "double",
+            "sourceColumn": "FTUJIANHEDINGSYLJZ"
+          },
+          {
+            "name": "FJIDIANHEDINGSYLJZ",
+            "dataType": "double",
+            "sourceColumn": "FJIDIANHEDINGSYLJZ"
+          },
+          {
+            "name": "FTBGLBM",
+            "dataType": "string",
+            "sourceColumn": "FTBGLBM"
+          },
+          {
+            "name": "FGFYTHLRZXBM",
+            "dataType": "string",
+            "sourceColumn": "FGFYTHLRZXBM"
+          },
+          {
+            "name": "FLC",
+            "dataType": "double",
+            "sourceColumn": "FLC"
+          },
+          {
+            "name": "FSFSXWZEQ",
+            "dataType": "string",
+            "sourceColumn": "FSFSXWZEQ"
+          },
+          {
+            "name": "FTUJIANHEDINGSYL",
+            "dataType": "double",
+            "sourceColumn": "FTUJIANHEDINGSYL"
+          },
+          {
+            "name": "FJIDIANHEDINGSYL",
+            "dataType": "double",
+            "sourceColumn": "FJIDIANHEDINGSYL"
+          },
+          {
+            "name": "FZONGHEHEDINGSYL",
+            "dataType": "double",
+            "sourceColumn": "FZONGHEHEDINGSYL"
+          },
+          {
+            "name": "FJDHLXTJ",
+            "dataType": "string",
+            "sourceColumn": "FJDHLXTJ"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    MD = 源{[Schema=\"MD\"]}[Data],",
+                "    MD_XIANGMUXINXI1 = MD{[Name=\"MD_XIANGMUXINXI\"]}[Data],",
+                "    删除的其他列 = Table.SelectColumns(MD_XIANGMUXINXI1,{\"FXMBIANMA\", \"FXMQUANCHENG\", \"FXMXINGZHI\", \"FJISHUIFANGSHI\", \"FJNWFB\", \"FJIANZHUMJ\", \"FXMSSZT\", \"FXMJSZT\", \"FTUJIANHEDINGSYLJZ\", \"FJIDIANHEDINGSYLJZ\", \"FTBGLBM\", \"FGFYTHLRZXBM\", \"FLC\", \"FSFSXWZEQ\", \"FTUJIANHEDINGSYL\", \"FJIDIANHEDINGSYL\", \"FZONGHEHEDINGSYL\", \"FJDHLXTJ\"})",
+                "in",
+                "    删除的其他列"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "项目维度的调拨",
+        "columns": [
+          {
+            "name": "FXIANGMUBIANMA",
+            "dataType": "string",
+            "sourceColumn": "FXIANGMUBIANMA"
+          },
+          {
+            "name": "FYFSSYWZCZ",
+            "dataType": "double",
+            "sourceColumn": "FYFSSYWZCZ"
+          },
+          {
+            "name": "FSYWZCZBHS",
+            "dataType": "double",
+            "sourceColumn": "FSYWZCZBHS"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+                "    GSPM_V_XM_XYBZHTDIAOBO1 = GSPM{[Name=\"FXV_XM_XYBZHTDIAOBO\"]}[Data],",
+                "    删除的其他列 = Table.SelectColumns(GSPM_V_XM_XYBZHTDIAOBO1,{\"FXIANGMUBIANMA\", \"FSHANGWUKEMUID\", \"FBIAOZHUNHETONGCODE\", \"FHSJE\", \"FBHSJE\"}),",
+                "    筛选的行 = Table.SelectRows(删除的其他列, each ([FBIAOZHUNHETONGCODE] <> null)),",
+                "    分组的行 = Table.Group(筛选的行, {\"FXIANGMUBIANMA\"}, {{\"FHSJE\", each List.Sum([FHSJE]), type nullable number}, {\"FBHSJE\", each List.Sum([FBHSJE]), type nullable number}}),",
+                "    重命名的列 = Table.RenameColumns(分组的行,{{\"FHSJE\", \"FYFSSYWZCZ\"}, {\"FBHSJE\", \"FSYWZCZBHS\"}})",
+                "in",
+                "    重命名的列"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "项目维度废旧物资处置",
+        "columns": [
+          {
+            "name": "FXIANGMUBIANMA",
+            "dataType": "string",
+            "sourceColumn": "FXIANGMUBIANMA"
+          },
+          {
+            "name": "FYFSFJWZCZ",
+            "dataType": "double",
+            "sourceColumn": "FYFSFJWZCZ"
+          },
+          {
+            "name": "FYFSFJWZCZBHS",
+            "dataType": "double",
+            "sourceColumn": "FYFSFJWZCZBHS"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    源 = Oracle.Database(\"172.16.8.78/oracledb\", [HierarchicalNavigation=true]),",
+                "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+                "    GSPM_V_XM_XYBZHTFJWZ1 = GSPM{[Name=\"FXV_XM_XYBZHTFJWZ\"]}[Data],",
+                "    删除的其他列 = Table.SelectColumns(GSPM_V_XM_XYBZHTFJWZ1,{\"FXIANGMUBIANMA\", \"FSHANGWUKEMUID\", \"FBIAOZHUNHETONGCODE\", \"FHSJE\", \"FBHSJE\"}),",
+                "    筛选的行 = Table.SelectRows(删除的其他列, each ([FBIAOZHUNHETONGCODE] <> null)),",
+                "    分组的行 = Table.Group(筛选的行, {\"FXIANGMUBIANMA\"}, {{\"FYFSFJWZCZ\", each List.Sum([FHSJE]), type nullable number}, {\"FYFSFJWZCZBHS\", each List.Sum([FBHSJE]), type nullable number}})",
+                "in",
+                "    分组的行"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "expressions": [
+      {
+        "name": "调整目标主表",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_TZMUBIAOCBZB1 = GSPM{[Name=\"GSPM_TZMUBIAOCBZB\"]}[Data],",
+          "    筛选的行 = Table.SelectRows(GSPM_TZMUBIAOCBZB1, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FID\", \"FXIANGMUBIANMA\", \"FJIJIAMOSHI\", \"FMBCBSYLBC\", \"FTJMBCBSYLBC\", \"FJDMBCBSYLBC\", \"FBHCHCYYYFX\", \"FCBJLQK\", \"FCBJJQK\", \"FMBCBBZXZJY\", \"FMBCBXZGLF\", \"SCREATETIME\", \"FQINGDANMOSHI\"})",
+          "in",
+          "    删除的其他列"
+        ]
+      },
+      {
+        "name": "MD_XIANGMUXINXI",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    MD = 源{[Schema=\"MD\"]}[Data],",
+          "    MD_XIANGMUXINXI1 = MD{[Name=\"MD_XIANGMUXINXI\"]}[Data],",
+          "    删除的其他列 = Table.SelectColumns(MD_XIANGMUXINXI1,{\"FXMBIANMA\", \"FXMQUANCHENG\", \"FXMXINGZHI\", \"FJISHUIFANGSHI\", \"FJNWFB\", \"FJIANZHUMJ\", \"FXMSSZT\", \"FXMJSZT\", \"FTUJIANHEDINGSYLJZ\", \"FJIDIANHEDINGSYLJZ\", \"FTBGLBM\", \"FGFYTHLRZXBM\", \"FLC\", \"FSFSXWZEQ\", \"FTUJIANHEDINGSYL\", \"FJIDIANHEDINGSYL\", \"FZONGHEHEDINGSYL\", \"FJDHLXTJ\"})",
+          "in",
+          "    删除的其他列"
+        ]
+      },
+      {
+        "name": "项目维度的调拨",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_V_XM_XYBZHTDIAOBO1 = GSPM{[Name=\"FXV_XM_XYBZHTDIAOBO\"]}[Data],",
+          "    删除的其他列 = Table.SelectColumns(GSPM_V_XM_XYBZHTDIAOBO1,{\"FXIANGMUBIANMA\", \"FSHANGWUKEMUID\", \"FBIAOZHUNHETONGCODE\", \"FHSJE\", \"FBHSJE\"}),",
+          "    筛选的行 = Table.SelectRows(删除的其他列, each ([FBIAOZHUNHETONGCODE] <> null)),",
+          "    分组的行 = Table.Group(筛选的行, {\"FXIANGMUBIANMA\"}, {{\"FHSJE\", each List.Sum([FHSJE]), type nullable number}, {\"FBHSJE\", each List.Sum([FBHSJE]), type nullable number}}),",
+          "    重命名的列 = Table.RenameColumns(分组的行,{{\"FHSJE\", \"FYFSSYWZCZ\"}, {\"FBHSJE\", \"FSYWZCZBHS\"}})",
+          "in",
+          "    重命名的列"
+        ]
+      },
+      {
+        "name": "项目维度废旧物资处置",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_V_XM_XYBZHTFJWZ1 = GSPM{[Name=\"FXV_XM_XYBZHTFJWZ\"]}[Data],",
+          "    删除的其他列 = Table.SelectColumns(GSPM_V_XM_XYBZHTFJWZ1,{\"FXIANGMUBIANMA\", \"FSHANGWUKEMUID\", \"FBIAOZHUNHETONGCODE\", \"FHSJE\", \"FBHSJE\"}),",
+          "    筛选的行 = Table.SelectRows(删除的其他列, each ([FBIAOZHUNHETONGCODE] <> null)),",
+          "    分组的行 = Table.Group(筛选的行, {\"FXIANGMUBIANMA\"}, {{\"FYFSFJWZCZ\", each List.Sum([FHSJE]), type nullable number}, {\"FYFSFJWZCZBHS\", each List.Sum([FBHSJE]), type nullable number}})",
+          "in",
+          "    分组的行"
+        ]
+      },
+      {
+        "name": "标前成本主表含调整",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_BIAOQIANCHENGBENZB1 = GSPM{[Name=\"GSPM_BIAOQIANCHENGBENZB\"]}[Data],",
+          "    筛选的行 = Table.SelectRows(GSPM_BIAOQIANCHENGBENZB1, each [FPINGSHENZHUANGTAI] = \"已完成\"),",
+          "    删除的其他列1 = Table.SelectColumns(筛选的行,{\"FXIANGMUBIANMA\", \"SCREATETIME\", \"FTBXFL\", \"FXMSZDQDESYL\", \"FBQSYLBHCH\", \"FTJBQSYLBHCH\", \"FJDBQSYLBHCH\"}),",
+          "    追加的查询 = Table.Combine({删除的其他列1, 调整标前成本主表}),",
+          "    排序的行 = Table.Sort(追加的查询,{{\"FXIANGMUBIANMA\", Order.Ascending}, {\"SCREATETIME\", Order.Descending}}),",
+          "    删除的副本 = Table.Distinct(排序的行, {\"FXIANGMUBIANMA\"})",
+          "in",
+          "    删除的副本"
+        ]
+      },
+      {
+        "name": "调整标前成本主表",
+        "kind": "m",
+        "expression": [
+          "let",
+          "    源 = #\"Oracle/172 16 8 78/oracledb\",",
+          "    GSPM = 源{[Schema=\"GSPM\"]}[Data],",
+          "    GSPM_BIAOQIANCHENGBENTZZB1 = GSPM{[Name=\"GSPM_BIAOQIANCHENGBENTZZB\"]}[Data],",
+          "    筛选的行 = Table.SelectRows(GSPM_BIAOQIANCHENGBENTZZB1, each ([FPINGSHENZHUANGTAI] = \"已完成\")),",
+          "    删除的其他列 = Table.SelectColumns(筛选的行,{\"FXIANGMUBIANMA\", \"SCREATETIME\", \"FTBXFL\", \"FXMSZDQDESYL\", \"FBQSYLBHCH\", \"FTJBQSYLBHCH\", \"FJDBQSYLBHCH\"})",
+          "in",
+          "    删除的其他列"
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "700"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
